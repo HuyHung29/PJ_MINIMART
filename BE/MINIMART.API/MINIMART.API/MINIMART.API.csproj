@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MINIMART.BL\MINIMART.BL.csproj" />
     <ProjectReference Include="..\MINIMART.Common\MINIMART.Common.csproj" />
   </ItemGroup>
