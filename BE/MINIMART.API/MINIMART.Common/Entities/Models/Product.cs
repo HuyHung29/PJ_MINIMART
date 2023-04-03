@@ -48,10 +48,14 @@ namespace MINIMART.Common.Entities.Models
             }
         }
 
-        public List<string>? Pictures { get; set; }
+        public List<Picture>? Pictures { get; set; }
 
         [Required]
         public Guid SupplierId { get; set; }
+
+        public string? SupplierName { get; set; }
+
+        public string? CategoryName { get; set; }
 
         [Required]
         public Guid CategoryId { get; set; }

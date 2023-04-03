@@ -1,10 +1,20 @@
+using MINIMART.BL.IServices;
+using MINIMART.BL.Services;
 using MINIMART.DL.Context;
+using MINIMART.DL.IRepository;
+using MINIMART.DL.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddScoped<IContext, DapperContext>();
+builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
+builder.Services.AddScoped<IProductDL, ProductDL>();
+builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 builder.Services.AddControllers();

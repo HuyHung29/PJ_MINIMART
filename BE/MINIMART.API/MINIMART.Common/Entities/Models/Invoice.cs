@@ -10,10 +10,13 @@ namespace MINIMART.Common.Entities.Models
         [Required]
         public string? InvoiceCode { get; set; }
 
-        [Required]  
+        public string? Title { get; set; }
+
+        [Required]
         public Guid SupplierId { get; set; }
 
-        public Product? Products { get; set; }
+        [Required]
+        public List<Product>? Products { get; set; }
 
         public decimal TotalPrice { get; set; }
     }

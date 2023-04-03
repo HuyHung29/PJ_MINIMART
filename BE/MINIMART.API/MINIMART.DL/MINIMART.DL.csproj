@@ -16,9 +16,4 @@
     <ProjectReference Include="..\MINIMART.Common\MINIMART.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IRepository\" />
-    <Folder Include="Repository\" />
-  </ItemGroup>
-
 </Project>
