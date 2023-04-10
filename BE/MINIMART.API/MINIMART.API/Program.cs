@@ -13,8 +13,7 @@ builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
 builder.Services.AddScoped<IProductDL, ProductDL>();
 builder.Services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ISupplierService, SupplierService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
 
 builder.Services.AddControllers();

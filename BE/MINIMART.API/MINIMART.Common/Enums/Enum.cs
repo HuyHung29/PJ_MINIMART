@@ -28,4 +28,10 @@
         Cancled = 3,
         Done = 4,
     }
+
+    public enum SortOrder
+    {
+        Ascending = 0,
+        Descending = 1,
+    }
 }

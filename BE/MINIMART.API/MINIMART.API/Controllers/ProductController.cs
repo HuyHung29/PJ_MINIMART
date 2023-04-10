@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MINIMART.BL.IServices;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Entities.Models;
 
 namespace MINIMART.API.Controllers
@@ -13,10 +14,10 @@ namespace MINIMART.API.Controllers
             _productService = productService;
         }
 
-        [HttpGet]
-        public override async Task<IActionResult> GetByFilterAndPaging()
+        [HttpPost("filter")]
+        public override async Task<IActionResult> GetByFilterAndPaging(PagingObject filter)
         {
-            var result = await _productService.GetByFilterAndPaging();
+            var result = await _productService.GetByFilterAndPaging(filter);
 
             return Ok(result);
 

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Entities.Models;
 using MINIMART.DL.Context;
 using MINIMART.DL.IRepository;
@@ -12,25 +13,29 @@ namespace MINIMART.DL.Repository
         {
         }
 
-        public override async Task<IEnumerable<Product>> GetByFilterAndPaging()
+        public override async Task<PagingResult<Product>> GetByFilterAndPaging(PagingObject filter)
         {
 
             string proc = "Proc_Product_GetByPaging";
+
+            var parameters = new DynamicParameters();
+
+            foreach (var prop in filter.GetType().GetProperties())
+            {
+                parameters.Add($"p_{prop.Name}", prop.GetValue(filter));
+            }
+
+            parameters.Add("p_Total", DbType.Int32, direction: ParameterDirection.Output);
 
             using (var cnn = _context.CreateConnection())
             {
                 var productDictionary = new Dictionary<Guid, Product>();
 
-                var parameters = new DynamicParameters();
-
-                parameters.Add("p_PageSize", 10, DbType.Int16);
-                parameters.Add("p_PageNumber", 1, DbType.Int16);
-
                 var list = await cnn.QueryAsync<Product, Picture, Product>(
                     proc,
                     (product, picture) =>
                     {
-                        Product productEntry;
+                        Product productEntry = new();
 
                         if (!productDictionary.TryGetValue(product.ProductId, out productEntry))
                         {
@@ -43,11 +48,21 @@ namespace MINIMART.DL.Repository
                             productEntry.Pictures.Add(picture);
                         return productEntry;
                     },
-                    param: parameters,
-                    splitOn: "ProductId, PictureId", commandType: CommandType.StoredProcedure);
+                    splitOn: "ProductId, PictureId",
+                    param: parameters, commandType: CommandType.StoredProcedure);
 
                 list = list.GroupBy(x => x.ProductId).Select(x => x.First()).ToList();
-                return list;
+
+                int totalRecord = parameters.Get<int>("p_Total");
+
+                int totalPage = (int)Math.Ceiling((totalRecord * 1.0d) / filter.PageSize);
+
+                return new PagingResult<Product>
+                {
+                    Data = list.ToList(),
+                    TotalPage = totalPage,
+                    TotalRecord = totalRecord
+                };
             }
         }
     }

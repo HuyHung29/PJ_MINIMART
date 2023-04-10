@@ -1,4 +1,5 @@
 ﻿using MINIMART.BL.IServices;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Entities.Models;
 using MINIMART.DL.IRepository;
 
@@ -13,9 +14,9 @@ namespace MINIMART.BL.Services
             _productDL = productDL;
         }
 
-        public new async Task<IEnumerable<Product>> GetByFilterAndPaging()
+        public new async Task<PagingResult<Product>> GetByFilterAndPaging(PagingObject filter)
         {
-            var result = await _productDL.GetByFilterAndPaging();
+            var result = await _productDL.GetByFilterAndPaging(filter);
 
             return result;
         }

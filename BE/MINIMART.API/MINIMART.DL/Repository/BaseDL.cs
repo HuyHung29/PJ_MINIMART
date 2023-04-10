@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.DL.Context;
 using MINIMART.DL.IRepository;
 using System.Data;
@@ -14,15 +15,18 @@ namespace MINIMART.DL.Repository
             _context = context;
         }
 
-        public virtual async Task<IEnumerable<T>> GetByFilterAndPaging()
+        public virtual async Task<PagingResult<T>> GetByFilterAndPaging(PagingObject filter)
         {
             string proc = $"Proc_{typeof(T).Name}_GetByPaging";
 
             var parameters = new DynamicParameters();
 
-            parameters.Add("p_PageSize", 10, DbType.Int16);
-            parameters.Add("p_PageNumber", 1, DbType.Int16);
-            parameters.Add("p_Filter", "", DbType.String);
+            foreach (var prop in filter.GetType().GetProperties())
+            {
+                parameters.Add($"p_{prop.Name}", prop.GetValue(filter));
+            }
+
+            parameters.Add("p_Total", "", DbType.Int32, direction: ParameterDirection.Output);
 
             IEnumerable<T> records;
 
@@ -30,7 +34,22 @@ namespace MINIMART.DL.Repository
             {
                 records = await cnn.QueryAsync<T>(proc, param: parameters, commandType: CommandType.StoredProcedure);
             }
-            return records.ToList();
+
+            int totalRecord = parameters.Get<int>("p_Total");
+
+            int totalPage = (int)Math.Ceiling((totalRecord * 1.0d) / filter.PageSize);
+
+            return new PagingResult<T>
+            {
+                Data = records.ToList(),
+                TotalPage = totalPage,
+                TotalRecord = totalRecord
+            };
+        }
+
+        public Task<T> Insert(T entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

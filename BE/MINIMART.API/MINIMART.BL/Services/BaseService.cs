@@ -1,4 +1,5 @@
 ﻿using MINIMART.BL.IServices;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.DL.IRepository;
 
 namespace MINIMART.BL.Services
@@ -12,11 +13,28 @@ namespace MINIMART.BL.Services
             _baseDL = baseDL;
         }
 
-        public async Task<IEnumerable<T>> GetByFilterAndPaging()
+        public async Task<PagingResult<T>> GetByFilterAndPaging(PagingObject filter)
         {
-            var result = await _baseDL.GetByFilterAndPaging();
+            var result = await _baseDL.GetByFilterAndPaging(filter);
 
             return result;
+        }
+
+        public async Task<ServiceResponse<T>> Insert(T entity)
+        {
+            // Prepare Data
+
+            // Validate
+
+            // Do insert
+            var result = await _baseDL.Insert(entity);
+
+            return new ServiceResponse<T>
+            {
+                Success = true,
+                Data = result,
+                Error = new ErrorResult()
+            };
         }
     }
 }

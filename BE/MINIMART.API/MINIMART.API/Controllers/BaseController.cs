@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MINIMART.BL.IServices;
+using MINIMART.Common.Entities.DTO;
 
 namespace MINIMART.API.Controllers
 {
@@ -15,13 +16,36 @@ namespace MINIMART.API.Controllers
         }
 
 
-        [HttpGet]
-        public virtual async Task<IActionResult> GetByFilterAndPaging()
+        [HttpPost("filter")]
+        public virtual async Task<IActionResult> GetByFilterAndPaging(PagingObject filter)
         {
-            var result = await _baseService.GetByFilterAndPaging();
+            try
+            {
+                var result = await _baseService.GetByFilterAndPaging(filter);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Insert([FromBody] T entity)
+        {
+            try
+            {
+                var result = await _baseService.Insert(entity);
+
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
