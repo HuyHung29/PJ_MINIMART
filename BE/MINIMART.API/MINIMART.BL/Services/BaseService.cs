@@ -32,8 +32,7 @@ namespace MINIMART.BL.Services
             return new ServiceResponse<T>
             {
                 Success = true,
-                Data = result,
-                Error = new ErrorResult()
+                Data = result
             };
         }
     }
