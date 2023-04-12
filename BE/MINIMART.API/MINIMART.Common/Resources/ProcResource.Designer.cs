@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MINIMART.Common {
+namespace MINIMART.Common.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MINIMART.Common {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    public class ProcResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resource() {
+        internal ProcResource() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MINIMART.Common {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MINIMART.Common.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MINIMART.Common.Resources.ProcResource", typeof(ProcResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,38 @@ namespace MINIMART.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} không được để trống.
+        ///   Looks up a localized string similar to Proc_{0}_Delete.
         /// </summary>
-        public static string EmptyError {
+        public static string Delete {
             get {
-                return ResourceManager.GetString("EmptyError", resourceCulture);
+                return ResourceManager.GetString("Delete", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
+        ///   Looks up a localized string similar to Proc_{0}_GetByPaging.
         /// </summary>
-        public static string ValidateError {
+        public static string Get {
             get {
-                return ResourceManager.GetString("ValidateError", resourceCulture);
+                return ResourceManager.GetString("Get", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proc_{0}_Insert.
+        /// </summary>
+        public static string Insert {
+            get {
+                return ResourceManager.GetString("Insert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Proc_{0}_Update.
+        /// </summary>
+        public static string Update {
+            get {
+                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
     }

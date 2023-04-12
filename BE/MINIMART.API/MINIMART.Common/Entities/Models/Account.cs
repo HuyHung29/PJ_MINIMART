@@ -14,6 +14,6 @@ namespace MINIMART.Common.Entities.Models
 
         public Role Role { get; set; }
 
-        public int IsActive { get; set; }
+        public AccountStatus IsActive { get; set; }
     }
 }

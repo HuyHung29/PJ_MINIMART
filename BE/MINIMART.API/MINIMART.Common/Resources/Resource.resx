@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Dev_ValidateError" xml:space="preserve">
+    <value>Dữ liệu đầu vào không hợp lệ</value>
+  </data>
   <data name="EmptyError" xml:space="preserve">
     <value>{0} không được để trống</value>
+  </data>
+  <data name="HelpText" xml:space="preserve">
+    <value>Có lỗi xảy ra vui lòng liên hệ nhà phát triển</value>
+  </data>
+  <data name="IsExisted" xml:space="preserve">
+    <value>{0} đã tồn tại trong hệ thống</value>
+  </data>
+  <data name="User_ValidateError" xml:space="preserve">
+    <value>Dữ liệu đầu vào không hợp lệ</value>
   </data>
   <data name="ValidateError" xml:space="preserve">
     <value>Dữ liệu đầu vào không hợp lệ</value>

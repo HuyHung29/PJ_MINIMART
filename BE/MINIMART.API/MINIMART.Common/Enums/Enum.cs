@@ -34,4 +34,10 @@
         Ascending = 0,
         Descending = 1,
     }
+
+    public enum AccountStatus
+    {
+        Active = 0,
+        Inactive = 1,
+    }
 }

@@ -1,16 +1,16 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using static MINIMART.Common.Entities.Attributes.CustomAtrribute;
 
 namespace MINIMART.Common.Entities.DTO
 {
     public class AuthDTO
     {
         [Required]
-        [DisplayName("Tên đăng nhập")]
+        [CDisplayName("Tên đăng nhập")]
         public string UserName { get; set; }
 
         [Required]
-        [DisplayName("Mật khẩu")]
+        [CDisplayName("Mật khẩu")]
         public string Password { get; set; }
     }
 }
