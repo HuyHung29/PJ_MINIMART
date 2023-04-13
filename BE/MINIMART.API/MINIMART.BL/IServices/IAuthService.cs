@@ -1,5 +1,4 @@
 ﻿using MINIMART.Common.Entities.DTO;
-using MINIMART.Common.Entities.Models;
 
 namespace MINIMART.BL.IServices
 {
@@ -9,6 +8,6 @@ namespace MINIMART.BL.IServices
 
         public Task<bool> Active(Guid accId);
 
-        public Task<User> Login(AuthDTO auth);
+        public Task<ServiceResponse<LoginResult>> Login(AuthDTO auth);
     }
 }

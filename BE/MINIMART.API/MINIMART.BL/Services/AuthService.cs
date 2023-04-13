@@ -15,10 +15,12 @@ namespace MINIMART.BL.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthDL _authDL;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(IAuthDL authDL)
+        public AuthService(IAuthDL authDL, ITokenService tokenService)
         {
             _authDL = authDL;
+            _tokenService = tokenService;
         }
 
         public async Task<ServiceResponse<Guid>> Register(AuthDTO auth)
@@ -124,9 +126,70 @@ namespace MINIMART.BL.Services
             return validateResult;
         }
 
-        public Task<User> Login(AuthDTO auth)
+        public async Task<ServiceResponse<LoginResult>> Login(AuthDTO auth)
         {
-            throw new NotImplementedException();
+            var res = new ServiceResponse<LoginResult>();
+
+            var acc = await _authDL.GetAccountByUserName(auth.UserName);
+
+            var validateResult = await ValidateLogin(auth, acc);
+
+            if (validateResult.IsValid)
+            {
+                var user = await _authDL.GetUserById(acc.AccountId);
+                res.Success = true;
+                res.Data = new LoginResult
+                {
+                    User = user,
+                    AccessToken = _tokenService.CreateToken(acc)
+                };
+                res.Message = Resource.LoginSuccess;
+            }
+            else
+            {
+                res.Success = false;
+                res.Message = Resource.LoginFail;
+                res.Error = new ErrorResult
+                {
+                    DevMes = Resource.LoginFail,
+                    MoreInfo = validateResult.Errors
+                };
+            }
+
+            return res;
+        }
+
+        private async Task<ValidateResult> ValidateLogin(AuthDTO auth, Account acc)
+        {
+            var result = new ValidateResult();
+
+            Dictionary<string, string> mess = new();
+
+            if (acc == null)
+            {
+                result.IsValid = false;
+                mess.Add("UserName", "Tên đăng nhập không chính xác");
+            }
+            else
+            {
+                using var hmac = new HMACSHA512(acc.PasswordSalt);
+
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(auth.Password));
+
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != acc.PasswordHash[i])
+                    {
+                        result.IsValid = false;
+                        mess.Add("Password", "Mật khẩu không chính xác");
+                        break;
+                    }
+                }
+            }
+
+            result.Errors = mess;
+
+            return result;
         }
     }
 }

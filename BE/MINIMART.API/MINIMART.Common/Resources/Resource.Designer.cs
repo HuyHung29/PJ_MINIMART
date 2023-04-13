@@ -97,6 +97,24 @@ namespace MINIMART.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Đăng nhập thất bại.
+        /// </summary>
+        public static string LoginFail {
+            get {
+                return ResourceManager.GetString("LoginFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Đăng nhập thành công.
+        /// </summary>
+        public static string LoginSuccess {
+            get {
+                return ResourceManager.GetString("LoginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
         /// </summary>
         public static string User_ValidateError {

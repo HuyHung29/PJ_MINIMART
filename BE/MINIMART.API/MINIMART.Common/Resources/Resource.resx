@@ -129,6 +129,12 @@
   <data name="IsExisted" xml:space="preserve">
     <value>{0} đã tồn tại trong hệ thống</value>
   </data>
+  <data name="LoginFail" xml:space="preserve">
+    <value>Đăng nhập thất bại</value>
+  </data>
+  <data name="LoginSuccess" xml:space="preserve">
+    <value>Đăng nhập thành công</value>
+  </data>
   <data name="User_ValidateError" xml:space="preserve">
     <value>Dữ liệu đầu vào không hợp lệ</value>
   </data>

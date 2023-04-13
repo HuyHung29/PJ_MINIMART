@@ -74,12 +74,12 @@ namespace MINIMART.API.Controllers
 
                 if (result)
                 {
-                    RedirectResult redirect = new RedirectResult("https://www.youtube.com/", true);
+                    RedirectResult redirect = new("https://www.youtube.com/", true);
                     return redirect;
                 }
                 else
                 {
-                    RedirectResult redirect = new RedirectResult("https://learn.microsoft.com/", true);
+                    RedirectResult redirect = new("https://learn.microsoft.com/", true);
                     return redirect;
                 }
             }
@@ -94,7 +94,14 @@ namespace MINIMART.API.Controllers
         {
             try
             {
-                return Ok();
+                var result = await _authService.Login(acc);
+
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+
+                return Unauthorized(result);
             }
             catch (Exception ex)
             {

@@ -33,6 +33,24 @@ namespace MINIMART.DL.Repository
 
         }
 
+        public async Task<User> GetUserById(Guid id)
+        {
+            string sql = "Select * from user where AccountId = @AccountId";
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@AccountId", id);
+
+            var user = new User();
+
+            using (var cnn = _context.CreateConnection())
+            {
+                user = await cnn.QueryFirstOrDefaultAsync<User>(sql, parameters);
+            }
+
+            return user;
+        }
+
         public async Task<Guid> Insert(Account acc)
         {
             string proc = string.Format(ProcResource.Insert, typeof(Account).Name);

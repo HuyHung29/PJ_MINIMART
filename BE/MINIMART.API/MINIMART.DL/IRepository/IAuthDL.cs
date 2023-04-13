@@ -6,6 +6,8 @@ namespace MINIMART.DL.IRepository
     {
         public Task<Account> GetAccountByUserName(string userName);
 
+        public Task<User> GetUserById(Guid id);
+
         public Task<Guid> Insert(Account acc);
 
         public Task<Guid> Update(Account acc);
