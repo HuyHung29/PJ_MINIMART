@@ -70,11 +70,20 @@ namespace MINIMART.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proc_{0}_Id.
+        /// </summary>
+        public static string GetId {
+            get {
+                return ResourceManager.GetString("GetId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proc_{0}_GetByPaging.
         /// </summary>
-        public static string Get {
+        public static string GetPaging {
             get {
-                return ResourceManager.GetString("Get", resourceCulture);
+                return ResourceManager.GetString("GetPaging", resourceCulture);
             }
         }
         

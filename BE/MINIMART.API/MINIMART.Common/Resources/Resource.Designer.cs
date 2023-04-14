@@ -61,6 +61,24 @@ namespace MINIMART.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Xóa {0} không thành công.
+        /// </summary>
+        public static string DeleteError {
+            get {
+                return ResourceManager.GetString("DeleteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xóa {0} thành công.
+        /// </summary>
+        public static string DeleteSuccess {
+            get {
+                return ResourceManager.GetString("DeleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
         /// </summary>
         public static string Dev_ValidateError {
@@ -88,6 +106,24 @@ namespace MINIMART.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thêm {0} thất bại.
+        /// </summary>
+        public static string InsertError {
+            get {
+                return ResourceManager.GetString("InsertError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm {0} thành công.
+        /// </summary>
+        public static string InsertSuccess {
+            get {
+                return ResourceManager.GetString("InsertSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} đã tồn tại trong hệ thống.
         /// </summary>
         public static string IsExisted {
@@ -111,6 +147,33 @@ namespace MINIMART.Common.Resources {
         public static string LoginSuccess {
             get {
                 return ResourceManager.GetString("LoginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID {0} không tồn tại.
+        /// </summary>
+        public static string NotExist {
+            get {
+                return ResourceManager.GetString("NotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sửa {0} thất bại.
+        /// </summary>
+        public static string UpdateError {
+            get {
+                return ResourceManager.GetString("UpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sửa {0} thành công.
+        /// </summary>
+        public static string UpdateSuccess {
+            get {
+                return ResourceManager.GetString("UpdateSuccess", resourceCulture);
             }
         }
         
