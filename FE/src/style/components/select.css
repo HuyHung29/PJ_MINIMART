@@ -1,0 +1,261 @@
+.select {
+	position: relative;
+}
+
+.select__label {
+	display: inline-block;
+	font-weight: var(--font-bold);
+
+	margin-bottom: 8px;
+}
+
+.select__label span {
+	color: #e81e1e;
+}
+
+.select__input__wrap {
+	position: relative;
+}
+
+.select__input {
+	outline: unset;
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+
+	padding: 0 8px 0 12px;
+
+	min-width: 250px;
+	width: 100%;
+	min-height: 36px;
+	max-height: 36px;
+
+	transition: 0.25s linear;
+}
+
+/* input status */
+
+.select__input::placeholder {
+	font-size: 14px;
+	color: var(--disable-text-color);
+}
+
+.select__input:focus {
+	border-color: var(--primary-color);
+}
+
+.select__input:hover {
+	box-shadow: 0 0 4px var(--border-color);
+}
+
+.select__input:not(:placeholder-shown) ~ .select__input__icon {
+	display: inline-block;
+}
+
+.select__input__icon {
+	display: none;
+
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 30px;
+
+	padding: 0px 5px;
+	border-radius: 50%;
+	background-color: #e8e8e8;
+}
+
+.select__input__icon i {
+	display: inline-block;
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -84px -316px;
+	width: 8px;
+	height: 8px;
+
+	transition: 0.25s linear;
+}
+
+.select__input__wrap:has(input:focus) .select__icon {
+	background-color: #ccc;
+	border: 1px solid;
+
+	border-color: var(--primary-color) var(--primary-color) var(--primary-color)
+		#ccc;
+}
+
+.select__input__wrap:has(input:focus) .select__icon i {
+	transform: rotate(180deg);
+}
+
+.select__icon {
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	right: 1px;
+	width: 36px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	outline: unset;
+	transition: 0.25s linear;
+	border: 1px solid transparent;
+
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.select__icon i {
+	display: inline-block;
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -564px -365px;
+	width: 8px;
+	height: 5px;
+}
+
+.select__icon:focus i {
+	transform: rotate(180deg);
+}
+
+.select__input__wrap:hover ~ .select__error__tooltip {
+	display: block;
+}
+
+.select__error {
+	visibility: hidden;
+	font-size: 12px;
+	margin-top: 8px;
+	overflow: hidden;
+	white-space: nowrap;
+
+	text-overflow: ellipsis;
+	color: var(--error-color);
+}
+
+.select__error__tooltip {
+	display: none;
+
+	position: absolute;
+	top: calc(100% - 16px);
+	left: 0;
+
+	min-width: 150px;
+
+	text-align: center;
+	color: var(--error-color);
+
+	background-color: white;
+	box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.16);
+
+	padding: 5px;
+
+	z-index: 50;
+
+	border-radius: 5px;
+	border: 1px solid var(--error-color);
+}
+
+.select__error__tooltip::before {
+	content: "";
+
+	position: absolute;
+	top: 0;
+	left: 50%;
+
+	transform: translate(-50%, -100%);
+
+	display: block;
+
+	border: 10px solid;
+	border-color: transparent transparent var(--error-color) transparent;
+}
+
+/* .select__input:focus ~ .select__list {
+	display: block;
+} */
+
+.select__list {
+	display: block;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+
+	/* padding: 8px; */
+
+	z-index: 10;
+	background-color: white;
+
+	/* border-radius: 4px; */
+	box-shadow: 0 4px 16px rgba(23, 27, 42, 0.24);
+
+	max-height: 200px;
+	overflow-y: auto;
+
+	transition: 0.25s linear;
+}
+
+.select__list.select__list--bottom {
+	top: 100%;
+	bottom: unset;
+}
+
+.select__list::-webkit-scrollbar-track {
+	border-radius: 4px;
+}
+
+.select__list::-webkit-scrollbar {
+	width: 8px;
+	background-color: transparent;
+}
+
+.select__list::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: var(--disable-text-color);
+}
+
+.select__item {
+	display: flex;
+	align-items: center;
+
+	padding: 8px;
+
+	/* border-radius: 4px; */
+
+	height: 36px;
+
+	transition: 0.25s linear;
+
+	cursor: pointer;
+}
+
+.select__item.selected {
+	color: var(--text-white);
+	background-color: var(--primary-color);
+}
+
+.select__item.on-index {
+	color: var(--text-white);
+	background-color: var(--hover-color);
+}
+
+.select__item:hover {
+	color: var(--text-white);
+	background-color: var(--hover-color);
+}
+
+/* Status of select */
+
+.select.invalid .select__input {
+	border-color: var(--error-color);
+}
+
+.select.invalid .select__error {
+	visibility: visible;
+}
+
+.select.select--sm .select__input {
+	min-height: 32px;
+	max-height: 32px;
+}
+
+.select.select--lg .select__input {
+	min-height: 40px;
+	max-height: 40px;
+}

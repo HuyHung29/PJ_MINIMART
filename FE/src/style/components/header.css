@@ -1,0 +1,100 @@
+.header {
+	height: 56px;
+
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: calc(100% - var(--sidebar-width));
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 0 16px;
+
+	background-color: white;
+
+	box-shadow: 0 0 3px rgba(1, 22, 30, 0.16);
+}
+
+.header__icon {
+	width: 24px;
+	height: 24px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	margin-right: 16px;
+
+	cursor: pointer;
+}
+
+.header__right {
+	display: flex;
+	align-items: center;
+}
+
+.header__right .header__icon i {
+	display: inline-block;
+
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -847px -35px;
+	width: 16px;
+	height: 14px;
+}
+
+.header__left .header__icon {
+	margin-right: 24px;
+}
+
+.header__left .header__icon i {
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -788px -30px;
+	width: 22px;
+	height: 25px;
+}
+
+.header__heading {
+	font-weight: var(--font-bold);
+	text-transform: uppercase;
+}
+
+.header__left {
+	display: flex;
+	align-items: center;
+}
+
+.header__user {
+	display: flex;
+	align-items: center;
+}
+
+.header__user__avatar {
+	width: 32px;
+	height: 32px;
+
+	border: 1px solid var(--border-color);
+
+	object-fit: contain;
+
+	border-radius: 50%;
+
+	margin-right: 8px;
+}
+
+.header__user__name {
+	text-transform: capitalize;
+	font-weight: var(--font-bold);
+
+	display: flex;
+	align-items: center;
+}
+
+.header__user__icon {
+	display: inline-block;
+
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -1078px -38px;
+	width: 9px;
+	height: 6px;
+
+	margin-left: 2px;
+}

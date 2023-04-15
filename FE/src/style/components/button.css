@@ -1,0 +1,277 @@
+.combo-btn {
+	display: flex;
+	align-items: stretch;
+	justify-content: flex-start;
+
+	min-width: 80px;
+
+	min-height: 36px;
+	max-height: 36px;
+
+	border-radius: 4px;
+
+	transition: 0.25s linear;
+
+	cursor: pointer;
+}
+
+.icon-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	min-height: 36px;
+	max-height: 36px;
+
+	border: unset;
+	border-radius: 4px;
+
+	padding: 0 8px;
+
+	background-color: rgba(80, 184, 60, 0.1);
+	transition: 0.25s linear;
+
+	cursor: pointer;
+}
+
+.btn {
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	outline: unset;
+	border: unset;
+	border-radius: 4px;
+
+	padding: 0 16px;
+
+	background-color: var(--primary-color);
+
+	min-width: 80px;
+	max-height: 36px;
+	min-height: 36px;
+	transition: 0.25s linear;
+
+	cursor: pointer;
+}
+
+.btn:has(i) {
+	padding: 0;
+}
+
+/* Button size */
+
+.btn.btn--sm {
+	max-height: 34px;
+	min-height: 34px;
+}
+
+.btn.btn--lg {
+	max-height: 40px;
+	min-height: 40px;
+}
+
+/* Button has modified */
+
+.btn.btn--link {
+	background-color: transparent;
+}
+
+.btn.btn--sub {
+	background-color: #ffffff;
+	border: 1px solid #e6e6e6;
+}
+
+.btn.btn--warning {
+	background-color: var(--error-color);
+}
+
+.btn.btn--warning:hover {
+	background-color: var(--error-color-hover);
+}
+
+.btn.btn--left {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.btn--right {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	outline: unset;
+
+	border: unset;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+
+	border-left: 2px solid var(--border-color);
+
+	background-color: var(--primary-color);
+
+	padding: 0 12px;
+}
+
+/* Button item */
+
+.btn.btn--link .btn__text {
+	text-decoration: none;
+	color: var(--primary-color);
+}
+
+.btn.btn--sub .btn__text {
+	color: var(--primary-text-color);
+}
+
+.btn--right .btn__icon {
+	font-size: 16px;
+
+	width: unset;
+	height: unset;
+
+	margin: 0;
+}
+
+.icon-btn .btn__icon {
+	color: var(--primary-color);
+	font-size: 20px;
+
+	margin: 0;
+}
+
+.btn__icon {
+	font-size: 20px;
+	width: 20px;
+	height: 20px;
+	color: var(--text-white);
+
+	margin-right: 4px;
+	margin-left: 6px;
+
+	overflow: hidden;
+
+	transition: 0.25s linear;
+}
+
+.btn__icon ~ .btn__text {
+	margin-right: 10px;
+}
+
+.btn__text {
+	color: var(--text-white);
+	font-weight: var(--font-bold);
+	text-align: center;
+
+	transition: 0.25s linear;
+}
+
+.btn:hover .btn__tooltip {
+	display: block;
+}
+
+.btn__tooltip {
+	display: none;
+	position: absolute;
+
+	top: calc(100% + 10px);
+	left: 50%;
+
+	transform: translateX(-50%);
+
+	min-width: 80px;
+	max-width: max-content;
+	padding: 10px;
+
+	color: var(--text-white);
+
+	background-color: black;
+
+	border-radius: 5px;
+
+	z-index: 15;
+}
+
+.btn__tooltip::before {
+	display: block;
+	content: "";
+
+	position: absolute;
+	top: -20px;
+	left: 50%;
+	transform: translateX(-50%);
+
+	border: 10px solid;
+	border-color: transparent transparent black transparent;
+}
+
+/* Status of button */
+
+/* disabled */
+.btn:disabled {
+	opacity: 56%;
+}
+
+.combo-btn:disabled {
+	opacity: 56%;
+}
+
+.icon-btn:disabled {
+	opacity: 56%;
+}
+
+/* hover */
+
+.btn:hover {
+	background-color: var(--hover-color);
+}
+
+.btn.btn--sub:hover {
+	background-color: var(--background-color);
+}
+
+.btn.btn--link:hover {
+	background-color: transparent;
+}
+
+.btn.btn--link:hover .btn__text {
+	color: var(--hover-color);
+}
+
+.btn--right:hover {
+	background-color: var(--hover-color);
+}
+
+.icon-btn:hover .btn__icon {
+	color: var(--hover-color);
+}
+
+/* focus */
+
+.btn:focus {
+	background-color: var(--pressed-color);
+}
+
+.btn.btn--sub:focus {
+	background-color: #ebebeb;
+}
+
+.btn.btn--link:focus {
+	background-color: transparent;
+}
+
+.btn.btn--link:focus .btn__text {
+	color: var(--pressed-color);
+}
+
+.btn--right:focus {
+	background-color: var(--pressed-color);
+}
+
+.icon-btn:focus .btn__icon {
+	color: var(--pressed-color);
+}

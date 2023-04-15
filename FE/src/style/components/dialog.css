@@ -1,0 +1,70 @@
+.dialog {
+	min-width: 30%;
+	padding: 24px;
+	background-color: white;
+	border-radius: 4px;
+}
+
+.dialog__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.dialog__heading {
+	font-size: 20px;
+	font-weight: var(--font-bold);
+}
+
+.dialog__close-btn {
+	width: 24px;
+	height: 24px;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	cursor: pointer;
+}
+
+.dialog__close-btn i {
+	display: inline-block;
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -147px -147px;
+	width: 18px;
+	height: 18px;
+}
+
+.dialog__body {
+	padding: 24px 0;
+}
+
+.dialog__content {
+	display: flex;
+	align-items: center;
+}
+
+.dialog__content__icon {
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -598px -463px;
+	width: 36px;
+	height: 37px;
+
+	margin-right: 16px;
+}
+
+.dialog.dialog--error .dialog__content__icon {
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -752px -462px;
+}
+
+.dialog.dialog--info .dialog__content__icon {
+	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -832px -462px;
+}
+
+.dialog__content__text {
+}
+
+.dialog__action {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	column-gap: 8px;
+}
