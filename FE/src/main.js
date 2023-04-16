@@ -6,12 +6,16 @@ import "vue-toastification/dist/index.css";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "@/routes";
 import store from "@/store";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 import "@/sass/index.scss";
 
 const router = createRouter({ history: createWebHistory(), routes });
 
 const app = createApp(App);
+
+app.component("v-select", vSelect);
 
 app.use(router);
 

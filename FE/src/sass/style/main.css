@@ -1,0 +1,10 @@
+@import url("./reset.css");
+@import url("./variables.css");
+
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}

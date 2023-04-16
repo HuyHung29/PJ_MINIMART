@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Entities.Models;
 using MINIMART.Common.Resources;
 using MINIMART.DL.Context;
@@ -51,7 +52,7 @@ namespace MINIMART.DL.Repository
             return user;
         }
 
-        public async Task<Guid> Insert(Account acc)
+        public async Task<Guid> Insert(AuthDTO acc)
         {
             string proc = string.Format(ProcResource.Insert, typeof(Account).Name);
 
@@ -59,15 +60,9 @@ namespace MINIMART.DL.Repository
 
             foreach (var prop in acc.GetType().GetProperties())
             {
-                if (prop.Name.ToLower().Contains("id"))
-                {
-                    parameters.Add($"p_{prop.Name}", direction: ParameterDirection.Output);
-                }
-                else
-                {
-                    parameters.Add($"p_{prop.Name}", prop.GetValue(acc));
-                }
+                parameters.Add($"p_{prop.Name}", prop.GetValue(acc));
             }
+            parameters.Add($"p_AccountId", direction: ParameterDirection.Output);
 
             var rowEffected = 0;
 

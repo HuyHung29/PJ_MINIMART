@@ -1,4 +1,5 @@
-﻿using MINIMART.Common.Entities.Models;
+﻿using MINIMART.Common.Entities.DTO;
+using MINIMART.Common.Entities.Models;
 
 namespace MINIMART.DL.IRepository
 {
@@ -8,7 +9,7 @@ namespace MINIMART.DL.IRepository
 
         public Task<User> GetUserById(Guid id);
 
-        public Task<Guid> Insert(Account acc);
+        public Task<Guid> Insert(AuthDTO acc);
 
         public Task<Guid> Update(Account acc);
 

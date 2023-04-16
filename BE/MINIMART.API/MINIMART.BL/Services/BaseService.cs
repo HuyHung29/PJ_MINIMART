@@ -40,7 +40,7 @@ namespace MINIMART.BL.Services
                 {
                     res.Success = true;
                     res.Data = insertedRecord;
-                    res.Message = Resource.InsertSuccess;
+                    res.Message = string.Format(Resource.InsertSuccess, GetTableName(typeof(T).Name));
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace MINIMART.BL.Services
                     {
                         res.Success = true;
                         res.Data = record;
-                        res.Message = Resource.UpdateSuccess;
+                        res.Message = string.Format(Resource.UpdateSuccess, GetTableName(typeof(T).Name));
                     }
                     else
                     {
@@ -121,7 +121,7 @@ namespace MINIMART.BL.Services
             if (await _baseDL.CheckExistIds(listId) != listId.Length)
             {
                 res.Success = false;
-                res.Message = Resource.DeleteError;
+                res.Message = string.Format(Resource.DeleteError, GetTableName(typeof(T).Name));
                 res.Error = new ErrorResult
                 {
                     DevMes = "",

@@ -6,7 +6,9 @@ const axiosClient = axios.create({
 	headers: {
 		"content-type": "application/json",
 	},
-	paramsSerializer: (params) => queryString.stringify(params),
+	paramsSerializer: {
+		encode: (params) => queryString.stringify(params),
+	},
 });
 axiosClient.interceptors.request.use(async (config) => {
 	// Handle token here ...
@@ -24,7 +26,7 @@ axiosClient.interceptors.response.use(
 		return response;
 	},
 	(error) => {
-		throw error;
+		throw error.response.data;
 	}
 );
 export default axiosClient;

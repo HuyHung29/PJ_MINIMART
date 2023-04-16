@@ -33,14 +33,11 @@ namespace MINIMART.BL.Services
             {
                 using var hmac = new HMACSHA512();
 
-                var acc = new Account
-                {
-                    UserName = auth.UserName,
-                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(auth.Password)),
-                    PasswordSalt = hmac.Key
-                };
 
-                var result = await _authDL.Insert(acc);
+                auth.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(auth.Password));
+                auth.PasswordSalt = hmac.Key;
+
+                var result = await _authDL.Insert(auth);
 
                 if (result != Guid.Empty)
                 {
@@ -132,7 +129,7 @@ namespace MINIMART.BL.Services
 
             var acc = await _authDL.GetAccountByUserName(auth.UserName);
 
-            var validateResult = await ValidateLogin(auth, acc);
+            var validateResult = ValidateLogin(auth, acc);
 
             if (validateResult.IsValid)
             {
@@ -159,7 +156,7 @@ namespace MINIMART.BL.Services
             return res;
         }
 
-        private async Task<ValidateResult> ValidateLogin(AuthDTO auth, Account acc)
+        private ValidateResult ValidateLogin(AuthDTO auth, Account acc)
         {
             var result = new ValidateResult();
 

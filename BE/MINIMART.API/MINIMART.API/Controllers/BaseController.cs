@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
@@ -57,7 +56,6 @@ namespace MINIMART.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] T entity)
         {
@@ -73,7 +71,6 @@ namespace MINIMART.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] T entity)
         {
@@ -88,7 +85,6 @@ namespace MINIMART.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] List<Guid> ids)
         {

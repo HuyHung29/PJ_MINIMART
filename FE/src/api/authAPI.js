@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
-import { URL } from "@/constants/resource";
+import RESOURCE from "@/constants/resource";
 
-const url = "auth/";
+const { URL } = RESOURCE;
 
 const authApi = {
 	resiger: (data) => axiosClient.post(URL.AUTH + "register", data),

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-	<div class="">hell</div>
+	<div>side bar</div>
 </template>
 
 <style></style>

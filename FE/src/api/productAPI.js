@@ -1,5 +1,7 @@
 import axiosClient from "./axiosClient";
-import { URL } from "@/constants/resource";
+import RESOURCE from "@/constants/resource";
+
+const { URL } = RESOURCE;
 
 const productApi = {
 	get: (data) => axiosClient.post(URL.PRODUCT + "filter", data),

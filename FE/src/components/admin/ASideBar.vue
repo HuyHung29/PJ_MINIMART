@@ -1,6 +1,5 @@
 <script setup>
 import { inject, reactive } from "vue";
-import RESOURCES from "../constants/resource";
 
 /**
  * Các state và hàm dùng chung

@@ -23,7 +23,9 @@
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-apexcharts": "^1.4.1",
     "vueperslides": "^3.5.1",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vuex-composition-helpers": "^2.0.3",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
