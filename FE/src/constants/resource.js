@@ -12,6 +12,13 @@ const RESOURCE = {
 		SUPPLIER: "supplier/",
 		USER: "user/",
 	},
+	KEYCODE: {
+		ARROW_DOWN: 38,
+		ARROW_UP: 40,
+		ENTER: 13,
+		TAB: 9,
+		NUMBER_ONE: 49,
+	},
 };
 
 export default RESOURCE;

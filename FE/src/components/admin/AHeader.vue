@@ -1,42 +1,46 @@
 <script setup>
-import { inject } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+import { useStore } from "vuex";
 
-/**
- * Các state và hàm dùng chung
- * Author: LHH - 04/01/23
- */
-const { state, handleCloseSidebar } = inject("store");
+const store = useStore();
+
+const userStore = createNamespacedHelpers(store, "user");
+const { user, isLogin } = userStore.useState(["user", "isLogin"]);
+
+const uiStore = createNamespacedHelpers(store, "ui");
+const { isOpenSidebar } = uiStore.useState(["isOpenSidebar"]);
+const { closeSidebar } = uiStore.useMutations(["closeSidebar"]);
 </script>
 
 <template>
-	<div class="header">
-		<div class="header__right">
+	<div class="a-header">
+		<div class="a-header__right">
 			<p
-				v-if="state.sidebar.isOpen"
-				class="header__icon"
-				@click="handleCloseSidebar"
+				v-if="isOpenSidebar"
+				class="a-header__icon"
+				@click="closeSidebar"
 			>
 				<i></i>
 			</p>
 
-			<h3 class="header__heading">
-				công ty tnhh sản xuất - thương mại - dịch vụ qui phúc
-				<i class="header__heading__icon"></i>
+			<h3 class="a-header__heading">
+				trang quản trị
+				<i class="a-header__heading__icon"></i>
 			</h3>
 		</div>
-		<div class="header__left">
-			<p class="header__icon">
+		<div class="a-header__left">
+			<p class="a-header__icon">
 				<i></i>
 			</p>
-			<div class="header__user">
+			<div class="a-header__user">
 				<img
-					src="../assets/images/default-avatar.jpg"
+					src="@/assets/images/default-avatar.jpg"
 					alt=""
-					class="header__user__avatar"
+					class="a-header__user__avatar"
 				/>
-				<p class="header__user__name">
-					lê huy hưng
-					<i class="header__user__icon"></i>
+				<p class="a-header__user__name">
+					{{ user.UserName || "Le Huy Hung" }}
+					<i class="a-header__user__icon"></i>
 				</p>
 			</div>
 		</div>

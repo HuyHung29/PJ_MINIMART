@@ -32,7 +32,7 @@ const mutations = {
 		state.isLogin = true;
 	},
 	logout: (state) => {
-		state.User = {};
+		state.user = {};
 		state.isLogin = false;
 
 		localStorage.clear("token");

@@ -41,15 +41,15 @@ defineExpose({ setFocusBtn });
 	<button
 		ref="btnRef"
 		:type="action"
-		class="btn"
+		class="c-btn"
 		:class="{
-			'btn--sub': type === 'sub',
-			'btn--warning': type === 'warning',
+			'c-btn--sub': type === 'sub',
+			'c-btn--warning': type === 'warning',
 		}"
 		:style="style"
 	>
-		<span class="btn__text">{{ content }}</span>
-		<p v-if="tooltip" class="btn__tooltip">{{ tooltip }}</p>
+		<span class="c-btn__text">{{ content }}</span>
+		<p v-if="tooltip" class="c-btn__tooltip">{{ tooltip }}</p>
 	</button>
 </template>
 

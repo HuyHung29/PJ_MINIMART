@@ -33,15 +33,20 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(async (values, actions) => {
 	try {
-		console.log(actions);
-
 		await login(values);
+
+		const { user, isLogin } = store.state.user;
+
 		if (isLogin) {
-			router.replace("/");
+			if (user.Role == 0) {
+				router.replace("/admin");
+			} else {
+				router.replace("/");
+			}
 		}
 	} catch (ex) {
-		const { Message, Error } = ex;
-		toast.error(Message);
+		const { Message, Error, UserMes } = ex;
+		toast.error(Message || UserMes);
 		actions.setErrors(Error.MoreInfo);
 	}
 });
@@ -66,7 +71,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
 				</div>
 			</Container>
 		</div>
-		<div class="authen__content">
+		<div class="authen__content" v-if="!isLogin">
 			<Container>
 				<form class="authen__form" @submit="onSubmit">
 					<h2 class="authen__form__title">Đăng nhập</h2>

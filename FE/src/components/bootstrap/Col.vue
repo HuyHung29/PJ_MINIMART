@@ -2,6 +2,7 @@
 import { computed } from "@vue/reactivity";
 
 const props = defineProps({
+	xs: String,
 	sm: String,
 	md: String,
 	lg: String,
@@ -10,6 +11,10 @@ const props = defineProps({
 
 const propClass = computed(() => {
 	let classes = "";
+	if (props.xs) {
+		classes += ` col-xs-${props.xs} `;
+	}
+
 	if (props.sm) {
 		classes += ` col-sm-${props.sm} `;
 	}

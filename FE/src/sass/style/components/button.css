@@ -34,7 +34,7 @@
 	cursor: pointer;
 }
 
-.btn {
+.c-btn {
 	position: relative;
 
 	display: flex;
@@ -57,47 +57,47 @@
 	cursor: pointer;
 }
 
-.btn:has(i) {
+.c-btn:has(i) {
 	padding: 0;
 }
 
 /* Button size */
 
-.btn.btn--sm {
+.c-btn.c-btn--sm {
 	max-height: 34px;
 	min-height: 34px;
 }
 
-.btn.btn--lg {
+.c-btn.c-btn--lg {
 	max-height: 40px;
 	min-height: 40px;
 }
 
 /* Button has modified */
 
-.btn.btn--link {
+.c-btn.c-btn--link {
 	background-color: transparent;
 }
 
-.btn.btn--sub {
+.c-btn.c-btn--sub {
 	background-color: #ffffff;
 	border: 1px solid #e6e6e6;
 }
 
-.btn.btn--warning {
+.c-btn.c-btn--warning {
 	background-color: var(--error-color);
 }
 
-.btn.btn--warning:hover {
+.c-btn.c-btn--warning:hover {
 	background-color: var(--error-color-hover);
 }
 
-.btn.btn--left {
+.c-btn.c-btn--left {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
-.btn--right {
+.c-btn--right {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -119,16 +119,16 @@
 
 /* Button item */
 
-.btn.btn--link .btn__text {
+.c-btn.c-btn--link .c-btn__text {
 	text-decoration: none;
 	color: var(--primary-color);
 }
 
-.btn.btn--sub .btn__text {
+.c-btn.c-btn--sub .c-btn__text {
 	color: var(--primary-text-color);
 }
 
-.btn--right .btn__icon {
+.c-btn--right .c-btn__icon {
 	font-size: 16px;
 
 	width: unset;
@@ -137,14 +137,14 @@
 	margin: 0;
 }
 
-.icon-btn .btn__icon {
+.icon-btn .c-btn__icon {
 	color: var(--primary-color);
 	font-size: 20px;
 
 	margin: 0;
 }
 
-.btn__icon {
+.c-btn__icon {
 	font-size: 20px;
 	width: 20px;
 	height: 20px;
@@ -158,11 +158,11 @@
 	transition: 0.25s linear;
 }
 
-.btn__icon ~ .btn__text {
+.c-btn__icon ~ .c-btn__text {
 	margin-right: 10px;
 }
 
-.btn__text {
+.c-btn__text {
 	color: var(--text-white);
 	font-weight: var(--font-bold);
 	text-align: center;
@@ -170,11 +170,11 @@
 	transition: 0.25s linear;
 }
 
-.btn:hover .btn__tooltip {
+.c-btn:hover .c-btn__tooltip {
 	display: block;
 }
 
-.btn__tooltip {
+.c-btn__tooltip {
 	display: none;
 	position: absolute;
 
@@ -196,7 +196,7 @@
 	z-index: 15;
 }
 
-.btn__tooltip::before {
+.c-btn__tooltip::before {
 	display: block;
 	content: "";
 
@@ -212,7 +212,7 @@
 /* Status of button */
 
 /* disabled */
-.btn:disabled {
+.c-btn:disabled {
 	opacity: 56%;
 }
 
@@ -226,52 +226,52 @@
 
 /* hover */
 
-.btn:hover {
+.c-btn:hover {
 	background-color: var(--hover-color);
 }
 
-.btn.btn--sub:hover {
+.c-btn.c-btn--sub:hover {
 	background-color: var(--background-color);
 }
 
-.btn.btn--link:hover {
+.c-btn.c-btn--link:hover {
 	background-color: transparent;
 }
 
-.btn.btn--link:hover .btn__text {
+.c-btn.c-btn--link:hover .c-btn__text {
 	color: var(--hover-color);
 }
 
-.btn--right:hover {
+.c-btn--right:hover {
 	background-color: var(--hover-color);
 }
 
-.icon-btn:hover .btn__icon {
+.icon-btn:hover .c-btn__icon {
 	color: var(--hover-color);
 }
 
 /* focus */
 
-.btn:focus {
+.c-btn:focus {
 	background-color: var(--pressed-color);
 }
 
-.btn.btn--sub:focus {
+.c-btn.c-btn--sub:focus {
 	background-color: #ebebeb;
 }
 
-.btn.btn--link:focus {
+.c-btn.c-btn--link:focus {
 	background-color: transparent;
 }
 
-.btn.btn--link:focus .btn__text {
+.c-btn.c-btn--link:focus .c-btn__text {
 	color: var(--pressed-color);
 }
 
-.btn--right:focus {
+.c-btn--right:focus {
 	background-color: var(--pressed-color);
 }
 
-.icon-btn:focus .btn__icon {
+.icon-btn:focus .c-btn__icon {
 	color: var(--pressed-color);
 }

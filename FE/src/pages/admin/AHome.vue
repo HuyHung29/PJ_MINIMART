@@ -1,11 +1,13 @@
-<script setup>
-import Header from "@/components/admin/AHeader.vue";
-import Sidebar from "@/components/admin/ASideBar.vue";
-</script>
+<script setup></script>
 
 <template>
-	<Header />
-	<div class="container">Home admin</div>
+	<div class="data-table">
+		<div class="data-table__header">
+			<h2 class="data-table__heading">Tổng quan</h2>
+		</div>
+
+		<div class="table-wrapper"></div>
+	</div>
 </template>
 
 <style></style>
