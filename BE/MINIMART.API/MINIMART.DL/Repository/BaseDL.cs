@@ -104,7 +104,7 @@ namespace MINIMART.DL.Repository
 
             var parameters = new DynamicParameters();
 
-            parameters.Add($"p_ids", ids);
+            parameters.Add($"p_Ids", ids);
 
             var rowEffected = 0;
 
@@ -128,11 +128,11 @@ namespace MINIMART.DL.Repository
 
         public async Task<int> CheckExistIds(string ids)
         {
-            var sql = $"Select Count(*) from {typeof(T).Name} where FIND_IN_SET({typeof(T).Name}Id, p_Ids)";
+            var sql = $"Select Count(*) from {typeof(T).Name} where FIND_IN_SET({typeof(T).Name}Id, @Ids)";
 
             var parameters = new DynamicParameters();
 
-            parameters.Add("p_Ids", ids);
+            parameters.Add("@Ids", ids);
 
             var numberRow = 0;
 

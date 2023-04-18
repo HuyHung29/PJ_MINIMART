@@ -18,6 +18,6 @@ namespace MINIMART.Common.Entities.Models
         [Required]
         public List<Product>? Products { get; set; }
 
-        public decimal TotalPrice { get; set; }
+        public decimal Total { get; set; }
     }
 }

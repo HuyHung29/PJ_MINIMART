@@ -123,7 +123,7 @@ namespace MINIMART.BL.Services
             return validateResult;
         }
 
-        public async Task<ServiceResponse<LoginResult>> Login(AuthDTO auth)
+        public async Task<ServiceResponse<LoginResult>> Login(LoginDTO auth)
         {
             var res = new ServiceResponse<LoginResult>();
 
@@ -156,7 +156,7 @@ namespace MINIMART.BL.Services
             return res;
         }
 
-        private ValidateResult ValidateLogin(AuthDTO auth, Account acc)
+        private ValidateResult ValidateLogin(LoginDTO auth, Account acc)
         {
             var result = new ValidateResult();
 

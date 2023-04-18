@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
 using MINIMART.Common.Resources;
+using System.Security.Claims;
 
 namespace MINIMART.API.Controllers
 {
@@ -85,12 +87,14 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] List<Guid> ids)
         {
             try
             {
-                return Ok();
+                var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                return Ok(id);
             }
             catch (Exception ex)
             {

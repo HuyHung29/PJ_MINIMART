@@ -36,7 +36,7 @@ namespace MINIMART.DL.Repository
 
         public async Task<User> GetUserById(Guid id)
         {
-            string sql = "Select * from user where AccountId = @AccountId";
+            string sql = "Select * from user inner join Account on user.AccountId = Account.AccountId where user.AccountId = @AccountId ";
 
             var parameters = new DynamicParameters();
 

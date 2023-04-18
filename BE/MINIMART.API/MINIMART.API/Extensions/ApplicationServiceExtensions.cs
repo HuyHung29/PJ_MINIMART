@@ -1,4 +1,5 @@
-﻿using MINIMART.BL.IServices;
+﻿using MINIMART.BL.Helpers;
+using MINIMART.BL.IServices;
 using MINIMART.BL.Services;
 using MINIMART.DL.Context;
 using MINIMART.DL.IRepository;
@@ -10,6 +11,8 @@ namespace MINIMART.API.Extensions
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+            services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IContext, DapperContext>();
             services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
             services.AddScoped<IProductDL, ProductDL>();

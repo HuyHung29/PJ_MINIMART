@@ -20,8 +20,10 @@ namespace MINIMART.BL.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, acc.UserName)
+                new Claim(JwtRegisteredClaimNames.NameId, acc.AccountId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Name, acc.UserName),
             };
+
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
 

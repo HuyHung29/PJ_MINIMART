@@ -25,5 +25,7 @@ namespace MINIMART.Common.Entities.Models
         public DateTime DOB { get; set; }
 
         public List<Address>? Address { get; set; }
+
+        public Role Role { get; set; }
     }
 }

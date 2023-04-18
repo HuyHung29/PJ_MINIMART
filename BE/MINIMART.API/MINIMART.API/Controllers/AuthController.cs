@@ -90,7 +90,7 @@ namespace MINIMART.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(AuthDTO acc)
+        public async Task<IActionResult> Login(LoginDTO acc)
         {
             try
             {

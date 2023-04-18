@@ -8,6 +8,6 @@ namespace MINIMART.BL.IServices
 
         public Task<bool> Active(Guid accId);
 
-        public Task<ServiceResponse<LoginResult>> Login(AuthDTO auth);
+        public Task<ServiceResponse<LoginResult>> Login(LoginDTO auth);
     }
 }
