@@ -28,7 +28,7 @@
 }
 
 .checkbox__input:checked ~ .checkbox__label i {
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -899px -316px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -899px -316px;
 }
 
 .checkbox__title {
