@@ -62,31 +62,31 @@ const routes = [
 			},
 			{
 				path: "supplier",
-				component: ACategory,
+				component: ASupplier,
 			},
 			{
 				path: "product",
-				component: ACategory,
+				component: AProduct,
 			},
 			{
 				path: "invoice",
-				component: ACategory,
+				component: AInvoice,
 			},
 			{
 				path: "order",
-				component: ACategory,
+				component: AOrder,
 			},
 			{
 				path: "account",
-				component: ACategory,
+				component: AAccount,
 			},
 			{
 				path: "news",
-				component: ACategory,
+				component: ANews,
 			},
 			{
 				path: "coupon",
-				component: ACategory,
+				component: ACoupon,
 			},
 		],
 	},

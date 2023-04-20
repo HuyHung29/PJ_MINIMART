@@ -13,6 +13,21 @@ import {
 	onMounted,
 	onBeforeUnmount,
 } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+import { useStore } from "vuex";
+
+const store = useStore();
+
+const { useState, useActions, useGetters } = createNamespacedHelpers(
+	store,
+	"category"
+);
+
+const { category, pagination } = useState(["category", "pagination"]);
+
+const { fetchCategory } = useActions(["fetchCategory"]);
+
+const { listCate = category } = useGetters(["category"]);
 
 /**
  * Định nghĩa các state
@@ -56,16 +71,16 @@ const isCheckAll = computed(() => {
 	return isCheck;
 });
 
+const initData = async () => {
+	await fetchCategory();
+};
+
 /**
  * Call API
  * Author: LHH - 04/01/23
  */
 onBeforeMount(() => {
-	try {
-		// handleGetAllEmployee();
-	} catch (error) {
-		console.log(error);
-	}
+	initData();
 });
 
 /**
@@ -248,14 +263,14 @@ const handleCloseListOutside = () => {
  */
 const handleCheckAll = (target) => {
 	try {
-		const empIds = state.employees.map((item) => item.EmployeeId);
+		const cateIds = listCate._value.map((item) => item.CategoryId);
 
-		const ids = empIds.filter((id) => !empState.checkList.includes(id));
+		const ids = cateIds.filter((id) => !empState.checkList.includes(id));
 		if (target.checked) {
 			empState.checkList = [...empState.checkList, ...ids];
 		} else {
 			empState.checkList = [
-				...empState.checkList.filter((item) => !empIds.includes(item)),
+				...empState.checkList.filter((item) => !cateIds.includes(item)),
 			];
 		}
 	} catch (error) {
@@ -350,24 +365,24 @@ const handleCheck = (value) => {
 			<Button content="Thêm mới danh mục" @click="" tooltip="Ctrl + 1" />
 		</div>
 
-		<div class="table-wrapper">
-			<div class="table__function">
+		<div class="c-table-wrapper">
+			<div class="c-table__function">
 				<div
-					class="table__function_multiple-task"
+					class="c-table__function_multiple-task"
 					v-show="empState.checkList.length >= 1"
 				>
-					<p class="table__function_multiple-task__text">
+					<p class="c-table__function_multiple-task__text">
 						Đã chọn {{ empState.checkList.length }}
 					</p>
 					<p
-						class="table__function_multiple-task__text warning"
+						class="c-table__function_multiple-task__text warning"
 						@click="empState.checkList = []"
 					>
 						Bỏ chọn
 					</p>
 
 					<button
-						class="table__function_multiple-task__delete"
+						class="c-table__function_multiple-task__delete"
 						@click="handleMultipleDelete"
 						:disabled="empState.checkList.length < 1"
 					>
@@ -392,24 +407,19 @@ const handleCheck = (value) => {
 						/>
 					</div>
 				</div>
-				<p
-					class="table__function__refresh"
-					@click="handleOpenLoading"
-					:debounce-events="['click']"
-					v-debounce:500ms.lock="handleRefreshData"
-				>
+				<p class="c-table__function__refresh" @click="fetchCategory">
 					<i></i>
 				</p>
-				<p class="table__function__export" @click="handleExportData">
+				<p class="c-table__function__export" @click="handleExportData">
 					<i></i>
 				</p>
 			</div>
 
-			<div class="table__wrap" @scroll="handleCloseListAction">
-				<table class="table">
-					<thead class="table__header">
-						<tr class="table__row">
-							<th class="table__heading text-center">
+			<div class="c-table__wrap" @scroll="handleCloseListAction">
+				<table class="c-table">
+					<thead class="c-table__header">
+						<tr class="c-table__row">
+							<th class="c-table__heading text-center">
 								<CheckBox
 									id="checkAll"
 									name="checkAll"
@@ -417,92 +427,65 @@ const handleCheck = (value) => {
 									:checked="isCheckAll === true"
 								/>
 							</th>
-							<th class="table__heading w-150">
-								<span>mã nhân viên</span>
+							<th class="c-table__heading">
+								<span>ảnh minh họa</span>
 							</th>
-							<th class="table__heading w-250">
-								<span>tên nhân viên</span>
+							<th class="c-table__heading w-250">
+								<span>tên danh mục</span>
 							</th>
-							<th class="table__heading w-100">
-								<span>giới tính</span>
-							</th>
-							<th class="table__heading text-center w-200">
-								<span>ngày sinh</span>
-							</th>
-							<th class="table__heading w-200">
-								<span>số cmnd</span>
-								<p class="table__heading__tooltip">
-									Số chứng minh nhân dân
-								</p>
-							</th>
-							<th class="table__heading w-200">
-								<span>chức danh</span>
-							</th>
-							<th class="table__heading w-300">
-								<span>tên đơn vị</span>
-							</th>
-							<th class="table__heading w-200">
-								<span>số điện thoại</span>
-							</th>
-							<th class="table__heading w-200">
-								<span>số tài khoản</span>
-							</th>
-							<th class="table__heading w-200">
-								<span>tên ngân hàng</span>
-							</th>
-							<th class="table__heading w-200">
-								<span>chi nhánh</span>
-							</th>
-							<th class="table__heading text-center w-150">
+							<th class="c-table__heading text-center w-150">
 								<span>chức năng</span>
 							</th>
 						</tr>
 					</thead>
-					<tbody class="table__body">
+					<tbody class="c-table__body">
 						<CategoryItem
-							v-for="employee in 0"
-							:employee="employee"
+							v-for="cate in category"
+							:category="cate"
 							@click="handleDisplayListAction"
 							@check="handleCheck"
 							@closeList="handleCloseListOutside"
 							:checkList="empState.checkList"
-							:key="employee.EmployeeId"
+							:key="cate.CategoryId"
 						/>
 					</tbody>
 				</table>
 				<!-- Action list -->
 				<ul
-					class="table__action__list"
+					class="c-table__action__list"
 					:style="empState.listAction.style"
 					v-if="empState.listAction.isShow"
 					ref="listActionRef"
 				>
 					<li
-						class="table__action__item"
+						class="c-table__action__item"
 						@mousedown="handleDuplicateClick"
 					>
 						Nhân bản
 					</li>
 					<li
-						class="table__action__item open-dialog-btn"
+						class="c-table__action__item open-dialog-btn"
 						@mousedown="onDeleteBtnClick"
 					>
 						Xóa
 					</li>
 					<li
-						class="table__action__item blocked"
+						class="c-table__action__item blocked"
 						@mousedown="handleCloseListAction"
 					>
 						Ngưng sử dụng
 					</li>
 				</ul>
-				<div class="table__empty" v-if="0 === 0">
+				<div
+					class="c-table__empty"
+					v-if="category && category.length == 0"
+				>
 					<img src="@/assets/images/nodata.76e50bd8.svg" alt="" />
 					<p>Không có dữ liệu</p>
 				</div>
 			</div>
 
-			<Pagination />
+			<Pagination :pagination="pagination" />
 		</div>
 	</div>
 </template>

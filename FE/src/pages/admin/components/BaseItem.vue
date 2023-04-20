@@ -82,95 +82,95 @@ const emit = defineEmits(["click", "check", "closeList"]);
 </script>
 
 <template>
-	<tr class="table__row" @dblclick="onUpdateBtnClick()">
-		<td class="table__col text-center">
+	<tr class="c-table__row" @dblclick="onUpdateBtnClick()">
+		<td class="c-table__col text-center">
 			<CheckBox
-				name="table-checkbox"
+				name="c-table-checkbox"
 				:id="employee.EmployeeId"
 				:value="employee.EmployeeId"
 				@check="handleCheckBox"
 				:checked="checkList.includes(employee.EmployeeId)"
 			/>
 		</td>
-		<td class="table__col w-150">
-			<p class="table__col__text">{{ employee.EmployeeCode }}</p>
+		<td class="c-table__col w-150">
+			<p class="c-table__col__text">{{ employee.EmployeeCode }}</p>
 		</td>
 		<td
-			class="table__col w-250"
+			class="c-table__col w-250"
 			:class="{
 				overflow: isOverflow(nameRef),
 			}"
 		>
-			<p class="table__col__text" ref="nameRef">
+			<p class="c-table__col__text" ref="nameRef">
 				{{ employee.FullName }}
 			</p>
-			<p class="table__col__tooltip">{{ employee.FullName }}</p>
+			<p class="c-table__col__tooltip">{{ employee.FullName }}</p>
 		</td>
-		<td class="table__col w-100">
-			<p class="table__col__text">{{ employee.GenderName }}</p>
+		<td class="c-table__col w-100">
+			<p class="c-table__col__text">{{ employee.GenderName }}</p>
 		</td>
-		<td class="table__col text-center w-200">
-			<p class="table__col__text">
+		<td class="c-table__col text-center w-200">
+			<p class="c-table__col__text">
 				{{ formatDate(employee.DateOfBirth) }}
 			</p>
 		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.IdentityNumber }}</p>
+		<td class="c-table__col w-200">
+			<p class="c-table__col__text">{{ employee.IdentityNumber }}</p>
 		</td>
 		<td
-			class="table__col w-200"
+			class="c-table__col w-200"
 			:class="{
 				overflow: isOverflow(positionRef),
 			}"
 		>
-			<p class="table__col__text" ref="positionRef">
+			<p class="c-table__col__text" ref="positionRef">
 				{{ employee.Position }}
 			</p>
-			<p class="table__col__tooltip">{{ employee.Position }}</p>
+			<p class="c-table__col__tooltip">{{ employee.Position }}</p>
 		</td>
-		<td class="table__col w-300">
-			<p class="table__col__text">{{ employee.DepartmentName }}</p>
+		<td class="c-table__col w-300">
+			<p class="c-table__col__text">{{ employee.DepartmentName }}</p>
 		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.PhoneNumber }}</p>
+		<td class="c-table__col w-200">
+			<p class="c-table__col__text">{{ employee.PhoneNumber }}</p>
 		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.BankAccount }}</p>
+		<td class="c-table__col w-200">
+			<p class="c-table__col__text">{{ employee.BankAccount }}</p>
 		</td>
 		<td
-			class="table__col w-200"
+			class="c-table__col w-200"
 			:class="{
 				overflow: isOverflow(bankNameRef),
 			}"
 		>
-			<p class="table__col__text" ref="bankNameRef">
+			<p class="c-table__col__text" ref="bankNameRef">
 				{{ employee.BankName }}
 			</p>
-			<p class="table__col__tooltip">{{ employee.BankName }}</p>
+			<p class="c-table__col__tooltip">{{ employee.BankName }}</p>
 		</td>
 		<td
-			class="table__col w-200"
+			class="c-table__col w-200"
 			:class="{
 				overflow: isOverflow(bankBranchRef),
 			}"
 		>
-			<p class="table__col__text" ref="bankBranchRef">
+			<p class="c-table__col__text" ref="bankBranchRef">
 				{{ employee.BankBranch }}
 			</p>
-			<p class="table__col__tooltip">{{ employee.BankBranch }}</p>
+			<p class="c-table__col__tooltip">{{ employee.BankBranch }}</p>
 		</td>
-		<td class="table__col text-center">
-			<button class="table__action">
-				<p class="table__action__update" @click="onUpdateBtnClick">
+		<td class="c-table__col text-center">
+			<button class="c-table__action">
+				<p class="c-table__action__update" @click="onUpdateBtnClick">
 					Sửa
 				</p>
 				<button
-					class="table__action__more"
+					class="c-table__action__more"
 					@click="onOptionBtnClick"
 					ref="moreBtnRef"
 					@blur="emit('closeList')"
 				>
-					<i class="table__action__icon"></i>
+					<i class="c-table__action__icon"></i>
 				</button>
 			</button>
 		</td>

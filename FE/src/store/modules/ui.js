@@ -16,7 +16,9 @@ const mutations = {
 		state.isLoading = true;
 	},
 	hideLoading: (state) => {
-		state.isLoading = false;
+		setTimeout(() => {
+			state.isLoading = false;
+		}, 500);
 	},
 
 	openSidebar: (state) => {

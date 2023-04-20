@@ -12,17 +12,27 @@ const state = {
 const getters = {};
 
 const actions = {
-	login: async ({ commit }, data) => {
-		const payload = await authApi.login(data);
-		const { Data, Message } = payload;
+	login: async ({ commit }, { data, callback }) => {
+		try {
+			commit("ui/showLoading", null, { root: true });
 
-		const { AccessToken, User } = Data;
+			const payload = await authApi.login(data);
+			const { Data, Message } = payload;
 
-		toast.success(Message);
+			const { AccessToken, User } = Data;
 
-		localStorage.setItem("token", JSON.stringify(AccessToken));
+			toast.success(Message);
 
-		commit("setUser", User);
+			localStorage.setItem("token", JSON.stringify(AccessToken));
+
+			commit("setUser", User);
+			commit("ui/hideLoading", null, { root: true });
+		} catch (ex) {
+			const { Message, Error, UserMes } = ex;
+			toast.error(Message || UserMes);
+			callback.setErrors(Error.MoreInfo);
+			commit("ui/hideLoading", null, { root: true });
+		}
 	},
 };
 

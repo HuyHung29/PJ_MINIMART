@@ -6,7 +6,7 @@
 			<h2 class="data-table__heading">Tổng quan</h2>
 		</div>
 
-		<div class="table-wrapper"></div>
+		<div class="c-table-wrapper"></div>
 	</div>
 </template>
 

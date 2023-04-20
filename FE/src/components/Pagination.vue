@@ -3,6 +3,13 @@ import RESOURCES from "../constants/resource";
 // import Select from "./customs/MSelect.vue";
 import { computed, inject, reactive, watch } from "@vue/runtime-core";
 
+const props = defineProps({
+	pagination: {
+		type: Object,
+		default: {},
+	},
+});
+
 /**
  * Các  hàm dùng chung
  * Author: LHH - 04/01/23
@@ -123,7 +130,9 @@ const { handleGetEmployees } = inject("store");
 
 <template>
 	<div class="data-table__footer">
-		<p class="data-table__quantity">Tổng số: <span>{{}}</span> bản ghi</p>
+		<p class="data-table__quantity">
+			Tổng số: <span>{{ pagination.TotalRecord }}</span> bản ghi
+		</p>
 
 		<div class="data-table__action">
 			<!-- <Select

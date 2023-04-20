@@ -9,7 +9,7 @@ import { inject, ref } from "vue";
  * Author: LHH - 04/01/23
  */
 const props = defineProps({
-	employee: {
+	category: {
 		type: Object,
 		required: true,
 		default: {},
@@ -44,7 +44,7 @@ const emit = defineEmits(["click", "check", "closeList"]);
 // 	try {
 // 		const position = moreBtnRef.value.getBoundingClientRect();
 // 		emit("click", {
-// 			employeeId: props.employee.EmployeeId,
+// 			employeeId: props.category.CategoryId,
 // 			employeeCode: props.employee.EmployeeCode,
 // 			top: position.top,
 // 			right: document.body.offsetWidth - position.left,
@@ -62,7 +62,7 @@ const emit = defineEmits(["click", "check", "closeList"]);
  */
 // const onUpdateBtnClick = () => {
 // 	try {
-// 		handleOpenForm(RESOURCES.FORM_MODE.EDIT, props.employee.EmployeeId);
+// 		handleOpenForm(RESOURCES.FORM_MODE.EDIT, props.category.CategoryId);
 // 	} catch (error) {
 // 		console.log(error);
 // 	}
@@ -82,95 +82,36 @@ const emit = defineEmits(["click", "check", "closeList"]);
 </script>
 
 <template>
-	<tr class="table__row" @dblclick="onUpdateBtnClick()">
-		<td class="table__col text-center">
+	<tr class="c-table__row" @dblclick="onUpdateBtnClick()">
+		<td class="c-table__col text-center">
 			<CheckBox
-				name="table-checkbox"
-				:id="employee.EmployeeId"
-				:value="employee.EmployeeId"
+				name="c-table-checkbox"
+				:id="category.CategoryId"
+				:value="category.CategoryId"
 				@check="handleCheckBox"
-				:checked="checkList.includes(employee.EmployeeId)"
+				:checked="checkList.includes(category.CategoryId)"
 			/>
 		</td>
-		<td class="table__col w-150">
-			<p class="table__col__text">{{ employee.EmployeeCode }}</p>
-		</td>
-		<td
-			class="table__col w-250"
-			:class="{
-				overflow: isOverflow(nameRef),
-			}"
-		>
-			<p class="table__col__text" ref="nameRef">
-				{{ employee.FullName }}
-			</p>
-			<p class="table__col__tooltip">{{ employee.FullName }}</p>
-		</td>
-		<td class="table__col w-100">
-			<p class="table__col__text">{{ employee.GenderName }}</p>
-		</td>
-		<td class="table__col text-center w-200">
-			<p class="table__col__text">
-				{{ formatDate(employee.DateOfBirth) }}
+		<td class="c-table__col">
+			<p class="c-table__col__text" ref="nameRef">
+				{{ category.Thumbnail }}
 			</p>
 		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.IdentityNumber }}</p>
+		<td class="c-table__col">
+			<p class="c-table__col__text">{{ category.CategoryName }}</p>
 		</td>
-		<td
-			class="table__col w-200"
-			:class="{
-				overflow: isOverflow(positionRef),
-			}"
-		>
-			<p class="table__col__text" ref="positionRef">
-				{{ employee.Position }}
-			</p>
-			<p class="table__col__tooltip">{{ employee.Position }}</p>
-		</td>
-		<td class="table__col w-300">
-			<p class="table__col__text">{{ employee.DepartmentName }}</p>
-		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.PhoneNumber }}</p>
-		</td>
-		<td class="table__col w-200">
-			<p class="table__col__text">{{ employee.BankAccount }}</p>
-		</td>
-		<td
-			class="table__col w-200"
-			:class="{
-				overflow: isOverflow(bankNameRef),
-			}"
-		>
-			<p class="table__col__text" ref="bankNameRef">
-				{{ employee.BankName }}
-			</p>
-			<p class="table__col__tooltip">{{ employee.BankName }}</p>
-		</td>
-		<td
-			class="table__col w-200"
-			:class="{
-				overflow: isOverflow(bankBranchRef),
-			}"
-		>
-			<p class="table__col__text" ref="bankBranchRef">
-				{{ employee.BankBranch }}
-			</p>
-			<p class="table__col__tooltip">{{ employee.BankBranch }}</p>
-		</td>
-		<td class="table__col text-center">
-			<button class="table__action">
-				<p class="table__action__update" @click="onUpdateBtnClick">
+		<td class="c-table__col text-center">
+			<button class="c-table__action">
+				<p class="c-table__action__update" @click="onUpdateBtnClick">
 					Sửa
 				</p>
 				<button
-					class="table__action__more"
+					class="c-table__action__more"
 					@click="onOptionBtnClick"
 					ref="moreBtnRef"
 					@blur="emit('closeList')"
 				>
-					<i class="table__action__icon"></i>
+					<i class="c-table__action__icon"></i>
 				</button>
 			</button>
 		</td>

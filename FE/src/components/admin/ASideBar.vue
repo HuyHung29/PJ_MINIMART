@@ -42,7 +42,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon1"></i>
 				</p>
-				<p class="a-side-bar__item__text">Tổng quan</p>
+				<router-link to="/admin" class="a-side-bar__item__text"
+					>Tổng quan</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -53,7 +55,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon2"></i>
 				</p>
-				<p class="a-side-bar__item__text">Danh mục</p>
+				<router-link to="/admin/category" class="a-side-bar__item__text"
+					>Danh mục</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -64,7 +68,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon3"></i>
 				</p>
-				<p class="a-side-bar__item__text">Nhà cung cấp</p>
+				<router-link to="/admin/supplier" class="a-side-bar__item__text"
+					>Nhà cung cấp</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -75,7 +81,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon4"></i>
 				</p>
-				<p class="a-side-bar__item__text">Sản phẩm</p>
+				<router-link to="/admin/product" class="a-side-bar__item__text"
+					>Sản phẩm</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -86,7 +94,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon5"></i>
 				</p>
-				<p class="a-side-bar__item__text">Hóa đơn</p>
+				<router-link to="/admin/invoice" class="a-side-bar__item__text"
+					>Hóa đơn</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -97,7 +107,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon6"></i>
 				</p>
-				<p class="a-side-bar__item__text">Đơn hàng</p>
+				<router-link to="/admin/order" class="a-side-bar__item__text"
+					>Đơn hàng</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -108,7 +120,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon8"></i>
 				</p>
-				<p class="a-side-bar__item__text">Tài khoản</p>
+				<router-link to="/admin/account" class="a-side-bar__item__text"
+					>Tài khoản</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -119,7 +133,9 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon9"></i>
 				</p>
-				<p class="a-side-bar__item__text">Tin tức</p>
+				<router-link to="/admin/news" class="a-side-bar__item__text"
+					>Tin tức</router-link
+				>
 			</li>
 			<li
 				class="a-side-bar__item"
@@ -130,10 +146,12 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 				<p class="a-side-bar__item__icon">
 					<i class="icon11"></i>
 				</p>
-				<p class="a-side-bar__item__text">Giảm giá</p>
+				<router-link to="/admin/coupon" class="a-side-bar__item__text"
+					>Giảm giá</router-link
+				>
 			</li>
 		</ul>
 	</div>
 </template>
 
-<style></style>
+<style scoped></style>

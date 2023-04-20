@@ -79,5 +79,6 @@ const props = defineProps({
 	top: 50%;
 	left: 10px;
 	right: -10px;
+	color: white;
 }
 </style>

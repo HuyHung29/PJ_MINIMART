@@ -43,21 +43,23 @@ const handleCheck = (e) => {
 		console.log(error);
 	}
 };
+
+console.log(props);
 </script>
 
 <template>
-	<div class="checkbox">
+	<div class="c-checkbox">
 		<input
 			@change="handleCheck"
 			type="checkbox"
 			:name="name"
 			:id="id"
-			class="checkbox__input"
+			class="c-checkbox__input"
 			:checked="checked"
 			:value="value"
 		/>
-		<label :for="id" class="checkbox__label"><i></i></label>
-		<label v-if="title" :for="id" class="checkbox__title">{{
+		<label :for="id" class="c-checkbox__label"><i></i></label>
+		<label v-if="title" :for="id" class="c-checkbox__title">{{
 			title
 		}}</label>
 	</div>

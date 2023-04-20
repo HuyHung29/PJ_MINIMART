@@ -32,22 +32,16 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values, actions) => {
-	try {
-		await login(values);
+	await login({ data: values, callback: actions });
 
-		const { user, isLogin } = store.state.user;
+	const { user, isLogin } = store.state.user;
 
-		if (isLogin) {
-			if (user.Role == 0) {
-				router.replace("/admin");
-			} else {
-				router.replace("/");
-			}
+	if (isLogin) {
+		if (user.Role == 0) {
+			router.replace("/admin");
+		} else {
+			router.replace("/");
 		}
-	} catch (ex) {
-		const { Message, Error, UserMes } = ex;
-		toast.error(Message || UserMes);
-		actions.setErrors(Error.MoreInfo);
 	}
 });
 </script>
