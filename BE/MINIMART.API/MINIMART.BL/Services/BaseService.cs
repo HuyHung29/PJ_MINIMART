@@ -79,7 +79,6 @@ namespace MINIMART.BL.Services
                     if (isSuccess)
                     {
                         res.Success = true;
-                        res.Data = record;
                         res.Message = string.Format(Resource.UpdateSuccess, GetTableName(typeof(T).Name));
                     }
                     else
@@ -118,7 +117,7 @@ namespace MINIMART.BL.Services
 
             string listId = string.Join(",", ids);
 
-            if (await _baseDL.CheckExistIds(listId) != listId.Length)
+            if (await _baseDL.CheckExistIds(listId) != ids.Count)
             {
                 res.Success = false;
                 res.Message = string.Format(Resource.DeleteError, GetTableName(typeof(T).Name));
@@ -128,6 +127,27 @@ namespace MINIMART.BL.Services
                     UserMes = Resource.HelpText
                 };
             }
+            else
+            {
+                var result = await _baseDL.Delete(listId);
+
+                if (result)
+                {
+                    res.Success = true;
+                    res.Message = string.Format(Resource.DeleteSuccess, GetTableName(typeof(T).Name));
+                    res.Data = ids;
+                }
+                else
+                {
+                    res.Success = false;
+                    res.Message = Resource.HelpText;
+                    res.Error = new ErrorResult
+                    {
+                        DevMes = "",
+                        UserMes = Resource.HelpText
+                    };
+                }
+            }
 
             return res;
         }
@@ -136,7 +156,7 @@ namespace MINIMART.BL.Services
         {
             return name.ToLower() switch
             {
-                "user" => "user",
+                "user" => "người dùng",
                 "product" => "sản phẩm",
                 "address" => "địa chỉ",
                 "coupon" => "phiếu giảm giá",

@@ -4,12 +4,13 @@ using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
 using MINIMART.Common.Resources;
-using System.Security.Claims;
 
 namespace MINIMART.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    /*[Authorize(Roles = "Admin")]*/
+    [AllowAnonymous]
     public class BaseController<T> : ControllerBase
     {
         private readonly IBaseService<T> _baseService;
@@ -43,6 +44,7 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("filter")]
         public virtual async Task<IActionResult> GetByFilterAndPaging(PagingObject filter)
         {
@@ -74,12 +76,20 @@ namespace MINIMART.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] T entity)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] T entity)
         {
             try
             {
+                var result = await _baseService.Update(id, entity);
+                if (result.Success)
+                {
+                    return Ok(result);
 
-                return Ok();
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
             }
             catch (Exception ex)
             {
@@ -87,14 +97,21 @@ namespace MINIMART.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] List<Guid> ids)
         {
             try
             {
-                var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return Ok(id);
+                var result = await _baseService.Delete(ids);
+
+                if (result.Success)
+                {
+                    return StatusCode(StatusCodes.Status200OK, result);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, result);
+                }
             }
             catch (Exception ex)
             {

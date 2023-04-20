@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MINIMART.BL.IServices;
+using MINIMART.Common.Entities.Models;
 
 namespace MINIMART.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoiceController : ControllerBase
+    public class InvoiceController : BaseController<Invoice>
     {
+        public InvoiceController(IBaseService<Invoice> baseService) : base(baseService)
+        {
+        }
     }
 }

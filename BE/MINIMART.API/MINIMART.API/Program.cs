@@ -1,4 +1,4 @@
-using MINIMART.API.Extensions;
+﻿using MINIMART.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

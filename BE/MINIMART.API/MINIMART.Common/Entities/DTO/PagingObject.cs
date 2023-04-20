@@ -29,5 +29,17 @@ namespace MINIMART.Common.Entities.DTO
         public Guid? NewsId { get; set; } = Guid.Empty;
 
         public Guid? AccountId { get; set; } = Guid.Empty;
+
+        public DateTime? CreatedDate { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+
+        public DateTime? DeliveryDate { get; set; }
+
+        public DateTime? FromDate { get; set; }
+
+        public DateTime? ToDate { get; set; }
+
+        public string? ColDate { get; set; }
     }
 }

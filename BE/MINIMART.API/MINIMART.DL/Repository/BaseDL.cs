@@ -43,6 +43,8 @@ namespace MINIMART.DL.Repository
 
             return new PagingResult<T>
             {
+                PageNumber = filter.PageNumber,
+                PageSize = filter.PageSize,
                 Data = records.ToList(),
                 TotalPage = totalPage,
                 TotalRecord = totalRecord
@@ -51,14 +53,14 @@ namespace MINIMART.DL.Repository
 
         public async Task<T> GetById(Guid id)
         {
-            string proc = string.Format(ProcResource.GetId, typeof(T).Name);
+            string sql = $"select * from {typeof(T).Name} where {typeof(T).Name}Id = @id";
 
             var parameters = new DynamicParameters();
 
-            parameters.Add($"p_id", id);
+            parameters.Add($"@id", id);
 
             using var cnn = _context.CreateConnection();
-            var records = await cnn.QueryFirstOrDefaultAsync<T>(proc, param: parameters, commandType: CommandType.StoredProcedure);
+            var records = await cnn.QueryFirstOrDefaultAsync<T>(sql, param: parameters);
 
             return records;
 
@@ -89,11 +91,19 @@ namespace MINIMART.DL.Repository
 
             foreach (var prop in entity.GetType().GetProperties())
             {
+                if (prop.Name == $"{typeof(T).Name}Id")
+                {
+                    parameters.Add($"p_{prop.Name}", id);
+                    continue;
+                }
                 parameters.Add($"p_{prop.Name}", prop.GetValue(entity));
             }
 
-            using var cnn = _context.CreateConnection();
-            var rowEffected = await cnn.ExecuteAsync(proc, param: parameters, commandType: CommandType.StoredProcedure);
+            int rowEffected;
+            using (var cnn = _context.CreateConnection())
+            {
+                rowEffected = await cnn.ExecuteAsync(proc, param: parameters, commandType: CommandType.StoredProcedure);
+            }
 
             return rowEffected > 0;
         }
@@ -116,6 +126,7 @@ namespace MINIMART.DL.Repository
                 try
                 {
                     rowEffected = await cnn.ExecuteAsync(proc, param: parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
+                    transaction.Commit();
                 }
                 catch (Exception)
                 {

@@ -23,6 +23,36 @@ namespace MINIMART.BL.Services
             _cloudinary = new Cloudinary(acc);
         }
 
+        public async Task<List<ImageUploadResult>> AddMultiplePhotoAsync(IFormFileCollection files)
+        {
+            List<ImageUploadResult> result = new();
+            if (files.Count > 0)
+            {
+                var uploadResult = new ImageUploadResult();
+
+                var length = files.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    if (files[i].Length > 0)
+                    {
+                        await using var stream = files[i].OpenReadStream();
+                        var uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(files[i].FileName, stream),
+                            Transformation = new Transformation()
+                        };
+
+                        uploadResult = await _cloudinary.UploadAsync(uploadParams);
+                    }
+
+                    result.Add(uploadResult);
+                }
+            }
+
+
+            return result;
+        }
+
         public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
@@ -50,5 +80,6 @@ namespace MINIMART.BL.Services
 
             return result;
         }
+
     }
 }

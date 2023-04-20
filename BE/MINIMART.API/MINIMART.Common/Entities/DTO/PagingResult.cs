@@ -2,6 +2,10 @@
 {
     public class PagingResult<T>
     {
+        public int PageSize { get; set; }
+
+        public int PageNumber { get; set; }
+
         public int TotalPage { get; set; }
 
         public int TotalRecord { get; set; }

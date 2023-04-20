@@ -7,6 +7,8 @@ namespace MINIMART.BL.IServices
     {
         Task<ImageUploadResult> AddPhotoAsync(IFormFile file);
 
+        Task<List<ImageUploadResult>> AddMultiplePhotoAsync(IFormFileCollection file);
+
         Task<DeletionResult> DeletePhotoAsync(string publicId);
     }
 }
