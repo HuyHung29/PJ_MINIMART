@@ -1,15 +1,25 @@
 <script setup>
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useStore();
 
 const userStore = createNamespacedHelpers(store, "user");
 const { user, isLogin } = userStore.useState(["user", "isLogin"]);
 
+const { logout } = userStore.useMutations(["logout"]);
+
 const uiStore = createNamespacedHelpers(store, "ui");
 const { isOpenSidebar } = uiStore.useState(["isOpenSidebar"]);
 const { closeSidebar } = uiStore.useMutations(["closeSidebar"]);
+
+const handleLogout = () => {
+	logout();
+	router.replace("/login");
+};
 </script>
 
 <template>
@@ -39,12 +49,40 @@ const { closeSidebar } = uiStore.useMutations(["closeSidebar"]);
 					class="a-header__user__avatar"
 				/>
 				<p class="a-header__user__name">
-					{{ user.UserName || "Le Huy Hung" }}
+					{{ user.FullName || "Le Huy Hung" }}
 					<i class="a-header__user__icon"></i>
 				</p>
+
+				<ul class="header__top__item--sub" v-if="isLogin">
+					<li class="header__top__item--sub__item">
+						<router-link to="/user">
+							Tài khoản của tôi
+						</router-link>
+					</li>
+					<li
+						class="header__top__item--sub__item"
+						@click="handleLogout"
+					>
+						Đăng xuất
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 </template>
 
-<style></style>
+<style scoped>
+.a-header {
+	z-index: 80;
+}
+.a-header__user {
+	position: relative;
+	cursor: pointer;
+}
+
+.a-header__user:hover .header__top__item--sub {
+	visibility: visible;
+	opacity: 1;
+	transform: scale(1);
+}
+</style>

@@ -66,6 +66,10 @@
 	transition: 0.25s linear;
 }
 
+.textfield__input:read-only {
+	background-color: #eeeeee;
+}
+
 /* input status */
 
 .textfield__input::placeholder {

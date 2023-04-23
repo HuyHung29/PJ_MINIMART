@@ -1,4 +1,33 @@
-<script setup></script>
+<script setup>
+import { onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+import { createNamespacedHelpers, useStore } from "vuex-composition-helpers";
+
+const store = useStore();
+
+const router = useRouter();
+
+const { useState, useActions } = createNamespacedHelpers(store, "category");
+
+const { category } = useState(["category"]);
+
+const { fetchCategory } = useActions(["fetchCategory"]);
+
+const initData = async () => {
+	fetchCategory({
+		PageSize: 1000,
+		PageNumber: 1,
+	});
+};
+
+onBeforeMount(() => {
+	initData();
+});
+
+const handleRoute = (item) => {
+	router.push("/product?CategoryId=" + item.CategoryId);
+};
+</script>
 
 <template>
 	<div class="navbar--wrap">
@@ -31,19 +60,18 @@
 											aria-hidden="true"
 											class="dropdown-menu dropdown-menu-end"
 										>
-											<li>
-												<router-link
+											<li
+												v-for="item in category"
+												:key="item.CategoryId"
+											>
+												<p
 													class="dropdown-item"
-													to="#"
-													>Action</router-link
+													@click="
+														() => handleRoute(item)
+													"
 												>
-											</li>
-											<li>
-												<router-link
-													class="dropdown-item"
-													to="#"
-													>Another action</router-link
-												>
+													{{ item.CategoryName }}
+												</p>
 											</li>
 										</div>
 									</li>

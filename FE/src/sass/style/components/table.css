@@ -360,6 +360,21 @@
 	overflow: hidden;
 }
 
+.c-table__col__img {
+	object-fit: contain;
+	padding: 4px;
+}
+
+.c-table__col__img img {
+	width: 100px;
+	object-fit: contain;
+	border: 1px solid var(--border-color);
+}
+
+.c-table__col__img img + img {
+	margin: 0 6px;
+}
+
 .c-table__col.overflow:hover .c-table__col__tooltip {
 	display: block;
 }
@@ -707,9 +722,9 @@
 	border-color: var(--border-color);
 }
 
-.w-100 {
-	min-width: 100px;
-	max-width: 100px;
+.c-w-100 {
+	min-width: 100px !important;
+	max-width: 100px !important;
 }
 
 .w-150 {

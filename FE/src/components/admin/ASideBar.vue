@@ -1,12 +1,15 @@
 <script setup>
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 
 const store = useStore();
 
 const uiStore = createNamespacedHelpers(store, "ui");
 const { isOpenSidebar } = uiStore.useState(["isOpenSidebar"]);
 const { openSidebar } = uiStore.useMutations(["openSidebar"]);
+
+const route = useRoute();
 </script>
 
 <template>
@@ -36,7 +39,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: true,
+					active: route.path == '/admin',
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -49,7 +52,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('category'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -62,7 +65,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('supplier'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -75,7 +78,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('product'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -88,7 +91,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('invoice'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -101,7 +104,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('order'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -114,7 +117,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('account'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -127,7 +130,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('news'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">
@@ -140,7 +143,7 @@ const { openSidebar } = uiStore.useMutations(["openSidebar"]);
 			<li
 				class="a-side-bar__item"
 				:class="{
-					active: false,
+					active: route.path.includes('coupon'),
 				}"
 			>
 				<p class="a-side-bar__item__icon">

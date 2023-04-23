@@ -8,6 +8,7 @@ import product from "./modules/product";
 import order from "./modules/order";
 import news from "./modules/news";
 import address from "./modules/address";
+import supplier from "./modules/supplier";
 
 const debug = process.env.NODE_ENV !== "production";
 
@@ -22,6 +23,7 @@ export default createStore({
 		order,
 		news,
 		address,
+		supplier,
 	},
 	strict: debug,
 	plugins: debug ? [createLogger()] : [],

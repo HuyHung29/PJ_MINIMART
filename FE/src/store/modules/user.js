@@ -1,11 +1,14 @@
 import authApi from "@/api/authAPI";
 import userApi from "@/api/userAPI";
+import RESOURCE from "@/constants/resource";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
 
 const state = {
-	user: {},
+	user: localStorage.getItem("user")
+		? JSON.parse(localStorage.getItem("user"))
+		: {},
 	isLogin: localStorage.getItem("token") ? true : false,
 };
 
@@ -24,12 +27,14 @@ const actions = {
 			toast.success(Message);
 
 			localStorage.setItem("token", JSON.stringify(AccessToken));
+			localStorage.setItem("user", JSON.stringify(User));
 
 			commit("setUser", User);
 			commit("ui/hideLoading", null, { root: true });
 		} catch (ex) {
+			console.log(ex);
 			const { Message, Error, UserMes } = ex;
-			toast.error(Message || UserMes);
+			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
 			callback.setErrors(Error.MoreInfo);
 			commit("ui/hideLoading", null, { root: true });
 		}
@@ -46,6 +51,7 @@ const mutations = {
 		state.isLogin = false;
 
 		localStorage.clear("token");
+		localStorage.clear("user");
 	},
 };
 

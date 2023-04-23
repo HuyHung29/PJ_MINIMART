@@ -17,7 +17,6 @@ const props = defineProps({
 	},
 	label: {
 		type: String,
-		required: true,
 	},
 	successMessage: {
 		type: String,
@@ -26,6 +25,10 @@ const props = defineProps({
 	placeholder: {
 		type: String,
 		default: "",
+	},
+	readonly: {
+		type: Boolean,
+		default: false,
 	},
 	isRequired: Boolean,
 });
@@ -63,6 +66,7 @@ const {
 				:value="inputValue"
 				@input="handleChange"
 				@blur="handleBlur"
+				:readonly="readonly"
 			/>
 		</div>
 		<p v-show="errorMessage" class="textfield__error" ref="errorRef">

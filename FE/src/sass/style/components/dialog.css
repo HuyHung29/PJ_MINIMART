@@ -29,7 +29,7 @@
 
 .dialog__close-btn i {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -147px -147px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -147px -147px;
 	width: 18px;
 	height: 18px;
 }
@@ -44,7 +44,7 @@
 }
 
 .dialog__content__icon {
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -598px -463px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -598px -463px;
 	width: 36px;
 	height: 37px;
 
@@ -52,14 +52,15 @@
 }
 
 .dialog.dialog--error .dialog__content__icon {
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -752px -462px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -752px -462px;
 }
 
 .dialog.dialog--info .dialog__content__icon {
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -832px -462px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -832px -462px;
 }
 
 .dialog__content__text {
+	font-size: 14px;
 }
 
 .dialog__action {

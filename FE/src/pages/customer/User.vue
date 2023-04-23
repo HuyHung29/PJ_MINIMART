@@ -2,7 +2,12 @@
 import Col from "@/components/bootstrap/Col.vue";
 import Container from "@/components/bootstrap/Container.vue";
 import Row from "@/components/bootstrap/Row.vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
+import { ref } from "vue";
+
+const open = ref(false);
+
+const route = useRoute();
 </script>
 
 <template>
@@ -31,20 +36,25 @@ import { RouterView } from "vue-router";
 							<router-link
 								to="/user/profile"
 								class="user__nav__link"
+								@click="open = !open"
 							>
 								Tài khoản của tôi
 							</router-link>
 							<ul
 								class="user__nav__sub-nav"
 								:class="{
-									open: false,
+									open: open,
 								}"
 							>
 								<li class="user__nav__item sub-item">
 									<router-link
 										to="/user/profile"
 										class="user__nav__link"
-										activeclass="active"
+										:class="{
+											active: route.path.includes(
+												'profile'
+											),
+										}"
 									>
 										Hồ sơ
 									</router-link>
@@ -53,7 +63,11 @@ import { RouterView } from "vue-router";
 									<router-link
 										to="/user/address"
 										class="user__nav__link"
-										activeclass="active"
+										:class="{
+											active: route.path.includes(
+												'address'
+											),
+										}"
 									>
 										Địa chỉ
 									</router-link>
@@ -62,7 +76,11 @@ import { RouterView } from "vue-router";
 									<router-link
 										to="/user/password"
 										class="user__nav__link"
-										activeclass="active"
+										:class="{
+											active: route.path.includes(
+												'password'
+											),
+										}"
 									>
 										Đổi mật khẩu
 									</router-link>
@@ -74,7 +92,7 @@ import { RouterView } from "vue-router";
 							<i class="fas fa-clipboard"></i>
 							<router-link
 								exact
-								to="/user/orders"
+								to="/user/order"
 								class="user__nav__link"
 							>
 								Đơn hàng

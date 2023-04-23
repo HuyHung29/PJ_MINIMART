@@ -1,15 +1,14 @@
 <script setup>
-import useClickOutSide from "../../composable/clickOutSide";
-import { onUpdated, reactive, ref, watch } from "vue";
-import RESOURCES from "../../constants/resource";
-import { inputValidation, isOverflow } from "../../util/common";
+import useClickOutSide from "@/util/clickOutSide";
+import { onMounted, reactive, ref, watch } from "vue";
+import RESOURCES from "@/constants/resource";
 
 /**
  * Định nghĩa các props
  * Author: LHH - 04/01/23
  */
 const props = defineProps({
-	listValue: {
+	options: {
 		type: Array,
 		required: true,
 		default: [],
@@ -19,7 +18,6 @@ const props = defineProps({
 	},
 	name: {
 		type: String,
-		required: true,
 	},
 	type: {
 		type: String,
@@ -30,9 +28,6 @@ const props = defineProps({
 	hasError: {
 		type: Boolean,
 		default: true,
-	},
-	tabindex: {
-		type: Number,
 	},
 	defaultValue: {
 		type: [String, Number],
@@ -58,7 +53,11 @@ const props = defineProps({
 		type: String,
 		default: null,
 	},
-	isShowError: Boolean,
+	readonly: {
+		type: Boolean,
+		default: false,
+	},
+	initialValue: [String, Number],
 });
 
 /**
@@ -75,7 +74,7 @@ const state = reactive({
 	isShow: false,
 	value: props.defaultValue,
 	indexItem: props.type === "dropdown" ? null : 0,
-	listSearch: [...props.listValue],
+	listSearch: [...props.options],
 });
 
 /**
@@ -85,7 +84,6 @@ const state = reactive({
 const listRef = ref(null);
 const inputRef = ref(null);
 const errorRef = ref("null");
-const isShowTooltip = ref(false);
 const isError = ref(false);
 
 /**
@@ -96,11 +94,17 @@ const handleChangeValue = (item) => {
 	try {
 		state.value = item.title;
 		state.isShow = false;
-		emit("select", { name: props.name, value: item.value });
+		emit("select", item.value);
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+onMounted(() => {
+	if (props.initialValue) {
+		emit("select", props.initialValue);
+	}
+});
 
 /**
  * Theo dõi sự thay đổi của props
@@ -111,7 +115,7 @@ watch(
 	() => {
 		try {
 			state.value = props.defaultValue;
-			state.listSearch = [...props.listValue];
+			state.listSearch = [...props.options];
 		} catch (error) {
 			console.log(error);
 		}
@@ -120,23 +124,14 @@ watch(
 );
 
 watch(
-	() => props.isShowError,
+	() => props.initialValue,
 	() => {
-		isError.value = props.isShowError;
-	}
+		if (props.initialValue) {
+			emit("select", props.initialValue);
+		}
+	},
+	{ deep: true }
 );
-
-/**
- * Xử lý show tooltip error
- * Author: LHH - 31/01/23
- */
-onUpdated(() => {
-	if (isOverflow(errorRef.value)) {
-		isShowTooltip.value = true;
-	} else {
-		isShowTooltip.value = false;
-	}
-});
 
 /**
  * Xử lý đóng list khi click ra ngoài
@@ -159,16 +154,13 @@ const handleInput = (e) => {
 
 	if (!inputVal) {
 		state.indexItem = 0;
-		state.listSearch = props.listValue;
-		emit("select", {
-			name: props.name,
-			value: "",
-		});
+		state.listSearch = props.options;
+		emit("select", "");
 
 		state.value = "";
 	}
 
-	state.listSearch = props.listValue.filter((item) =>
+	state.listSearch = props.options.filter((item) =>
 		item.title.toLowerCase().includes(inputVal)
 	);
 };
@@ -200,14 +192,11 @@ const handleChangeItemSelected = (e) => {
 			state.isShow = false;
 			state.value = state.listSearch[state.indexItem].title;
 
-			state.indexItem = props.listValue.findIndex(
+			state.indexItem = props.options.findIndex(
 				(item) => item.value === state.listSearch[state.indexItem].value
 			);
-			state.listSearch = [...props.listValue];
-			emit("select", {
-				name: props.name,
-				value: state.listSearch[state.indexItem].value,
-			});
+			state.listSearch = [...props.options];
+			emit("select", state.listSearch[state.indexItem].value);
 
 			break;
 		case TAB:
@@ -217,84 +206,43 @@ const handleChangeItemSelected = (e) => {
 			break;
 	}
 };
-
-/**
- * Hàm set focus cho input
- * Author: LHH - 26/01/23
- */
-const setFocusInput = () => {
-	try {
-		if (inputRef.value) {
-			inputRef.value.focus();
-		}
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-/**
- * Xử lý hiện list khi focus vào input
- * Author: LHH - 25/02/23
- */
-const handleFocus = () => {
-	state.isShow = true;
-};
-
-/**
- * Hàm xử lý validate
- * Author: LHH - 26/01/23
- */
-const handleValidate = () => {
-	const message = inputValidation(props.rules, state.value, props.name);
-
-	emit("error", {
-		name: props.name,
-		message,
-	});
-};
-
-/**
- * Định nghĩa các expose
- * Author: LHH - 26/01/23
- */
-defineExpose({
-	setFocusInput,
-	handleValidate,
-});
 </script>
 
 <template>
 	<div
-		class="select"
+		class="c-select"
 		:class="{
-			'select--sm': size === 'sm',
-			'select--lg': size === 'lg',
+			'c-select--sm': size === 'sm',
+			'c-select--lg': size === 'lg',
 			invalid: error,
 		}"
 		ref="listRef"
 	>
-		<label v-if="title" for="" class="select__label"
+		<label v-if="title" for="" class="c-select__label"
 			>{{ title }} <span v-if="isRequired">*</span></label
 		>
-		<div class="select__input__wrap">
-			<button class="select__icon" @click="state.isShow = !state.isShow">
+		<div class="c-select__input__wrap">
+			<button
+				type="button"
+				class="c-select__icon"
+				@click="state.isShow = !state.isShow"
+			>
 				<i></i>
 			</button>
 			<input
 				type="text"
-				class="select__input"
-				:readonly="type === 'dropdown'"
+				class="c-select__input"
+				:readonly="readonly"
 				v-model="state.value"
-				:tabindex="tabindex"
 				@input="handleInput"
 				@keydown="handleChangeItemSelected"
 				@focus="handleFocus"
 				ref="inputRef"
 			/>
-			<ul class="select__list" v-show="state.isShow" :style="style">
+			<ul class="c-select__list" v-show="state.isShow" :style="style">
 				<li
 					v-for="(item, index) in state.listSearch"
-					class="select__item"
+					class="c-select__item"
 					:class="{
 						selected: item.title === state.value,
 						'on-index': state.indexItem === index,
@@ -308,12 +256,9 @@ defineExpose({
 		</div>
 		<p
 			v-show="(hasError && error) || isError"
-			class="select__error"
+			class="c-select__error"
 			ref="errorRef"
 		>
-			{{ error }}
-		</p>
-		<p v-if="!state.isShow && isShowTooltip" class="select__error__tooltip">
 			{{ error }}
 		</p>
 	</div>

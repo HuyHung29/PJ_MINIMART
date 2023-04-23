@@ -7,18 +7,20 @@ import "vue-toastification/dist/index.css";
 import { createRouter, createWebHistory } from "vue-router";
 import routes from "@/routes";
 import store from "@/store";
-import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
-
+import Paginate from "vuejs-paginate-next";
 import "@/sass/index.scss";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const router = createRouter({ history: createWebHistory(), routes });
 
 const app = createApp(App);
 
-app.component("v-select", vSelect);
+app.use(Paginate);
 app.directive("debounce", vue3Debounce({ lock: true }));
 
+app.component("QuillEditor", QuillEditor);
 app.use(router);
 
 app.use(store);

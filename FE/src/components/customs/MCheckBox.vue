@@ -43,8 +43,6 @@ const handleCheck = (e) => {
 		console.log(error);
 	}
 };
-
-console.log(props);
 </script>
 
 <template>

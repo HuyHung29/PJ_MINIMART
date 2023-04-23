@@ -60,9 +60,9 @@ import Row from "@/components/bootstrap/Row.vue";
 			</Col>
 			<Col md="12" class="home__post">
 				<div class="home__link--wrap">
-					<Link to="/posts" class="home__link">
+					<router-link to="/news" class="home__link">
 						Mẹo hay sử dụng
-					</Link>
+					</router-link>
 				</div>
 				<div class="home__post__list">
 					<Row>

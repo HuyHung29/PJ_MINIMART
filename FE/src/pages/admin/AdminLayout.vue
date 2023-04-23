@@ -3,11 +3,29 @@ import Header from "@/components/admin/AHeader.vue";
 import Sidebar from "@/components/admin/ASideBar.vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
+import { onBeforeMount } from "vue";
 
 const store = useStore();
 
 const uiStore = createNamespacedHelpers(store, "ui");
 const { isOpenSidebar } = uiStore.useState(["isOpenSidebar"]);
+
+const cateStore = createNamespacedHelpers(store, "category");
+
+const { fetchCategory } = cateStore.useActions(["fetchCategory"]);
+
+const suppStore = createNamespacedHelpers(store, "supplier");
+
+const { fetchSupplier } = suppStore.useActions(["fetchSupplier"]);
+
+const initData = async () => {
+	fetchCategory({ PageSize: 100, PageNumber: 1 });
+	fetchSupplier({ PageSize: 100, PageNumber: 1 });
+};
+
+onBeforeMount(() => {
+	initData();
+});
 </script>
 
 <template>

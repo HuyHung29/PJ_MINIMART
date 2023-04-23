@@ -17,6 +17,7 @@ import AOrder from "@/pages/admin/AOrder.vue";
 import AAccount from "@/pages/admin/AAccount.vue";
 import ANews from "@/pages/admin/ANews.vue";
 import ACoupon from "@/pages/admin/ACoupon.vue";
+import NotFound from "@/components/NotFound.vue";
 
 const routes = [
 	{
@@ -31,6 +32,7 @@ const routes = [
 				path: "user",
 				component: User,
 				children: [
+					{ path: "", component: Profile },
 					{ path: "profile", component: Profile },
 					{
 						path: "address",
@@ -45,6 +47,10 @@ const routes = [
 						component: Order,
 					},
 				],
+			},
+			{
+				path: "product",
+				component: HomeVue,
 			},
 		],
 	},
@@ -98,6 +104,7 @@ const routes = [
 		path: "/register",
 		component: Register,
 	},
+	{ path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
 ];
 
 export default routes;

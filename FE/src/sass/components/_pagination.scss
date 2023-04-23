@@ -25,6 +25,7 @@
 		&.active .page-link {
 			background-color: $primary-color;
 			border-color: $primary-color;
+			color: white;
 		}
 	}
 
@@ -33,6 +34,7 @@
 		border: unset;
 		color: $text-color;
 		background-color: transparent;
+		padding: 6px 14px;
 
 		&:focus {
 			outline: unset;

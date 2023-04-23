@@ -64,7 +64,7 @@
 	~ .form__header__user-type__item__icon
 	i {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -899px -316px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -899px -316px;
 	width: 11px;
 	height: 8px;
 }
@@ -82,60 +82,16 @@
 
 .form__header__button__question {
 	position: relative;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -89px -145px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -89px -145px;
 	width: 22px;
 	height: 22px;
 }
 
-.form__header__button__question:hover::before,
-.form__header__button__question:hover::after {
-	display: block;
-}
-
-.form__header__button__question::before {
-	display: none;
-	content: "";
-
-	position: absolute;
-	bottom: -10px;
-	left: 50%;
-
-	transform: translateX(-50%);
-
-	border: 10px solid;
-	border-color: transparent transparent #38393d transparent;
-}
-
-.form__header__button__question::after {
-	display: none;
-	content: "Giúp";
-
-	position: absolute;
-	top: calc(100% + 5px);
-	left: 50%;
-
-	transform: translateX(-50%);
-
-	padding: 4px 10px;
-
-	border-radius: 2px;
-
-	text-align: center;
-	color: var(--text-white);
-
-	background-color: #38393d;
-}
-
 .form__header__button__close {
 	position: relative;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -147px -147px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -147px -147px;
 	width: 18px;
 	height: 18px;
-}
-
-.form__header__button__close:hover::before,
-.form__header__button__close:hover::after {
-	display: block;
 }
 
 .form__header__button__close::before {
@@ -152,32 +108,11 @@
 	border-color: transparent transparent #38393d transparent;
 }
 
-.form__header__button__close::after {
-	display: none;
-	content: "Đóng (ESC)";
-
-	min-width: 80px;
-
-	position: absolute;
-	top: calc(100% + 5px);
-	left: 50%;
-
-	transform: translateX(-50%);
-
-	padding: 4px 10px;
-
-	border-radius: 2px;
-
-	text-align: center;
-	color: var(--text-white);
-
-	background-color: #38393d;
-}
-
 .form__body {
 	padding: 24px;
 
 	max-height: calc(100vh - 280px);
+	min-height: 300px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -209,103 +144,7 @@
 }
 
 .form__row {
-	display: flex;
-	flex-wrap: wrap;
-
-	margin: 0 -4px;
-}
-
-.form__row.gutter--12 {
-	margin: 0 -12px;
-}
-
-.form__row + .form__row {
-	margin-top: 24px;
-}
-
-.form__row.row-gap {
-	row-gap: 12px;
-}
-
-.form__col {
-	padding: 0 4px;
-}
-
-.form__row.gutter--12 > .form__col {
-	padding: 0 12px;
-}
-
-.col--1 {
-	flex: 0 0 calc(8.33333%);
-	max-width: calc(8.33333%);
-}
-
-.col--2 {
-	flex: 0 0 calc(16.66666%);
-	max-width: calc(16.66666%);
-}
-
-.col--3 {
-	flex: 0 0 calc(25%);
-	max-width: calc(25%);
-}
-
-.col--4 {
-	flex: 0 0 calc(33.33333%);
-	max-width: calc(33.33333%);
-}
-
-.col--5 {
-	flex: 0 0 calc(41.66666%);
-	max-width: calc(41.66666%);
-}
-
-.col--6 {
-	flex: 0 0 calc(50%);
-	max-width: calc(50%);
-}
-
-.col--7 {
-	flex: 0 0 calc(58.33333%);
-	max-width: calc(58.33333%);
-}
-
-.col--8 {
-	flex: 0 0 calc(66.66666%);
-	max-width: calc(66.66666%);
-}
-
-.col--9 {
-	flex: 0 0 calc(75%);
-	max-width: calc(75%);
-}
-
-.col--10 {
-	flex: 0 0 calc(83.33333%);
-	max-width: calc(83.33333%);
-}
-
-.col--11 {
-	flex: 0 0 calc(91.66666%);
-	max-width: calc(91.66666%);
-}
-
-.col--12 {
-	flex: 0 0 calc(100%);
-	max-width: 100%;
-}
-
-.form__col .textfield__input {
-	min-width: 100%;
-}
-
-.form__col .cbo__input,
-.form__col .select__input {
-	min-width: 100%;
-}
-
-.form__col .radiofield {
-	padding-left: 12px;
+	row-gap: 15px;
 }
 
 .form__action {

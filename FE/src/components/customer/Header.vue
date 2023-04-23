@@ -21,6 +21,11 @@ const { useState, useActions, useMutations } = createNamespacedHelpers(
 const { user, isLogin } = useState(["user", "isLogin"]);
 
 const { logout } = useMutations(["logout"]);
+
+const handleLogout = () => {
+	logout();
+	router.replace("/login");
+};
 </script>
 
 <template>
@@ -59,7 +64,7 @@ const { logout } = useMutations(["logout"]);
 
 					<div class="header__top__item" v-if="isLogin">
 						<i class="header__top__icon fas fa-user-circle"></i>
-						<p>{{ user.UserName || "Huy Huwng" }}</p>
+						<p>{{ user.FullName || "Huy Huwng" }}</p>
 
 						<ul class="header__top__item--sub">
 							<li class="header__top__item--sub__item">
@@ -68,13 +73,13 @@ const { logout } = useMutations(["logout"]);
 								</router-link>
 							</li>
 							<li class="header__top__item--sub__item">
-								<router-link to="/user/orders"
+								<router-link to="/user/order"
 									>Đơn mua</router-link
 								>
 							</li>
 							<li
 								class="header__top__item--sub__item"
-								@click="logout"
+								@click="handleLogout"
 							>
 								Đăng xuất
 							</li>
@@ -109,7 +114,7 @@ const { logout } = useMutations(["logout"]);
 						class="header__middle__search"
 					>
 						<div class="form-wrap">
-							<Form class="header__middle__form">
+							<form class="header__middle__form">
 								<div class="input-group">
 									<input
 										name="search"
@@ -122,7 +127,7 @@ const { logout } = useMutations(["logout"]);
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
-							</Form>
+							</form>
 						</div>
 					</Col>
 					<Col xs="12" sm="12" md="3" lg="2">

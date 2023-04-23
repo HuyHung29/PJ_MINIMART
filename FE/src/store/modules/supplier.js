@@ -1,12 +1,12 @@
 import { useToast } from "vue-toastification";
-import categoryApi from "@/api/categoryAPI";
+import supplierApi from "@/api/supplierAPI";
 import RESOURCE from "@/constants/resource";
 import { generateFormData } from "@/util/common";
 
 const toast = useToast();
 
 const state = {
-	category: [],
+	supplier: [],
 	pagination: {
 		PageNumber: 1,
 		PageSize: 20,
@@ -19,17 +19,17 @@ const state = {
 const getters = {};
 
 const actions = {
-	fetchCategory: async ({ commit, state }, data) => {
+	fetchSupplier: async ({ commit, state }, data) => {
 		try {
 			commit("ui/showLoading", null, { root: true });
 			let payload;
 			if (data) {
-				payload = await categoryApi.get(data);
+				payload = await supplierApi.get(data);
 			} else {
-				payload = await categoryApi.get(state.pagination);
+				payload = await supplierApi.get(state.pagination);
 			}
 
-			commit("setCategory", payload);
+			commit("setSupplier", payload);
 			commit("ui/hideLoading", null, { root: true });
 		} catch (ex) {
 			const { Message, Error, UserMes } = ex;
@@ -38,11 +38,11 @@ const actions = {
 			commit("ui/hideLoading", null, { root: true });
 		}
 	},
-	getCategory: async ({ commit, state }, data) => {
+	getSupplier: async ({ commit, state }, data) => {
 		try {
 			commit("ui/showLoading", null, { root: true });
 
-			const payload = await categoryApi.get({ CategoryId: data });
+			const payload = await supplierApi.get({ SupplierId: data });
 
 			let cate = payload.Data[0];
 
@@ -57,15 +57,14 @@ const actions = {
 	insert: async ({ commit, state }, { data, callback }) => {
 		try {
 			commit("ui/showLoading", null, { root: true });
-			const formData = generateFormData(data);
 
-			const payload = await categoryApi.create(formData);
+			const payload = await supplierApi.create(data);
 
 			const { Data, Message } = payload;
 
 			toast.success(Message);
 
-			commit("insertCate", Data);
+			commit("insertSupp", Data);
 			commit("ui/hideLoading", null, { root: true });
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
@@ -79,20 +78,19 @@ const actions = {
 		try {
 			commit("ui/showLoading", null, { root: true });
 
-			data = { ...data, CategoryId: state.currentItem.CategoryId };
-			const formData = generateFormData(data);
+			data = { ...data, SupplierId: state.currentItem.SupplierId };
 			commit("ui/showLoading", null, { root: true });
 
-			const payload = await categoryApi.update(
-				state.currentItem.CategoryId,
-				formData
+			const payload = await supplierApi.update(
+				state.currentItem.SupplierId,
+				data
 			);
 
 			const { Data, Message } = payload;
 
 			toast.success(Message);
 
-			commit("replaceCate", Data);
+			commit("replaceSupp", Data);
 			commit("ui/hideLoading", null, { root: true });
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
@@ -107,13 +105,13 @@ const actions = {
 			commit("ui/showLoading", null, { root: true });
 
 			console.log(data);
-			const payload = await categoryApi.delete(data);
+			const payload = await supplierApi.delete(data);
 
 			const { Message } = payload;
 
-			const cate = await categoryApi.get(state.pagination);
+			const cate = await supplierApi.get(state.pagination);
 
-			commit("setCategory", cate);
+			commit("setSupplier", cate);
 
 			toast.success(Message);
 
@@ -128,18 +126,18 @@ const actions = {
 };
 
 const mutations = {
-	setCategory: (state, payload) => {
+	setSupplier: (state, payload) => {
 		const { Data, ...rest } = payload;
 
-		state.category = [...Data];
+		state.supplier = [...Data];
 		state.pagination = { ...rest };
 	},
-	insertCate: (state, newCate) => {
-		state.category.unshift(newCate);
+	insertSupp: (state, newCate) => {
+		state.supplier.unshift(newCate);
 	},
-	replaceCate: (state, newCate) => {
-		state.category = state.category.map((cate) => {
-			if (cate.CategoryId === newCate.CategoryId) {
+	replaceSupp: (state, newCate) => {
+		state.supplier = state.supplier.map((cate) => {
+			if (cate.SupplierId === newCate.SupplierId) {
 				return newCate;
 			}
 

@@ -5,6 +5,14 @@ const toast = useToast();
 const state = {
 	isLoading: false,
 	isOpenSidebar: true,
+	modal: {
+		isOpen: false,
+		title: "",
+		type: "",
+		content: "",
+		callback: null,
+		data: null,
+	},
 };
 
 const getters = {};
@@ -26,6 +34,22 @@ const mutations = {
 	},
 	closeSidebar: (state) => {
 		state.isOpenSidebar = false;
+	},
+	handleOpenModal: (state, data) => {
+		state.modal = {
+			isOpen: true,
+			...data,
+		};
+	},
+	handleCloseModal: (state) => {
+		state.modal = {
+			isOpen: false,
+			title: "",
+			type: "",
+			content: "",
+			callback: null,
+			data: null,
+		};
 	},
 };
 

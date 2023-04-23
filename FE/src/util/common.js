@@ -113,3 +113,17 @@ export const isOverflow = (element) => {
 
 	return false;
 };
+
+export const generateFormData = (data) => {
+	let formData = new FormData();
+
+	for (let key in data) {
+		if (key === "Pictures" && data[key] !== "") {
+			for (let i = 0; i < data[key].length; i++) {
+				formData.append(key, data[key][i]);
+			}
+		} else formData.append(key, data[key]);
+	}
+
+	return formData;
+};
