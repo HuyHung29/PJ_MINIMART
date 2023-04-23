@@ -26,7 +26,7 @@ namespace MINIMART.BL.Services
             return result;
         }
 
-        public async Task<ServiceResponse<T>> Insert(T entity)
+        public async Task<ServiceResponse<T>> Insert(T entity, string userName)
         {
             var res = new ServiceResponse<T>();
 
@@ -34,7 +34,7 @@ namespace MINIMART.BL.Services
 
             if (validateResult.IsValid)
             {
-                var insertedRecord = await _baseDL.Insert(entity);
+                var insertedRecord = await _baseDL.Insert(entity, userName);
 
                 if (insertedRecord != null)
                 {
@@ -61,7 +61,7 @@ namespace MINIMART.BL.Services
             return res;
         }
 
-        public async Task<ServiceResponse<T>> Update(Guid id, T entity)
+        public async Task<ServiceResponse<T>> Update(Guid id, T entity, string userName)
         {
             var res = new ServiceResponse<T>();
 
@@ -74,11 +74,12 @@ namespace MINIMART.BL.Services
 
                 if (validateResult.IsValid)
                 {
-                    var isSuccess = await _baseDL.Update(id, entity);
+                    var isSuccess = await _baseDL.Update(id, entity, userName);
 
                     if (isSuccess)
                     {
                         res.Success = true;
+                        res.Data = entity;
                         res.Message = string.Format(Resource.UpdateSuccess, GetTableName(typeof(T).Name));
                     }
                     else
@@ -205,18 +206,20 @@ namespace MINIMART.BL.Services
                 }
             }
 
+            validateResult.Errors = messages;
+
             if (validateResult.IsValid)
             {
-                await CustomValidate(validateResult);
+                validateResult = await CustomValidate(validateResult, entity);
             }
 
-            validateResult.Errors = messages;
 
             return validateResult;
         }
 
-        protected virtual async Task CustomValidate(ValidateResult validateResult)
+        protected virtual async Task<ValidateResult> CustomValidate(ValidateResult validateResult, T entity)
         {
+            return validateResult;
         }
     }
 }

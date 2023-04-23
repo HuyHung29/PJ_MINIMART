@@ -156,6 +156,9 @@
   <data name="UpdateSuccess" xml:space="preserve">
     <value>Sửa {0} thành công</value>
   </data>
+  <data name="UploadError" xml:space="preserve">
+    <value>Up ảnh bị lỗi</value>
+  </data>
   <data name="User_ValidateError" xml:space="preserve">
     <value>Dữ liệu đầu vào không hợp lệ</value>
   </data>

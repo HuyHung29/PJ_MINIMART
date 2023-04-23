@@ -13,10 +13,19 @@
         Customer = 1
     }
 
-    public enum Unit
+    public enum UnitEnum
     {
-        Kg = 0,
-        Gam = 1,
+        Box = 0,
+        Pack = 1,
+        Bottle = 2,
+    }
+
+    public enum VolumeEnum
+    {
+        Gam = 0,
+        Kg = 1,
+        Lit = 2,
+        MlLit = 3
     }
 
     public enum OrderStatus

@@ -6,9 +6,9 @@ namespace MINIMART.BL.IServices
     {
         public Task<PagingResult<T>> GetByFilterAndPaging(PagingObject filter);
 
-        public Task<ServiceResponse<T>> Insert(T entity);
+        public Task<ServiceResponse<T>> Insert(T entity, string userName);
 
-        public Task<ServiceResponse<T>> Update(Guid id, T entity);
+        public Task<ServiceResponse<T>> Update(Guid id, T entity, string userName);
 
         public Task<ServiceResponse<List<Guid>>> Delete(List<Guid> ids);
     }

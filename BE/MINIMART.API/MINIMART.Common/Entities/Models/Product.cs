@@ -5,6 +5,8 @@ namespace MINIMART.Common.Entities.Models
 {
     public class Product : Base
     {
+        private Product product;
+
         [Key]
         public Guid ProductId { get; set; }
 
@@ -14,9 +16,10 @@ namespace MINIMART.Common.Entities.Models
         [Required]
         public string? ProductName { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
 
-        public Unit Unit { get; set; }
+        public UnitEnum Unit { get; set; }
 
         public string? UnitName
         {
@@ -24,23 +27,41 @@ namespace MINIMART.Common.Entities.Models
             {
                 return Unit switch
                 {
-                    Unit.Kg => "Kg",
-                    Unit.Gam => "Gam",
-                    _ => null,
+                    UnitEnum.Box => "Hộp",
+                    UnitEnum.Pack => "Túi",
+                    UnitEnum.Bottle => "Chai",
+                    _ => "",
                 };
             }
 
         }
 
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
+
+        public VolumeEnum? Volume { get; set; }
+
+        public string? VolumeName
+        {
+            get
+            {
+                return Volume switch
+                {
+                    VolumeEnum.Gam => "Gam",
+                    VolumeEnum.Kg => "Kg",
+                    VolumeEnum.Lit => "L",
+                    VolumeEnum.MlLit => "mL",
+                    _ => "",
+                };
+            }
+        }
 
         public string? Description { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
 
-        public decimal CurrentPrice
+        public decimal? CurrentPrice
         {
             get
             {
@@ -60,4 +81,6 @@ namespace MINIMART.Common.Entities.Models
         [Required]
         public Guid CategoryId { get; set; }
     }
+
+
 }

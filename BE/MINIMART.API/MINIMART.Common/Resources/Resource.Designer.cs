@@ -178,6 +178,15 @@ namespace MINIMART.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Up ảnh bị lỗi.
+        /// </summary>
+        public static string UploadError {
+            get {
+                return ResourceManager.GetString("UploadError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dữ liệu đầu vào không hợp lệ.
         /// </summary>
         public static string User_ValidateError {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
@@ -8,6 +9,7 @@ namespace MINIMART.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

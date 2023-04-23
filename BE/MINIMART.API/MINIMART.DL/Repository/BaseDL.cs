@@ -66,7 +66,7 @@ namespace MINIMART.DL.Repository
 
         }
 
-        public async Task<T> Insert(T entity)
+        public async Task<T> Insert(T entity, string userName)
         {
             string proc = string.Format(ProcResource.Insert, typeof(T).Name);
 
@@ -74,16 +74,22 @@ namespace MINIMART.DL.Repository
 
             foreach (var prop in entity.GetType().GetProperties())
             {
+                if (prop.Name == "CreatedBy" || prop.Name == "ModifiedBy")
+                {
+                    parameters.Add($"p_{prop.Name}", userName);
+                    continue;
+                }
+
                 parameters.Add($"p_{prop.Name}", prop.GetValue(entity));
             }
 
             using var cnn = _context.CreateConnection();
-            var records = await cnn.QueryFirstOrDefaultAsync<T>(proc, param: parameters, commandType: CommandType.StoredProcedure);
+            var record = await cnn.QueryFirstOrDefaultAsync<T>(proc, param: parameters, commandType: CommandType.StoredProcedure);
 
-            return records;
+            return record;
         }
 
-        public async Task<bool> Update(Guid id, T entity)
+        public async Task<bool> Update(Guid id, T entity, string userName)
         {
             string proc = string.Format(ProcResource.Update, typeof(T).Name);
 
@@ -96,6 +102,13 @@ namespace MINIMART.DL.Repository
                     parameters.Add($"p_{prop.Name}", id);
                     continue;
                 }
+
+                if (prop.Name == "CreatedBy" || prop.Name == "ModifiedBy")
+                {
+                    parameters.Add($"p_{prop.Name}", userName);
+                    continue;
+                }
+
                 parameters.Add($"p_{prop.Name}", prop.GetValue(entity));
             }
 
@@ -153,6 +166,60 @@ namespace MINIMART.DL.Repository
             }
 
             return numberRow;
+        }
+
+        public async Task<bool> GetByName(string name, Guid? id)
+        {
+            string sql = "";
+
+            var parameters = new DynamicParameters();
+            if (id != Guid.Empty)
+            {
+                sql = $"Select Count(*) from {typeof(T).Name} where {typeof(T).Name}Name = @Name And {typeof(T).Name}Id != @Id";
+                parameters.Add("@Id", id);
+            }
+            else
+            {
+                sql = $"Select Count(*) from {typeof(T).Name} where {typeof(T).Name}Name = @Name";
+            }
+            parameters.Add("@Name", name);
+
+
+            var numberRow = 0;
+
+            using (var cnn = _context.CreateConnection())
+            {
+                numberRow = await cnn.QueryFirstOrDefaultAsync<int>(sql, parameters);
+            }
+
+            return numberRow >= 1;
+        }
+
+        public async Task<bool> GetByCode(string code, Guid? id)
+        {
+            string sql = "";
+            var parameters = new DynamicParameters();
+
+            if (id != Guid.Empty)
+            {
+                sql = $"Select Count(*) from {typeof(T).Name} where {typeof(T).Name}Code = @Code And {typeof(T).Name}Id != @Id ";
+                parameters.Add("@Id", id);
+            }
+            else
+            {
+
+                sql = $"Select Count(*) from {typeof(T).Name} where {typeof(T).Name}Code = @Code";
+            }
+            parameters.Add("@Code", code);
+
+            var numberRow = 0;
+
+            using (var cnn = _context.CreateConnection())
+            {
+                numberRow = await cnn.QueryFirstOrDefaultAsync<int>(sql, parameters);
+            }
+
+            return numberRow >= 1;
         }
     }
 }

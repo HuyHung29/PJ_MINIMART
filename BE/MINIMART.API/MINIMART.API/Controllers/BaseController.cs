@@ -4,6 +4,7 @@ using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
 using MINIMART.Common.Resources;
+using System.Security.Claims;
 
 namespace MINIMART.API.Controllers
 {
@@ -20,6 +21,7 @@ namespace MINIMART.API.Controllers
             _baseService = baseService;
         }
 
+        [NonAction]
         protected IActionResult HandleException(Exception exception)
         {
             Console.WriteLine(exception);
@@ -65,7 +67,8 @@ namespace MINIMART.API.Controllers
         {
             try
             {
-                var result = await _baseService.Insert(entity);
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+                var result = await _baseService.Insert(entity, userName);
 
                 return StatusCode(StatusCodes.Status201Created, result);
             }
@@ -80,7 +83,8 @@ namespace MINIMART.API.Controllers
         {
             try
             {
-                var result = await _baseService.Update(id, entity);
+                var userName = User.FindFirstValue(ClaimTypes.Name);
+                var result = await _baseService.Update(id, entity, userName);
                 if (result.Success)
                 {
                     return Ok(result);
