@@ -22,6 +22,7 @@ namespace MINIMART.API.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }

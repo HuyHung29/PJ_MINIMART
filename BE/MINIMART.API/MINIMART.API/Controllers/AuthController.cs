@@ -4,6 +4,7 @@ using MINIMART.BL.IServices;
 using MINIMART.Common.Entities.DTO;
 using MINIMART.Common.Exceptions;
 using MINIMART.Common.Resources;
+using System.Security.Claims;
 
 namespace MINIMART.API.Controllers
 {
@@ -105,6 +106,29 @@ namespace MINIMART.API.Controllers
                 }
 
                 return Unauthorized(result);
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(string Password, string NewPassword)
+        {
+            try
+            {
+                var accId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var result = await _authService.ChangePassword(Guid.Parse(accId), Password, NewPassword);
+
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    return BadRequest(result);
+                }
             }
             catch (Exception ex)
             {

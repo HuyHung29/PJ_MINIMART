@@ -9,5 +9,7 @@ namespace MINIMART.BL.IServices
         public Task<bool> Active(Guid accId);
 
         public Task<ServiceResponse<LoginResult>> Login(LoginDTO auth);
+
+        public Task<ServiceResponse<bool>> ChangePassword(Guid id, string password, string newPassword);
     }
 }

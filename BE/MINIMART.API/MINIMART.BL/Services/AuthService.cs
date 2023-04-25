@@ -116,6 +116,14 @@ namespace MINIMART.BL.Services
                     validateResult.IsValid = false;
                     messages.Add("UserName", string.Format(Resource.IsExisted, "Tên đăng nhập"));
                 }
+
+                var email = await _authDL.GetUserByEmail(auth.Email);
+
+                if (email != null)
+                {
+                    validateResult.IsValid = false;
+                    messages.Add("Email", string.Format(Resource.IsExisted, "Email"));
+                }
             }
 
             validateResult.Errors = messages;
@@ -187,6 +195,61 @@ namespace MINIMART.BL.Services
             result.Errors = mess;
 
             return result;
+        }
+
+        public async Task<ServiceResponse<bool>> ChangePassword(Guid id, string password, string newPassword)
+        {
+            var res = new ServiceResponse<bool>();
+            var acc = await _authDL.GetAccountById(id);
+
+            if (acc == null)
+            {
+                res.Success = false;
+                res.Message = "Tài khoản không tồn tại";
+            }
+            else
+            {
+                bool isValid = true;
+                using var hmac = new HMACSHA512(acc.PasswordSalt);
+
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != acc.PasswordHash[i])
+                    {
+                        isValid = false;
+                        res.Message = "Mật khẩu không chính xác";
+                        break;
+                    }
+                }
+
+                if (isValid)
+                {
+                    Account newAcc = new();
+                    using var hmaca = new HMACSHA512();
+
+                    newAcc.AccountId = id;
+                    newAcc.PasswordHash = hmaca.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+                    newAcc.PasswordSalt = hmaca.Key;
+
+                    var isUpdate = await _authDL.Update(newAcc);
+
+                    if (isUpdate)
+                    {
+                        res.Success = true;
+                        res.Message = "Thay đổi mật khẩu thành công";
+                        res.Data = true;
+                    }
+                    else
+                    {
+                        res.Success = false;
+                        res.Message = Resource.HelpText;
+                    }
+                }
+            }
+
+            return res;
         }
     }
 }

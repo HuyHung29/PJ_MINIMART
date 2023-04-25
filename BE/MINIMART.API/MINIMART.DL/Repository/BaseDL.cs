@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using MINIMART.Common.Entities.DTO;
+using MINIMART.Common.Entities.Models;
 using MINIMART.Common.Resources;
 using MINIMART.DL.Context;
 using MINIMART.DL.IRepository;
@@ -53,7 +54,16 @@ namespace MINIMART.DL.Repository
 
         public async Task<T> GetById(Guid id)
         {
-            string sql = $"select * from {typeof(T).Name} where {typeof(T).Name}Id = @id";
+            string sql = "";
+            if (typeof(T) == typeof(User))
+            {
+                sql = $"select * from {typeof(T).Name} where AccountId = @id";
+
+            }
+            else
+            {
+                sql = $"select * from {typeof(T).Name} where {typeof(T).Name}Id = @id";
+            }
 
             var parameters = new DynamicParameters();
 
@@ -97,6 +107,12 @@ namespace MINIMART.DL.Repository
 
             foreach (var prop in entity.GetType().GetProperties())
             {
+                if (typeof(T) == typeof(User) && prop.Name.Contains("Id"))
+                {
+                    parameters.Add($"p_AccountId", id);
+                    continue;
+                }
+
                 if (prop.Name == $"{typeof(T).Name}Id")
                 {
                     parameters.Add($"p_{prop.Name}", id);

@@ -9,9 +9,13 @@ namespace MINIMART.DL.IRepository
 
         public Task<User> GetUserById(Guid id);
 
+        public Task<User> GetUserByEmail(string email);
+
+        public Task<Account> GetAccountById(Guid id);
+
         public Task<Guid> Insert(AuthDTO acc);
 
-        public Task<Guid> Update(Account acc);
+        public Task<bool> Update(Account acc);
 
         public Task<Guid> Delete(Guid id);
 

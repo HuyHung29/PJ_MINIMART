@@ -76,9 +76,25 @@ namespace MINIMART.DL.Repository
             return rowEffected > 0 ? id : Guid.Empty;
         }
 
-        public Task<Guid> Update(Account acc)
+        public async Task<bool> Update(Account acc)
         {
-            throw new NotImplementedException();
+            string proc = "Proc_Account_Update";
+
+            var parameters = new DynamicParameters();
+
+            foreach (var prop in acc.GetType().GetProperties())
+            {
+                parameters.Add($"p_{prop.Name}", prop.GetValue(acc));
+            }
+
+            int ok;
+
+            using (var cnn = _context.CreateConnection())
+            {
+                ok = await cnn.ExecuteAsync(proc, param: parameters, commandType: CommandType.StoredProcedure);
+            }
+
+            return ok > 0;
         }
 
         public async Task<bool> Active(Guid id)
@@ -102,6 +118,42 @@ namespace MINIMART.DL.Repository
         public Task<Guid> Delete(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Account> GetAccountById(Guid id)
+        {
+            string sql = "Select * from account where AccountId = @Id";
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@Id", id);
+
+            Account acc = new();
+
+            using (var cnn = _context.CreateConnection())
+            {
+                acc = await cnn.QueryFirstOrDefaultAsync<Account>(sql, param: parameters);
+            }
+
+            return acc;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            string sql = "Select * from user where Email = @Email";
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@Email", email);
+
+            User acc = new();
+
+            using (var cnn = _context.CreateConnection())
+            {
+                acc = await cnn.QueryFirstOrDefaultAsync<User>(sql, param: parameters);
+            }
+
+            return acc;
         }
     }
 }
