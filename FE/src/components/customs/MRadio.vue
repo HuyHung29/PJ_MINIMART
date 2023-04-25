@@ -56,7 +56,7 @@ const radioValue = ref(props.defaultValue);
  */
 const handleRadioChange = () => {
 	try {
-		emit("check", { name: props.name, value: radioValue.value });
+		emit("check", radioValue.value);
 	} catch (error) {
 		console.log(error);
 	}
@@ -69,7 +69,7 @@ const handleRadioChange = () => {
 const handleCheck = (e, item) => {
 	if (document.activeElement === e.target) {
 		if (e.keyCode === RESOURCES.KEYCODE.ENTER) {
-			emit("check", { name: props.name, value: item.value });
+			emit("check", item.value);
 		}
 	}
 };

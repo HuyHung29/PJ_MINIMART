@@ -156,10 +156,12 @@ const handleCheck = (value) => {
  * Hàm xử lý tìm kiếm
  * Author: LHH - 04/01/23
  */
-const handleSearchEmployee = (value) => {
+const handleSearch = async (value) => {
 	try {
 		if (value) {
+			await fetchSupplier({ Filter: value, PageNumber: 1 });
 		} else {
+			await fetchSupplier({ Filter: "", PageNumber: 1 });
 		}
 	} catch (error) {
 		console.log(error);
@@ -224,7 +226,7 @@ const handleClearForm = () => {
 							placeholder="Tìm theo mã, tên nhà cung cấp"
 							name="filter"
 							:debounce-events="['input', 'keyup']"
-							v-debounce:500ms.lock="handleSearchEmployee"
+							v-debounce:500ms.lock="handleSearch"
 						/>
 					</div>
 				</div>

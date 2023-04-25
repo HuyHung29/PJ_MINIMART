@@ -4,10 +4,21 @@ import Container from "@/components/bootstrap/Container.vue";
 import Row from "@/components/bootstrap/Row.vue";
 import { RouterView, useRoute } from "vue-router";
 import { ref } from "vue";
+import { useStore } from "vuex";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 const open = ref(false);
 
 const route = useRoute();
+
+const store = useStore();
+
+const { useState, useActions, useMutations } = createNamespacedHelpers(
+	store,
+	"user"
+);
+
+const { user } = useState(["user"]);
 </script>
 
 <template>
@@ -20,7 +31,7 @@ const route = useRoute();
 							<i class="fas fa-user"></i>
 						</div>
 						<div class="user__nav__basic-info">
-							<p class="user__nav__text">Huy Hunwg</p>
+							<p class="user__nav__text">{{ user.FullName }}</p>
 							<router-link
 								to="/user/profile"
 								class="user__nav__sub-text"

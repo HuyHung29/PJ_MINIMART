@@ -68,7 +68,7 @@
 
 .date-picker__icon i {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -128px -312px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -128px -312px;
 	width: 16px;
 	height: 16px;
 }
@@ -166,7 +166,7 @@
 
 .date-picker__calendar__month-year__icon i {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -1129px -365px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -1129px -365px;
 	width: 14px;
 	height: 8px;
 }
@@ -183,14 +183,14 @@
 
 .date-picker__calendar__action__item .icon-left {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -36px -361px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -36px -361px;
 	width: 8px;
 	height: 14px;
 }
 
 .date-picker__calendar__action__item .icon-right {
 	display: inline-block;
-	background: url("../../assets/images/Sprites.64af8f61.svg") no-repeat -84px -361px;
+	background: url("../../../assets/images/Sprites.64af8f61.svg") no-repeat -84px -361px;
 	width: 8px;
 	height: 14px;
 }

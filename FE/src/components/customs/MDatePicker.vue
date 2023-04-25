@@ -1,13 +1,14 @@
 <script setup>
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { onUpdated, ref, watch } from "vue";
-import RESOURCES from "../../constants/resource";
+import { onMounted, onUpdated, ref, watch } from "vue";
+import RESOURCES from "@/constants/resource";
 import {
 	convertStringToDate,
-	inputValidation,
+	convertStringToDateUSUK,
 	isOverflow,
-} from "../../util/common";
+} from "@/util/common";
+import { bool } from "yup";
 
 /**
  * Định nghĩa các props
@@ -45,7 +46,10 @@ const props = defineProps({
 	error: {
 		type: String,
 	},
-	isShowError: Boolean,
+	readonly: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 /**
@@ -104,25 +108,11 @@ const setFocusInput = () => {
 };
 
 /**
- * Hàm xử lý validate
- * Author: LHH - 26/01/23
- */
-const handleValidate = () => {
-	const message = inputValidation(props.rules, date.value, props.name);
-
-	emit("error", {
-		name: props.name,
-		message,
-	});
-};
-
-/**
  * Định nghĩa các expose
  * Author: LHH - 26/01/23
  */
 defineExpose({
 	setFocusInput,
-	handleValidate,
 });
 
 /**
@@ -137,7 +127,7 @@ const handleInput = (e) => {
 			/^([1-9]|[0-2][0-9]|3[0-1])\/([1-9]|0[1-9]|1[0-2])\/[1-2][0-9][0-9][0-9]$/;
 		if (dateRegex.test(value)) {
 			date.value = convertStringToDate(value);
-			emit("change", { name: props.name, value: date.value });
+			emit("change", date.value);
 		}
 
 		inputVal.value = value;
@@ -191,7 +181,7 @@ const disabledDate = (time) => {
  */
 watch(date, () => {
 	try {
-		emit("change", { name: props.name, value: date.value });
+		emit("change", date.value);
 	} catch (error) {
 		console.log(error);
 	}
@@ -202,10 +192,11 @@ watch(date, () => {
  * Author: LHH - 05/01/23
  */
 watch(
-	() => props.value,
+	() => props,
 	(newVal) => {
+		console.log("dkasjhdkjsahdjksadk", newVal);
 		try {
-			date.value = newVal;
+			date.value = props.value;
 		} catch (error) {
 			console.log(error);
 		}
@@ -228,11 +219,16 @@ watch(
  * Author: LHH - 31/01/23
  */
 onUpdated(() => {
+	console.log(props.value);
 	if (isOverflow(errorRef.value)) {
 		isShowTooltip.value = true;
 	} else {
 		isShowTooltip.value = false;
 	}
+});
+
+onMounted(() => {
+	date.value = new Date(props.value);
 });
 </script>
 
@@ -260,6 +256,7 @@ onUpdated(() => {
 			hide-offset-dates
 			:day-names="['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']"
 			ref="datePickerRef"
+			:disabled="readonly"
 		>
 			<template #dp-input="{ value }">
 				<div class="date-picker__wrapper">
@@ -275,6 +272,7 @@ onUpdated(() => {
 						@blur="handleChangeDate"
 						@keydown="handleChangeDateOnKeyEvent"
 						ref="inputRef"
+						:disabled="readonly"
 					/>
 					<p class="date-picker__icon">
 						<i></i>
@@ -293,9 +291,6 @@ onUpdated(() => {
 			</template>
 		</Datepicker>
 		<p v-show="error || isError" class="date-picker__error" ref="errorRef">
-			{{ error || "Thông tin không hợp lệ" }}
-		</p>
-		<p v-if="isShowTooltip" class="date-picker__error__tooltip">
 			{{ error }}
 		</p>
 	</div>

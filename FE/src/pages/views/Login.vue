@@ -32,11 +32,11 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values, actions) => {
-	await login({ data: values, callback: actions });
+	const res = await login({ data: values, callback: actions });
 
 	const { user, isLogin } = store.state.user;
 
-	if (isLogin) {
+	if (res && isLogin) {
 		if (user.Role == 0) {
 			router.replace("/admin");
 		} else {
