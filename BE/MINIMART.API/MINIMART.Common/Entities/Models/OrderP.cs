@@ -2,9 +2,9 @@
 
 namespace MINIMART.Common.Entities.Models
 {
-    public class Order : Base
+    public class OrderP : Base
     {
-        public Guid? OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         public string? OrderCode { get; set; }
 
@@ -33,7 +33,7 @@ namespace MINIMART.Common.Entities.Models
 
         public DateTime? DeliveryDate { get; set; }
 
-        public List<Product>? Products { get; set; }
+        public List<ProductP>? Products { get; set; }
 
         public string? Receiver { get; set; }
 

@@ -1,23 +1,16 @@
 ﻿using MINIMART.Common.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace MINIMART.Common.Entities.Models
 {
-    public class Product : Base
+    public class ProductP
     {
-        [Key]
         public Guid ProductId { get; set; }
 
-        [Required]
         public string? ProductCode { get; set; }
 
-        [Required]
         public string? ProductName { get; set; }
 
-        [Required]
         public int Quantity { get; set; }
-
-        public int? MainQuantity { get; set; }
 
         public UnitEnum Unit { get; set; }
 
@@ -69,18 +62,14 @@ namespace MINIMART.Common.Entities.Models
             }
         }
 
-        public List<Picture>? Pictures { get; set; }
+        public string? Url { get; set; }
 
-        [Required]
         public Guid SupplierId { get; set; }
 
         public string? SupplierName { get; set; }
 
         public string? CategoryName { get; set; }
 
-        [Required]
         public Guid CategoryId { get; set; }
     }
-
-
 }

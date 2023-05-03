@@ -20,6 +20,20 @@ namespace MINIMART.Common.Entities.Models
 
         public Gender Gender { get; set; }
 
+        public string GenderName
+        {
+            get
+            {
+                switch (Gender)
+                {
+                    case Gender.Male: return "Nam";
+                    case Gender.Female: return "Nữ";
+                    case Gender.Other: return "Khác";
+                    default: return "";
+                }
+            }
+        }
+
         public string? Email { get; set; }
 
         public string? PhoneNumber { get; set; }

@@ -10,11 +10,10 @@ namespace MINIMART.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    /*[Authorize(Roles = "Admin")]*/
     [AllowAnonymous]
     public class BaseController<T> : ControllerBase
     {
-        private readonly IBaseService<T> _baseService;
+        protected readonly IBaseService<T> _baseService;
 
         public BaseController(IBaseService<T> baseService)
         {
@@ -62,6 +61,7 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] T entity)
         {
@@ -78,6 +78,7 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] T entity)
         {
@@ -101,6 +102,7 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromBody] List<Guid> ids)
         {

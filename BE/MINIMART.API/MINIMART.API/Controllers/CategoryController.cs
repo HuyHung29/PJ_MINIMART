@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace MINIMART.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : BaseController<Category>
     {
         private readonly ICategoryService _categoryService;

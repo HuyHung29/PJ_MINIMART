@@ -8,8 +8,8 @@ using System.Security.Claims;
 namespace MINIMART.API.Controllers
 {
     [Route("api/v1/[controller]")]
-    /*[Authorize(Roles = "Admin")]*/
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
+    /*[AllowAnonymous]*/
     public class ProductController : BaseController<Product>
     {
         private readonly IProductService _productService;

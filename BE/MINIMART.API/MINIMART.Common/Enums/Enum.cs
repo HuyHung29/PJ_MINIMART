@@ -30,11 +30,10 @@
 
     public enum OrderStatus
     {
-        Approved = 0,
+        Waiting = 0,
         Delivered = 1,
-        Failed = 2,
+        Done = 2,
         Cancled = 3,
-        Done = 4,
     }
 
     public enum SortOrder

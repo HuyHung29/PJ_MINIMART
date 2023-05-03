@@ -23,25 +23,37 @@ namespace MINIMART.BL.Services
 
             if (validateResult.IsValid)
             {
-
-                var thumbnail = await _photoService.AddPhotoAsync(cate.Thumbnail);
-
-                if (thumbnail != null)
+                if (cate.Thumbnail != null)
                 {
-                    var category = new Category
-                    {
-                        CategoryId = cate.CategoryId,
-                        CategoryName = cate.CategoryName,
-                        Thumbnail = thumbnail.Url.ToString()
-                    };
+                    var thumbnail = await _photoService.AddPhotoAsync(cate.Thumbnail);
 
-                    var insertedRecord = await _baseDL.Insert(category, userName);
-
-                    if (insertedRecord != null)
+                    if (thumbnail != null)
                     {
-                        res.Success = true;
-                        res.Data = insertedRecord;
-                        res.Message = string.Format(Resource.InsertSuccess, "danh mục");
+                        var category = new Category
+                        {
+                            CategoryId = cate.CategoryId,
+                            CategoryName = cate.CategoryName,
+                            Thumbnail = thumbnail.Url.ToString()
+                        };
+
+                        var insertedRecord = await _baseDL.Insert(category, userName);
+
+                        if (insertedRecord != null)
+                        {
+                            res.Success = true;
+                            res.Data = insertedRecord;
+                            res.Message = string.Format(Resource.InsertSuccess, "danh mục");
+                        }
+                        else
+                        {
+                            res.Success = false;
+                            res.Message = string.Format(Resource.InsertError, "danh mục");
+                            res.Error = new ErrorResult
+                            {
+                                DevMes = string.Format(Resource.NotExist, "danh mục"),
+                                UserMes = Resource.HelpText
+                            };
+                        }
                     }
                     else
                     {
@@ -49,7 +61,7 @@ namespace MINIMART.BL.Services
                         res.Message = string.Format(Resource.InsertError, "danh mục");
                         res.Error = new ErrorResult
                         {
-                            DevMes = string.Format(Resource.NotExist, "danh mục"),
+                            DevMes = Resource.UploadError,
                             UserMes = Resource.HelpText
                         };
                     }
@@ -57,13 +69,14 @@ namespace MINIMART.BL.Services
                 else
                 {
                     res.Success = false;
-                    res.Message = string.Format(Resource.InsertError, "danh mục");
+                    res.Message = "Ảnh mô tả không được để trống";
                     res.Error = new ErrorResult
                     {
                         DevMes = Resource.UploadError,
-                        UserMes = Resource.HelpText
+                        UserMes = Resource.HelpText,
                     };
                 }
+
             }
             else
             {

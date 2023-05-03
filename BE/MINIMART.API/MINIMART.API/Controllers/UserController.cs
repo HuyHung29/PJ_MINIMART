@@ -15,13 +15,6 @@ namespace MINIMART.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet("GetAccount")]
-        public async Task<IActionResult> GetAccountId()
-        {
-            var a = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Ok(a);
-        }
-
         [HttpPut("edit")]
         public async Task<IActionResult> UpdateUser([FromBody] User user)
         {

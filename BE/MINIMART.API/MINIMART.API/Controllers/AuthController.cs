@@ -113,13 +113,14 @@ namespace MINIMART.API.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword(string Password, string NewPassword)
+        public async Task<IActionResult> ChangePassword(PasswordDTO pass)
         {
             try
             {
                 var accId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var result = await _authService.ChangePassword(Guid.Parse(accId), Password, NewPassword);
+                var result = await _authService.ChangePassword(Guid.Parse(accId), pass.Password, pass.NewPassword);
 
                 if (result.Success)
                 {

@@ -41,5 +41,9 @@ namespace MINIMART.Common.Entities.DTO
         public DateTime? ToDate { get; set; }
 
         public string? ColDate { get; set; }
+
+        public decimal? Price { get; set; }
+
+        public int? Quantity { get; set; }
     }
 }

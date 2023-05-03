@@ -16,6 +16,8 @@ namespace MINIMART.API.Extensions
             services.AddScoped<IContext, DapperContext>();
             services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
             services.AddScoped<IProductDL, ProductDL>();
+            services.AddScoped<IOrderDL, OrderDL>();
+            services.AddScoped<ICartDL, CartDL>();
             services.AddScoped<IAuthDL, AuthDL>();
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
             services.AddScoped<IProductService, ProductService>();
@@ -23,6 +25,10 @@ namespace MINIMART.API.Extensions
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IOrderService, OrderService>();
             return services;
         }
     }

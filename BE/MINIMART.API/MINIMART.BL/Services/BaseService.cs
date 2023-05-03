@@ -157,7 +157,7 @@ namespace MINIMART.BL.Services
         {
             return name.ToLower() switch
             {
-                "user" => "người dùng",
+                "user" => "thông tin tài khoản",
                 "product" => "sản phẩm",
                 "address" => "địa chỉ",
                 "coupon" => "phiếu giảm giá",

@@ -4,6 +4,6 @@
     {
         public Guid AccountId { get; set; }
 
-        public Product Products { get; set; }
+        public Product? Products { get; set; }
     }
 }

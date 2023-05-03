@@ -23,6 +23,14 @@ namespace MINIMART.Common.Entities.Models
         [CDisplayName("Số nhà")]
         public string? Detail { get; set; }
 
+        [Required]
+        [CDisplayName("Người nhận")]
+        public string? Receiver { get; set; }
+
+        [Required]
+        [CDisplayName("Số điện thoại")]
+        public string? PhoneNumber { get; set; }
+
         public Guid AccountId { get; set; }
     }
 }
