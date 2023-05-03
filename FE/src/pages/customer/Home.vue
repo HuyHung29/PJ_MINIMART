@@ -3,6 +3,50 @@ import ProductSlider from "@/components/ProductSlider.vue";
 import Col from "@/components/bootstrap/Col.vue";
 import Container from "@/components/bootstrap/Container.vue";
 import Row from "@/components/bootstrap/Row.vue";
+import { useStore } from "vuex";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+import { onBeforeMount } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const store = useStore();
+
+const { useState, useActions, useGetters } = createNamespacedHelpers(
+	store,
+	"product"
+);
+
+const { product, pagination } = useState(["product", "pagination"]);
+
+const { fetchProduct, remove, getProduct } = useActions([
+	"fetchProduct",
+	"remove",
+	"getProduct",
+]);
+
+const newsStore = createNamespacedHelpers(store, "news");
+
+const { news } = newsStore.useState(["news"]);
+
+const { fetchNews } = newsStore.useActions(["fetchNews"]);
+
+const initData = async () => {
+	await fetchProduct();
+	await fetchNews({ PageSize: 3, PageNumber: 1 });
+};
+
+/**
+ * Call API
+ * Author: LHH - 04/01/23
+ */
+onBeforeMount(() => {
+	initData();
+
+	if (store.state.user.user.Role == 0) {
+		router.push("/admin");
+	}
+});
 </script>
 
 <template>
@@ -41,21 +85,14 @@ import Row from "@/components/bootstrap/Row.vue";
 			<Col md="12" class="home__slider">
 				<div class="home__link--wrap">
 					<router-link to="" class="home__link">
-						Hoa quar
+						Sản phẩm
 					</router-link>
 				</div>
-				<!-- <div
-					class="d-none d-sm-none d-md-block d-lg-none overflow-hidden"
-				>
-					<ProductSlider />
-				</div> -->
-				<!-- <div class="d-sm-block d-md-none d-lg-none overflow-hidden">
-					<ProductSlider />
-				</div> -->
+
 				<div
 					class="d-none d-sm-none d-md-none d-lg-block overflow-hidden"
 				>
-					<ProductSlider />
+					<ProductSlider :product="product" :slideToShow="4.5" />
 				</div>
 			</Col>
 			<Col md="12" class="home__post">
@@ -66,25 +103,22 @@ import Row from "@/components/bootstrap/Row.vue";
 				</div>
 				<div class="home__post__list">
 					<Row>
-						<Col md="12" lg="4">
+						<Col
+							md="12"
+							lg="4"
+							v-for="(item, index) in news"
+							:key="index"
+						>
 							<div class="home__post__item">
-								<router-link
-									class="home__post__item__img"
-									to=""
-								>
-									<img
-										src="https://nhandaovadoisong.com.vn/wp-content/uploads/2019/07/nhung-cau-noi-hay-ve-su-co-gang-6.jpg"
-										alt="anh"
-										title="{post.title}"
-									/>
-								</router-link>
+								<div class="home__post__item__img">
+									<img :src="item.Thumbnail" alt="anh" />
+								</div>
 								<div class="home__post__item__content">
 									<router-link
+										:to="{ path: '/news/' + item.NewsId }"
 										class="home__post__item__link"
-										to=""
-										title="{post.title}"
 									>
-										Tên bài viết
+										{{ item.Title }}
 									</router-link>
 									<div
 										class="product-card__name read-more"
@@ -92,14 +126,8 @@ import Row from "@/components/bootstrap/Row.vue";
 											WebkitLineClamp: 4,
 											display: '-webkit-box',
 										}"
-									>
-										Lorem ipsum dolor sit amet, consectetur
-										adipisicing elit. Adipisci in iste quod
-										reiciendis quam cumque! Necessitatibus
-										id dolorem quos suscipit, minima vero
-										perspiciatis, incidunt quis quisquam
-										eligendi earum, ullam pariatur.
-									</div>
+										v-html="item.Description"
+									></div>
 								</div>
 							</div>
 						</Col>

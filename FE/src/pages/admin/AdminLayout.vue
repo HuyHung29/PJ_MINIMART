@@ -3,7 +3,11 @@ import Header from "@/components/admin/AHeader.vue";
 import Sidebar from "@/components/admin/ASideBar.vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
-import { onBeforeMount } from "vue";
+import { onBeforeMount, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import RESOURCES from "@/constants/resource";
+
+const router = useRouter();
 
 const store = useStore();
 
@@ -18,13 +22,40 @@ const suppStore = createNamespacedHelpers(store, "supplier");
 
 const { fetchSupplier } = suppStore.useActions(["fetchSupplier"]);
 
+const userStore = createNamespacedHelpers(store, "user");
+
+const { fetchUser } = userStore.useActions(["fetchUser"]);
+
+const { user, isLogin } = userStore.useState(["user", "isLogin"]);
+
+const newsStore = createNamespacedHelpers(store, "news");
+
+const { fetchNews } = newsStore.useActions(["fetchNews"]);
+
+const proStore = createNamespacedHelpers(store, "product");
+
+const { fetchProduct } = proStore.useActions(["fetchProduct"]);
+
 const initData = async () => {
-	fetchCategory({ PageSize: 100, PageNumber: 1 });
-	fetchSupplier({ PageSize: 100, PageNumber: 1 });
+	await fetchNews({ PageSize: 20, PageNumber: 1 });
+	await fetchCategory({ PageSize: 20, PageNumber: 1 });
+	await fetchSupplier({ PageSize: 20, PageNumber: 1 });
+	await fetchProduct({ PageSize: 20, PageNumber: 1 });
+	await fetchUser();
 };
 
 onBeforeMount(() => {
 	initData();
+});
+
+onMounted(() => {
+	if (!isLogin.value) {
+		router.replace("/login");
+	}
+
+	if (user.value && user.value.Role !== RESOURCES.ROLE.ADMIN) {
+		router.replace("/");
+	}
 });
 </script>
 

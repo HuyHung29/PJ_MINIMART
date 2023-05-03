@@ -38,6 +38,7 @@ const handleAgreeBtnClick = async () => {
  */
 const handleCloseBtnClick = () => {
 	try {
+		modal.value.callback();
 		handleCloseModal();
 	} catch (error) {
 		console.log(error);

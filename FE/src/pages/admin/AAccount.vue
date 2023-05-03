@@ -7,8 +7,7 @@ import { reactive, onBeforeMount, computed, watch } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
-import CategoryForm from "./components/forms/CategoryForm.vue";
-import CategoryItem from "./components/items/CategoryItem.vue";
+import AccountItem from "./components/items/AccountItem.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -16,7 +15,7 @@ const router = useRouter();
 watch(
 	() => route.query,
 	(value) => {
-		fetchCategory({ ...value });
+		fetchUser({ ...value });
 	}
 );
 
@@ -24,14 +23,12 @@ const store = useStore();
 
 const { useState, useActions, useGetters } = createNamespacedHelpers(
 	store,
-	"category"
+	"user"
 );
 
-const { category, pagination } = useState(["category", "pagination"]);
+const { listUser, pagination } = useState(["listUser", "pagination"]);
 
-const { fetchCategory, remove } = useActions(["fetchCategory", "remove"]);
-
-const { listCate = category } = useGetters(["category"]);
+const { fetchUser, remove } = useActions(["fetchUser", "remove"]);
 
 const uiStore = createNamespacedHelpers(store, "ui");
 
@@ -45,7 +42,7 @@ const { handleOpenModal } = uiStore.useMutations(["handleOpenModal"]);
 const state = reactive({
 	checkList: [],
 	isShowForm: false,
-	CategoryId: "",
+	AccountId: "",
 });
 
 /**
@@ -59,15 +56,15 @@ const isCheckAll = computed(() => {
 		return false;
 	}
 
-	isCheck = category._value.every((item) =>
-		state.checkList.includes(item.CategoryId)
+	isCheck = listUser.value.every((item) =>
+		state.checkList.includes(item.AccountId)
 	);
 
 	return isCheck;
 });
 
 const initData = async () => {
-	await fetchCategory();
+	await fetchUser();
 };
 
 /**
@@ -81,7 +78,7 @@ onBeforeMount(() => {
 const handleUpdate = (value) => {
 	console.log(value);
 	state.isShowForm = true;
-	state.CategoryId = value.CategoryId;
+	state.AccountId = value.AccountId;
 };
 
 const handleDelete = (value) => {
@@ -91,7 +88,7 @@ const handleDelete = (value) => {
 			content: RESOURCES.MODAL_MESSAGE.WARNING,
 			title: RESOURCES.MODAL_TITLE.WARNING,
 			callback: remove,
-			data: [value.CategoryId],
+			data: [value.AccountId],
 		});
 	} catch (error) {
 		console.log(error);
@@ -120,14 +117,14 @@ const handleMultipleDelete = () => {
  */
 const handleCheckAll = (target) => {
 	try {
-		const cateIds = listCate._value.map((item) => item.CategoryId);
+		const userIds = listUser.value.map((item) => item.AccountId);
 
-		const ids = cateIds.filter((id) => !state.checkList.includes(id));
+		const ids = userIds.filter((id) => !state.checkList.includes(id));
 		if (target.checked) {
 			state.checkList = [...state.checkList, ...ids];
 		} else {
 			state.checkList = [
-				...state.checkList.filter((item) => !cateIds.includes(item)),
+				...state.checkList.filter((item) => !userIds.includes(item)),
 			];
 		}
 	} catch (error) {
@@ -168,51 +165,22 @@ const handleSearchEmployee = (value) => {
 
 const handleCloseForm = () => {
 	state.isShowForm = false;
-	state.CategoryId = "";
+	state.AccountId = "";
 };
 
 const handleClearForm = () => {
-	state.CategoryId = "";
+	state.AccountId = "";
 };
 </script>
 
 <template>
 	<div class="data-table">
 		<div class="data-table__header">
-			<h2 class="data-table__heading">Danh mục</h2>
-			<Button
-				content="Thêm mới danh mục"
-				@click="state.isShowForm = true"
-			/>
+			<h2 class="data-table__heading">Tài khoản người dùng</h2>
 		</div>
 
 		<div class="c-table-wrapper">
 			<div class="c-table__function">
-				<div
-					class="c-table__function_multiple-task"
-					v-show="state.checkList.length >= 1"
-				>
-					<p class="c-table__function_multiple-task__text">
-						Đã chọn {{ state.checkList.length }}
-					</p>
-					<p
-						class="c-table__function_multiple-task__text warning"
-						@click="state.checkList = []"
-					>
-						Bỏ chọn
-					</p>
-
-					<button
-						class="c-table__function_multiple-task__delete"
-						@click="handleMultipleDelete"
-						:disabled="state.checkList.length < 1"
-					>
-						<p class="icon">
-							<i></i>
-						</p>
-						Xóa
-					</button>
-				</div>
 				<div class="textfield textfield--sm">
 					<div class="textfield__input__wrap">
 						<p class="textfield__icon">
@@ -221,14 +189,14 @@ const handleClearForm = () => {
 						<input
 							type="text"
 							class="textfield__input"
-							placeholder="Tìm theo mã, tên nhân viên"
+							placeholder="Tìm kiếm thông tin tài khoản"
 							name="filter"
 							:debounce-events="['input', 'keyup']"
 							v-debounce:500ms.lock="handleSearchEmployee"
 						/>
 					</div>
 				</div>
-				<p class="c-table__function__refresh" @click="fetchCategory">
+				<p class="c-table__function__refresh" @click="fetchUser">
 					<i></i>
 				</p>
 				<p class="c-table__function__export" @click="handleExportData">
@@ -240,32 +208,39 @@ const handleClearForm = () => {
 				<table class="c-table">
 					<thead class="c-table__header">
 						<tr class="c-table__row">
-							<th class="c-table__heading text-center">
-								<CheckBox
-									id="checkAll"
-									name="checkAll"
-									@check="handleCheckAll"
-									:checked="isCheckAll === true"
-								/>
-							</th>
-							<th class="c-table__heading">
-								<span>ảnh minh họa</span>
+							<th class="c-table__heading w-200">
+								<span>tên đăng nhập</span>
 							</th>
 							<th class="c-table__heading w-250">
-								<span>tên danh mục</span>
+								<span>họ tên</span>
 							</th>
-							<th class="c-table__heading text-center w-150">
+							<th class="c-table__heading w-250">
+								<span>email</span>
+							</th>
+							<th class="c-table__heading w-250">
+								<span>số điện thoại</span>
+							</th>
+							<th class="c-table__heading w-250">
+								<span>giới tính</span>
+							</th>
+							<th class="c-table__heading w-250">
+								<span>ngày sinh</span>
+							</th>
+							<th class="c-table__heading w-250">
+								<span>địa chỉ</span>
+							</th>
+							<!-- <th class="c-table__heading text-center w-150">
 								<span>chức năng</span>
-							</th>
+							</th> -->
 						</tr>
 					</thead>
 					<tbody class="c-table__body">
-						<CategoryItem
-							v-for="cate in category"
-							:category="cate"
+						<AccountItem
+							v-for="user in listUser"
+							:user="user"
 							@check="handleCheck"
 							:checkList="state.checkList"
-							:key="cate.CategoryId"
+							:key="user.AccountId"
 							@delete="handleDelete"
 							@update="handleUpdate"
 						/>
@@ -273,7 +248,7 @@ const handleClearForm = () => {
 				</table>
 				<div
 					class="c-table__empty"
-					v-if="category && category.length == 0"
+					v-if="listUser && listUser.length == 0"
 				>
 					<img src="@/assets/images/nodata.76e50bd8.svg" alt="" />
 					<p>Không có dữ liệu</p>
@@ -283,13 +258,6 @@ const handleClearForm = () => {
 			<Pagination v-if="pagination" :pagination="pagination" />
 		</div>
 	</div>
-
-	<CategoryForm
-		v-if="state.isShowForm"
-		@close="handleCloseForm"
-		@clear="handleClearForm"
-		:CategoryId="state.CategoryId"
-	/>
 </template>
 
 <style></style>

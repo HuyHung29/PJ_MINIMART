@@ -5,11 +5,13 @@ import Container from "../bootstrap/Container.vue";
 import Row from "../bootstrap/Row.vue";
 import { useStore } from "vuex";
 import { useToast } from "vue-toastification";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import Cart from "../Cart.vue";
+import { ref } from "vue";
 
 const store = useStore();
 const router = useRouter();
+const route = useRoute();
 
 const toast = useToast();
 
@@ -22,9 +24,22 @@ const { user, isLogin } = useState(["user", "isLogin"]);
 
 const { logout } = useMutations(["logout"]);
 
+const cartStore = createNamespacedHelpers(store, "cart");
+
+const { clearCart } = cartStore.useMutations(["clearCart"]);
+
 const handleLogout = () => {
 	logout();
+	clearCart();
 	router.replace("/login");
+};
+
+const filter = ref(route.query.Filter);
+
+const handleSearch = () => {
+	if (filter.value) {
+		router.push("product?Filter=" + filter.value);
+	}
 };
 </script>
 
@@ -114,20 +129,22 @@ const handleLogout = () => {
 						class="header__middle__search"
 					>
 						<div class="form-wrap">
-							<form class="header__middle__form">
+							<div class="header__middle__form">
 								<div class="input-group">
 									<input
 										name="search"
 										class="form-control header__middle__form__input"
 										placeholder="Tìm kiếm sản phẩm"
+										v-model="filter"
 									/>
 									<button
 										class="header__middle__form__button"
+										@click="handleSearch"
 									>
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
-							</form>
+							</div>
 						</div>
 					</Col>
 					<Col xs="12" sm="12" md="3" lg="2">

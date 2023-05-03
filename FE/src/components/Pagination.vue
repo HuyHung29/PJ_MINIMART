@@ -73,4 +73,8 @@ const handleChangePageSize = (value) => {
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.data-table__quantity {
+	font-size: 14px;
+}
+</style>

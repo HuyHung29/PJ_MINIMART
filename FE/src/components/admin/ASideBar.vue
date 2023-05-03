@@ -21,12 +21,14 @@ const route = useRoute();
 	>
 		<div class="a-side-bar__header">
 			<i v-if="isOpenSidebar" class="a-side-bar__header__icon"></i>
-			<img
-				v-if="isOpenSidebar"
-				class="a-side-bar__header__logo"
-				src="@/assets/images/logo.png"
-				alt=""
-			/>
+			<router-link to="/admin">
+				<img
+					v-if="isOpenSidebar"
+					class="a-side-bar__header__logo"
+					src="@/assets/images/logo.png"
+					alt=""
+				/>
+			</router-link>
 			<p
 				v-if="!isOpenSidebar"
 				class="a-side-bar__header__open"
@@ -42,9 +44,9 @@ const route = useRoute();
 					active: route.path == '/admin',
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin" class="a-side-bar__item__icon">
 					<i class="icon1"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin" class="a-side-bar__item__text"
 					>Tổng quan</router-link
 				>
@@ -55,9 +57,12 @@ const route = useRoute();
 					active: route.path.includes('category'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link
+					to="/admin/category"
+					class="a-side-bar__item__icon"
+				>
 					<i class="icon2"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/category" class="a-side-bar__item__text"
 					>Danh mục</router-link
 				>
@@ -68,9 +73,12 @@ const route = useRoute();
 					active: route.path.includes('supplier'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link
+					to="/admin/supplier"
+					class="a-side-bar__item__icon"
+				>
 					<i class="icon3"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/supplier" class="a-side-bar__item__text"
 					>Nhà cung cấp</router-link
 				>
@@ -81,22 +89,23 @@ const route = useRoute();
 					active: route.path.includes('product'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin/product" class="a-side-bar__item__icon">
 					<i class="icon4"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/product" class="a-side-bar__item__text"
 					>Sản phẩm</router-link
 				>
 			</li>
 			<li
+				v-if="false"
 				class="a-side-bar__item"
 				:class="{
 					active: route.path.includes('invoice'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin/invoice" class="a-side-bar__item__icon">
 					<i class="icon5"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/invoice" class="a-side-bar__item__text"
 					>Hóa đơn</router-link
 				>
@@ -107,9 +116,9 @@ const route = useRoute();
 					active: route.path.includes('order'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin/order" class="a-side-bar__item__icon">
 					<i class="icon6"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/order" class="a-side-bar__item__text"
 					>Đơn hàng</router-link
 				>
@@ -120,9 +129,9 @@ const route = useRoute();
 					active: route.path.includes('account'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin/account" class="a-side-bar__item__icon">
 					<i class="icon8"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/account" class="a-side-bar__item__text"
 					>Tài khoản</router-link
 				>
@@ -133,14 +142,15 @@ const route = useRoute();
 					active: route.path.includes('news'),
 				}"
 			>
-				<p class="a-side-bar__item__icon">
+				<router-link to="/admin/news" class="a-side-bar__item__icon">
 					<i class="icon9"></i>
-				</p>
+				</router-link>
 				<router-link to="/admin/news" class="a-side-bar__item__text"
 					>Tin tức</router-link
 				>
 			</li>
 			<li
+				v-if="false"
 				class="a-side-bar__item"
 				:class="{
 					active: route.path.includes('coupon'),

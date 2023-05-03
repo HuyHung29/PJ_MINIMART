@@ -17,48 +17,46 @@ const store = useStore();
 
 const { useState, useActions, useMutations } = createNamespacedHelpers(
 	store,
-	"category"
+	"news"
 );
 
 const { currentItem } = useState(["currentItem"]);
 
-const { getCategory, insert, update } = useActions([
-	"getCategory",
-	"insert",
-	"update",
-]);
+const { getNews, insert, update } = useActions(["getNews", "insert", "update"]);
 
 const { clearCurrentItem } = useMutations(["clearCurrentItem"]);
 
 const props = defineProps({
-	CategoryId: {
+	NewsId: {
 		type: String,
 		default: "",
 	},
 });
 
-const initData = async (data) => {
-	await getCategory(data);
-};
+const state = reactive({
+	content: "",
+	img: "",
+});
 
 onMounted(() => {
-	if (props.CategoryId && props.CategoryId != "") {
-		initData(props.CategoryId);
+	if (currentItem && currentItem.value) {
+		setValues(currentItem.value);
+		state.content = currentItem.value.Description;
 	}
 });
 
 const emits = defineEmits(["close", "clear"]);
 
 const title = computed(() => {
-	if (props.CategoryId) {
-		return "Sửa danh mục";
+	if (props.NewsId) {
+		return "Sửa tin tức";
 	} else {
-		return "Thêm danh mục";
+		return "Thêm tin tức";
 	}
 });
 
 const isAdd = computed(() => {
-	if (props.CategoryId) {
+	if (props.NewsId) {
 		return false;
 	} else {
 		return true;
@@ -66,19 +64,20 @@ const isAdd = computed(() => {
 });
 
 const schema = yup.object({
-	CategoryName: yup.string().required("Tên danh mục không được để trống"),
+	Title: yup.string(),
 	Thumbnail: isAdd
-		? yup.mixed().required("Chọn ảnh cho danh mục")
+		? yup.mixed().required("Chọn ảnh cho tin tức")
 		: yup.string().required(),
 	OldThumbail: yup.string(),
+	Description: yup.string().required("Nội dung không được để trống"),
 });
 
-const { handleSubmit, setFieldValue } = useForm({
+const { handleSubmit, setValues, setFieldValue } = useForm({
 	validationSchema: schema,
-	initialValues: currentItem || {
-		CategoryId: "",
-		CategoryName: "",
+	initialValues: currentItem.value || {
+		Title: "",
 		Thumbnail: "",
+		Description: "",
 	},
 });
 
@@ -89,6 +88,7 @@ const handleSubmitForm = async (values, action) => {
 	} else {
 		res = await update({ data: values, callback: action });
 	}
+
 	return res;
 };
 
@@ -105,9 +105,10 @@ const onStoreAndAddBtnClick = useSubmitForm(async (values, action) => {
 
 	if (res) {
 		action.setValues({
-			CategoryId: "",
-			CategoryName: "",
+			NewsId: "",
+			Title: "",
 			Thumbnail: "",
+			Description: "",
 		});
 
 		action.resetForm();
@@ -122,9 +123,11 @@ const handleCloseForm = () => {
 	emits("close");
 };
 
-const state = reactive({
-	img: "",
-});
+const handleChangeText = () => {
+	setFieldValue("Description", state.content);
+
+	console.log(state.content);
+};
 
 const handleChangeImg = (e) => {
 	console.log(e.target.files[0]);
@@ -151,7 +154,7 @@ const handleChangeImg = (e) => {
 			<div class="form__body">
 				<Row class="form__row">
 					<Col md="12">
-						<MInput name="CategoryName" label="Tên danh mục" />
+						<MInput name="Title" label="Tên bài viết" />
 					</Col>
 					<Col md="12">
 						<Field
@@ -199,6 +202,26 @@ const handleChangeImg = (e) => {
 						/>
 						<Field name="OldThumbnail">
 							<input type="text" hidden />
+						</Field>
+					</Col>
+					<Col md="12">
+						<Field
+							name="Description"
+							v-slot="{ value, errors, errorMessage }"
+						>
+							<QuillEditor
+								theme="snow"
+								v-model:content="state.content"
+								@textChange="handleChangeText"
+								@ready=""
+								content-type="html"
+								:content="currentItem.Description || value"
+							/>
+							<div :class="{ 'is-invalid': errors }">
+								<div class="invalid-feedback">
+									{{ errorMessage }}
+								</div>
+							</div>
 						</Field>
 					</Col>
 				</Row>

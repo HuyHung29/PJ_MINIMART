@@ -163,7 +163,7 @@ const { user } = useState(["user"]);
 						<i class="fas fa-clipboard"></i>
 						<router-link
 							exact
-							to="/user/orders"
+							to="/user/order"
 							class="user__nav__link"
 						>
 							Đơn hàng

@@ -36,6 +36,10 @@ const props = defineProps({
 		type: String,
 		default: "",
 	},
+	readonly: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 /**
@@ -99,6 +103,7 @@ const handleCheck = (e, item) => {
 					:checked="defaultValue === item.value"
 					v-model="radioValue"
 					@change="handleRadioChange"
+					:disabled="readonly"
 				/>
 				<label
 					:for="item.title"

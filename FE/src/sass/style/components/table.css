@@ -184,6 +184,7 @@
 }
 
 .c-table__function__export {
+	display: none !important;
 	position: relative;
 	width: 24px;
 	height: 24px;
@@ -354,19 +355,19 @@
 }
 
 .c-table__col__text {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-
-	overflow: hidden;
 }
 
 .c-table__col__img {
+	display: flex;
+	align-items: center;
+	max-width: 400px;
 	object-fit: contain;
 	padding: 4px;
+	overflow: hidden;
 }
 
 .c-table__col__img img {
-	width: 100px;
+	width: 50px;
 	object-fit: contain;
 	border: 1px solid var(--border-color);
 }

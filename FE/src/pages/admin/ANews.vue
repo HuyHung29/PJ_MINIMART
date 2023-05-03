@@ -7,8 +7,8 @@ import { reactive, onBeforeMount, computed, watch } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
-import CategoryForm from "./components/forms/CategoryForm.vue";
-import CategoryItem from "./components/items/CategoryItem.vue";
+import NewsForm from "./components/forms/NewsForm.vue";
+import NewsItem from "./components/items/NewsItem.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -16,7 +16,7 @@ const router = useRouter();
 watch(
 	() => route.query,
 	(value) => {
-		fetchCategory({ ...value });
+		fetchNews({ ...value });
 	}
 );
 
@@ -24,14 +24,18 @@ const store = useStore();
 
 const { useState, useActions, useGetters } = createNamespacedHelpers(
 	store,
-	"category"
+	"news"
 );
 
-const { category, pagination } = useState(["category", "pagination"]);
+const { news, pagination } = useState(["news", "pagination"]);
 
-const { fetchCategory, remove } = useActions(["fetchCategory", "remove"]);
+const { fetchNews, remove, getNews } = useActions([
+	"fetchNews",
+	"remove",
+	"getNews",
+]);
 
-const { listCate = category } = useGetters(["category"]);
+const { listNews = news } = useGetters(["news"]);
 
 const uiStore = createNamespacedHelpers(store, "ui");
 
@@ -45,7 +49,7 @@ const { handleOpenModal } = uiStore.useMutations(["handleOpenModal"]);
 const state = reactive({
 	checkList: [],
 	isShowForm: false,
-	CategoryId: "",
+	NewsId: "",
 });
 
 /**
@@ -59,15 +63,15 @@ const isCheckAll = computed(() => {
 		return false;
 	}
 
-	isCheck = category._value.every((item) =>
-		state.checkList.includes(item.CategoryId)
+	isCheck = news._value.every((item) =>
+		state.checkList.includes(item.NewsId)
 	);
 
 	return isCheck;
 });
 
 const initData = async () => {
-	await fetchCategory();
+	await fetchNews();
 };
 
 /**
@@ -78,10 +82,11 @@ onBeforeMount(() => {
 	initData();
 });
 
-const handleUpdate = (value) => {
+const handleUpdate = async (value) => {
 	console.log(value);
+	await getNews(value.NewsId);
 	state.isShowForm = true;
-	state.CategoryId = value.CategoryId;
+	state.NewsId = value.NewsId;
 };
 
 const handleDelete = (value) => {
@@ -91,7 +96,7 @@ const handleDelete = (value) => {
 			content: RESOURCES.MODAL_MESSAGE.WARNING,
 			title: RESOURCES.MODAL_TITLE.WARNING,
 			callback: remove,
-			data: [value.CategoryId],
+			data: [value.NewsId],
 		});
 	} catch (error) {
 		console.log(error);
@@ -120,7 +125,7 @@ const handleMultipleDelete = () => {
  */
 const handleCheckAll = (target) => {
 	try {
-		const cateIds = listCate._value.map((item) => item.CategoryId);
+		const cateIds = listNews._value.map((item) => item.NewsId);
 
 		const ids = cateIds.filter((id) => !state.checkList.includes(id));
 		if (target.checked) {
@@ -156,10 +161,12 @@ const handleCheck = (value) => {
  * Hàm xử lý tìm kiếm
  * Author: LHH - 04/01/23
  */
-const handleSearchEmployee = (value) => {
+const handleSearch = async (value) => {
 	try {
 		if (value) {
+			await fetchNews({ Filter: value });
 		} else {
+			await fetchNews({ Filter: "", PageNumber: 1 });
 		}
 	} catch (error) {
 		console.log(error);
@@ -168,20 +175,20 @@ const handleSearchEmployee = (value) => {
 
 const handleCloseForm = () => {
 	state.isShowForm = false;
-	state.CategoryId = "";
+	state.NewsId = "";
 };
 
 const handleClearForm = () => {
-	state.CategoryId = "";
+	state.NewsId = "";
 };
 </script>
 
 <template>
 	<div class="data-table">
 		<div class="data-table__header">
-			<h2 class="data-table__heading">Danh mục</h2>
+			<h2 class="data-table__heading">Tin tức</h2>
 			<Button
-				content="Thêm mới danh mục"
+				content="Thêm mới tin tức"
 				@click="state.isShowForm = true"
 			/>
 		</div>
@@ -221,14 +228,14 @@ const handleClearForm = () => {
 						<input
 							type="text"
 							class="textfield__input"
-							placeholder="Tìm theo mã, tên nhân viên"
+							placeholder="Tìm theo tên bài viết"
 							name="filter"
 							:debounce-events="['input', 'keyup']"
-							v-debounce:500ms.lock="handleSearchEmployee"
+							v-debounce:500ms.lock="handleSearch"
 						/>
 					</div>
 				</div>
-				<p class="c-table__function__refresh" @click="fetchCategory">
+				<p class="c-table__function__refresh" @click="fetchNews">
 					<i></i>
 				</p>
 				<p class="c-table__function__export" @click="handleExportData">
@@ -252,7 +259,10 @@ const handleClearForm = () => {
 								<span>ảnh minh họa</span>
 							</th>
 							<th class="c-table__heading w-250">
-								<span>tên danh mục</span>
+								<span>tên bài viết</span>
+							</th>
+							<th class="c-table__heading w-250">
+								<span>ngày tạo</span>
 							</th>
 							<th class="c-table__heading text-center w-150">
 								<span>chức năng</span>
@@ -260,21 +270,18 @@ const handleClearForm = () => {
 						</tr>
 					</thead>
 					<tbody class="c-table__body">
-						<CategoryItem
-							v-for="cate in category"
-							:category="cate"
+						<NewsItem
+							v-for="cate in news"
+							:news="cate"
 							@check="handleCheck"
 							:checkList="state.checkList"
-							:key="cate.CategoryId"
+							:key="cate.NewsId"
 							@delete="handleDelete"
 							@update="handleUpdate"
 						/>
 					</tbody>
 				</table>
-				<div
-					class="c-table__empty"
-					v-if="category && category.length == 0"
-				>
+				<div class="c-table__empty" v-if="news && news.length == 0">
 					<img src="@/assets/images/nodata.76e50bd8.svg" alt="" />
 					<p>Không có dữ liệu</p>
 				</div>
@@ -284,11 +291,11 @@ const handleClearForm = () => {
 		</div>
 	</div>
 
-	<CategoryForm
+	<NewsForm
 		v-if="state.isShowForm"
 		@close="handleCloseForm"
 		@clear="handleClearForm"
-		:CategoryId="state.CategoryId"
+		:NewsId="state.NewsId"
 	/>
 </template>
 

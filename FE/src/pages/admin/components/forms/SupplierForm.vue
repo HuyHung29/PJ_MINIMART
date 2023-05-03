@@ -82,33 +82,40 @@ const { handleSubmit } = useForm({
 });
 
 const handleSubmitForm = async (values, action) => {
+	let res = false;
 	if (isAdd.value) {
-		await insert({ data: values, callback: action });
+		res = await insert({ data: values, callback: action });
 	} else {
-		await update({ data: values, callback: action });
+		res = await update({ data: values, callback: action });
 	}
+
+	return res;
 };
 
 const onStoreBtnClick = useSubmitForm(async (values, action) => {
-	await handleSubmitForm(values, action);
+	const res = await handleSubmitForm(values, action);
 
-	clearCurrentItem();
-	emits("close");
+	if (res) {
+		clearCurrentItem();
+		emits("close");
+	}
 });
 
 const onStoreAndAddBtnClick = useSubmitForm(async (values, action) => {
-	await handleSubmitForm(values, action);
+	const res = await handleSubmitForm(values, action);
 
-	action.setValues({
-		SupplierId: "",
-		SupplierName: "",
-		Thumbnail: "",
-	});
+	if (res) {
+		action.setValues({
+			SupplierId: "",
+			SupplierName: "",
+			Thumbnail: "",
+		});
 
-	action.resetForm();
+		action.resetForm();
 
-	clearCurrentItem();
-	emits("clear");
+		clearCurrentItem();
+		emits("clear");
+	}
 });
 
 const handleCloseForm = () => {

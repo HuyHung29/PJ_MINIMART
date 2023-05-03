@@ -18,6 +18,14 @@ import AAccount from "@/pages/admin/AAccount.vue";
 import ANews from "@/pages/admin/ANews.vue";
 import ACoupon from "@/pages/admin/ACoupon.vue";
 import NotFound from "@/components/NotFound.vue";
+import Product from "@/pages/views/Product.vue";
+import ProductDetail from "@/pages/views/ProductDetail.vue";
+import News from "@/pages/views/News.vue";
+import NewsDetail from "@/pages/views/NewsDetail.vue";
+import AProfile from "@/pages/admin/components/AProfile.vue";
+import APassword from "@/pages/admin/components/APassword.vue";
+import CartPage from "@/pages/customer/CartPage.vue";
+import Purchase from "@/pages/customer/Purchase.vue";
 
 const routes = [
 	{
@@ -50,7 +58,23 @@ const routes = [
 			},
 			{
 				path: "product",
-				component: HomeVue,
+				component: Product,
+			},
+			{
+				path: "product/:id",
+				component: ProductDetail,
+			},
+			{
+				path: "news",
+				component: News,
+			},
+			{
+				path: "news/:id",
+				component: NewsDetail,
+			},
+			{
+				path: "cart",
+				component: CartPage,
 			},
 		],
 	},
@@ -94,7 +118,19 @@ const routes = [
 				path: "coupon",
 				component: ACoupon,
 			},
+			{
+				path: "profile",
+				component: AProfile,
+			},
+			{
+				path: "password",
+				component: APassword,
+			},
 		],
+	},
+	{
+		path: "/purchase",
+		component: Purchase,
 	},
 	{
 		path: "/login",

@@ -1,15 +1,26 @@
 <script setup>
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import ProductCart from "./ProductCart.vue";
+import ProductCard from "./ProductCard.vue";
+
+const props = defineProps({
+	product: {
+		type: Array,
+		default: [],
+	},
+	slideToShow: {
+		type: Number,
+		default: 4,
+	},
+});
 </script>
 
 <template>
-	<div className="product-slider">
-		<div className="product-slider__list">
-			<carousel :items-to-show="4.5">
-				<slide v-for="slide in 10" :key="slide">
-					<ProductCart />
+	<div class="product-slider">
+		<div class="product-slider__list">
+			<carousel :items-to-show="slideToShow">
+				<slide v-for="slide in product" :key="slide">
+					<ProductCard :product="slide" />
 				</slide>
 
 				<template #addons>
@@ -21,8 +32,8 @@ import ProductCart from "./ProductCart.vue";
 </template>
 
 <style scoped>
-.home__slider .product-card--wrap {
-	width: 100%;
-	height: 100%;
+.product-card--wrap {
+	width: 100% !important;
+	height: 100% !important;
 }
 </style>

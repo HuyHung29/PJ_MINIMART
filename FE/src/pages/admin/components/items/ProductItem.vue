@@ -62,8 +62,10 @@ const onDeleteBtn = () => {
 				/>
 			</p>
 		</td>
-		<td class="c-table__col c-w-100">
-			<p class="c-table__col__text">{{ product.Price }}</p>
+		<td class="c-table__col w-150">
+			<p class="c-table__col__text">
+				{{ product.Price.toLocaleString() }} VNĐ
+			</p>
 		</td>
 		<td class="c-table__col c-w-100">
 			<p class="c-table__col__img" ref="nameRef">

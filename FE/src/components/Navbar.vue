@@ -13,11 +13,25 @@ const { category } = useState(["category"]);
 
 const { fetchCategory } = useActions(["fetchCategory"]);
 
+const userStore = createNamespacedHelpers(store, "user");
+
+const { logout } = userStore.useMutations(["logout"]);
+
+const cartStore = createNamespacedHelpers(store, "cart");
+
+const { clearCart } = cartStore.useMutations(["clearCart"]);
+
 const initData = async () => {
 	fetchCategory({
 		PageSize: 1000,
 		PageNumber: 1,
 	});
+};
+
+const handleLogout = () => {
+	logout();
+	clearCart();
+	router.replace("/login");
 };
 
 onBeforeMount(() => {
@@ -48,7 +62,7 @@ const handleRoute = (item) => {
 									<li class="dropdown nav-item">
 										<router-link
 											class="nav-link"
-											to="/products"
+											to="/product"
 											><i
 												class="fas fa-bars nav__icon"
 											></i
@@ -78,20 +92,50 @@ const handleRoute = (item) => {
 								</ul>
 								<div class="navbar__user d-lg-none d-block">
 									<i class="fa-solid fa-user"></i>
-									<ul class="navbar__user__nav shadow">
+									<ul
+										class="navbar__user__nav shadow"
+										v-if="!store.state.user.isLogin"
+									>
 										<li class="navbar__user__item">
 											<router-link
 												class="navbar__user__link"
-												to="/user/register"
+												to="/register"
 												>Đăng ký</router-link
 											>
 										</li>
 										<li class="navbar__user__item">
 											<router-link
 												class="navbar__user__link"
-												to="/user/login"
+												to="/login"
 												>Đăng nhập</router-link
 											>
+										</li>
+									</ul>
+									<ul
+										class="navbar__user__nav shadow"
+										v-if="store.state.user.isLogin"
+									>
+										<li class="navbar__user__item">
+											<router-link
+												class="navbar__user__link"
+												to="/user"
+												>Tài khoản của tôi</router-link
+											>
+										</li>
+										<li class="navbar__user__item">
+											<router-link
+												class="navbar__user__link"
+												to="/user/order"
+												>Đơn hàng</router-link
+											>
+										</li>
+										<li class="navbar__user__item">
+											<a
+												class="navbar__user__link"
+												@click="handleLogout"
+											>
+												Đăng xuất
+											</a>
 										</li>
 									</ul>
 								</div>

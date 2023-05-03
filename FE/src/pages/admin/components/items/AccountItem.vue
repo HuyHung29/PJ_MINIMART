@@ -1,8 +1,8 @@
 <script setup>
-import CheckBox from "@/components/customs/MCheckBox.vue";
+import moment from "moment";
 
 const props = defineProps({
-	category: {
+	user: {
 		type: Object,
 		required: true,
 		default: {},
@@ -12,58 +12,39 @@ const props = defineProps({
 		default: [],
 	},
 });
-
-const handleCheckBox = (data) => {
-	try {
-		emit("check", data.value);
-	} catch (error) {
-		console.log(error);
-	}
-};
-
-const emit = defineEmits(["check", "update", "delete"]);
-
-const onUpdateBtnClick = () => {
-	console.log("update");
-	emit("update", props.category);
-};
-
-const onDeleteBtn = () => {
-	emit("delete", props.category);
-};
 </script>
 
 <template>
 	<tr class="c-table__row">
-		<td class="c-table__col text-center">
-			<CheckBox
-				name="c-table-checkbox"
-				:id="category.CategoryId"
-				:value="category.CategoryId"
-				@check="handleCheckBox"
-				:checked="checkList.includes(category.CategoryId)"
-			/>
+		<td class="c-table__col w-200">
+			<router-link
+				:to="{
+					path: '/admin/order',
+					query: { AccountId: user.AccountId },
+				}"
+				class="c-table__col__text"
+				>{{ user.UserName }}</router-link
+			>
 		</td>
-		<td class="c-table__col">
-			<p class="c-table__col__img" ref="nameRef">
-				<img :src="category.Thumbnail" alt="" />
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">{{ user.FullName }}</p>
+		</td>
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">{{ user.Email }}</p>
+		</td>
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">{{ user.PhoneNumber }}</p>
+		</td>
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">{{ user.GenderName }}</p>
+		</td>
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">
+				{{ moment(user.DOB).format("DD/MM/YYYY") }}
 			</p>
 		</td>
-		<td class="c-table__col">
-			<p class="c-table__col__text">{{ category.CategoryName }}</p>
-		</td>
-		<td class="c-table__col text-center">
-			<div class="c-table__action">
-				<p class="c-table__action__update" @click="onUpdateBtnClick">
-					Sửa
-				</p>
-				<p
-					class="c-table__action__update btn-delete"
-					@click="onDeleteBtn"
-				>
-					Xóa
-				</p>
-			</div>
+		<td class="c-table__col w-250">
+			<p class="c-table__col__text">{{ user.Address }}</p>
 		</td>
 	</tr>
 </template>

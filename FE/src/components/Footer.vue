@@ -2,6 +2,10 @@
 import Col from "./bootstrap/Col.vue";
 import Container from "./bootstrap/Container.vue";
 import Row from "./bootstrap/Row.vue";
+
+const handleClick = () => {
+	window.scrollTo(0, 0);
+};
 </script>
 
 <template>
@@ -61,10 +65,10 @@ import Row from "./bootstrap/Row.vue";
 							<router-link to="/">Trang chủ</router-link>
 						</li>
 						<li class="footer__item">
-							<router-link to="/products">Sản phẩm</router-link>
+							<router-link to="/product">Sản phẩm</router-link>
 						</li>
 						<li class="footer__item">
-							<router-link to="/posts">Tin tức</router-link>
+							<router-link to="/news">Tin tức</router-link>
 						</li>
 					</ul>
 				</Col>
@@ -75,10 +79,10 @@ import Row from "./bootstrap/Row.vue";
 							<router-link to="/">Trang chủ</router-link>
 						</li>
 						<li class="footer__item">
-							<router-link to="/products">Sản phẩm</router-link>
+							<router-link to="/product">Sản phẩm</router-link>
 						</li>
 						<li class="footer__item">
-							<router-link to="/posts">Tin tức</router-link>
+							<router-link to="/news">Tin tức</router-link>
 						</li>
 					</ul>
 				</Col>
@@ -127,10 +131,13 @@ import Row from "./bootstrap/Row.vue";
 
 			<div class="footer__copyright">
 				<p>
-					© Bản quyền thuộc về <span>Cafein Team</span> | Cung cấp bởi
-					<span>Sapo</span>
+					© Bản quyền thuộc về <span>lhhung</span> | Cung cấp bởi
+					<span>MISA</span>
 				</p>
-				<button class="btn footer__copyright__btn shadow-none">
+				<button
+					class="btn footer__copyright__btn shadow-none"
+					@click="handleClick"
+				>
 					Lên đầu trang
 					<i class="fas fa-arrow-up"></i>
 				</button>

@@ -7,6 +7,8 @@ import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import * as yup from "yup";
 import { useToast } from "vue-toastification";
+import { onMounted } from "vue";
+import RESOURCE from "@/constants/resource";
 
 const store = useStore();
 const router = useRouter();
@@ -24,7 +26,7 @@ const schema = yup.object({
 	Password: yup
 		.string()
 		.required("Mật khẩu không được để trống")
-		.min(6, "Mật khẩu cần ít nhất 8 ký tự"),
+		.min(6, "Mật khẩu cần ít nhất 6 ký tự"),
 });
 
 const { handleSubmit } = useForm({
@@ -38,6 +40,16 @@ const onSubmit = handleSubmit(async (values, actions) => {
 
 	if (res && isLogin) {
 		if (user.Role == 0) {
+			router.replace("/admin");
+		} else {
+			router.replace("/");
+		}
+	}
+});
+
+onMounted(() => {
+	if (isLogin.value) {
+		if (user.value.Role === RESOURCE.ROLE.ADMIN) {
 			router.replace("/admin");
 		} else {
 			router.replace("/");

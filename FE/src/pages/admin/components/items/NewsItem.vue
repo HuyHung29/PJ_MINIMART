@@ -1,8 +1,9 @@
 <script setup>
 import CheckBox from "@/components/customs/MCheckBox.vue";
+import moment from "moment";
 
 const props = defineProps({
-	category: {
+	news: {
 		type: Object,
 		required: true,
 		default: {},
@@ -25,11 +26,11 @@ const emit = defineEmits(["check", "update", "delete"]);
 
 const onUpdateBtnClick = () => {
 	console.log("update");
-	emit("update", props.category);
+	emit("update", props.news);
 };
 
 const onDeleteBtn = () => {
-	emit("delete", props.category);
+	emit("delete", props.news);
 };
 </script>
 
@@ -38,19 +39,24 @@ const onDeleteBtn = () => {
 		<td class="c-table__col text-center">
 			<CheckBox
 				name="c-table-checkbox"
-				:id="category.CategoryId"
-				:value="category.CategoryId"
+				:id="news.NewsId"
+				:value="news.NewsId"
 				@check="handleCheckBox"
-				:checked="checkList.includes(category.CategoryId)"
+				:checked="checkList.includes(news.NewsId)"
 			/>
 		</td>
 		<td class="c-table__col">
 			<p class="c-table__col__img" ref="nameRef">
-				<img :src="category.Thumbnail" alt="" />
+				<img :src="news.Thumbnail" alt="" />
 			</p>
 		</td>
 		<td class="c-table__col">
-			<p class="c-table__col__text">{{ category.CategoryName }}</p>
+			<p class="c-table__col__text">{{ news.Title }}</p>
+		</td>
+		<td class="c-table__col">
+			<p class="c-table__col__text">
+				{{ moment(news.CreatedDate).format("DD/MM/YYYY") }}
+			</p>
 		</td>
 		<td class="c-table__col text-center">
 			<div class="c-table__action">

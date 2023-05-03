@@ -67,19 +67,25 @@ const actions = {
 
 			commit("insertProduct", Data);
 			commit("ui/hideLoading", null, { root: true });
+			return true;
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
 			console.log(ex);
 			const { Message, Error, UserMes, MoreInfo } = ex;
 			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
 			callback.setErrors(MoreInfo || Error.MoreInfo);
+			return false;
 		}
 	},
 	update: async ({ commit, state }, { data, callback }) => {
 		try {
 			commit("ui/showLoading", null, { root: true });
 
-			data = { ...data, ProductId: state.currentItem.ProductId };
+			data = {
+				...data,
+				ProductId: state.currentItem.ProductId,
+				MainQuantity: 0,
+			};
 			const formData = generateFormData(data);
 			commit("ui/showLoading", null, { root: true });
 
@@ -94,12 +100,14 @@ const actions = {
 
 			commit("replaceProduct", Data);
 			commit("ui/hideLoading", null, { root: true });
+			return true;
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
 			console.log(ex);
 			const { Message, Error, UserMes, MoreInfo } = ex;
 			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
 			callback.setErrors(MoreInfo || Error.MoreInfo);
+			return false;
 		}
 	},
 	remove: async ({ commit, state }, data) => {

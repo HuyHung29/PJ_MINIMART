@@ -55,8 +55,13 @@ const handleLogout = () => {
 
 				<ul class="header__top__item--sub" v-if="isLogin">
 					<li class="header__top__item--sub__item">
-						<router-link to="/user">
+						<router-link to="/admin/profile">
 							Tài khoản của tôi
+						</router-link>
+					</li>
+					<li class="header__top__item--sub__item">
+						<router-link to="/admin/password">
+							Mật khẩu
 						</router-link>
 					</li>
 					<li

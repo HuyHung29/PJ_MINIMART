@@ -46,21 +46,18 @@ const props = defineProps({
 	},
 });
 
-const initData = async (data) => {
-	await getProduct(data);
-};
+// const initData = async (data) => {
+// 	await getProduct(data);
+// };
 
 const state = reactive({
 	cateOptions: [],
 	suppOptions: [],
 	content: "",
+	imgs: [],
 });
 
 onMounted(() => {
-	if (props.ProductId && props.ProductId != "") {
-		initData(props.ProductId);
-	}
-
 	state.cateOptions = category.value.map((item) => ({
 		value: item.CategoryId,
 		title: item.CategoryName,
@@ -71,9 +68,25 @@ onMounted(() => {
 		title: item.SupplierName,
 	}));
 
-	state.content = currentItem.Description;
-
-	console.log("contentsadsadgsajgdjsa g", currentItem.Description);
+	if (currentItem && currentItem.value) {
+		setValues(currentItem.value);
+		state.content = currentItem.value.Description;
+	} else {
+		setValues({
+			ProductName: "",
+			ProductCode: "",
+			Quantity: 0,
+			Weight: 0,
+			Price: 0,
+			Discount: 0,
+			SupplierId: "",
+			CategoryId: "",
+			Unit: 0,
+			Volume: 0,
+			Description: "",
+			Pictures: "",
+		});
+	}
 });
 
 const emits = defineEmits(["close", "clear"]);
@@ -98,15 +111,15 @@ const schema = yup.object({
 	ProductCode: yup.string().required("Mã sản phẩm không được để trống"),
 	ProductName: yup.string().required("Tên sản phẩm không được để trống"),
 	Quantity: yup
-		.string("Số lượng phải là số")
+		.number("Số lượng phải là số")
 		.min(0, "Số lượng phải lớn hơn 0")
 		.required("Số lượng không được bỏ trống"),
 	Weight: yup
-		.string("Dung tích/Khối lượng phải là số")
+		.number("Dung tích/Khối lượng phải là số")
 		.min(0, "Dung tích/Khối lượng phải lớn hơn 0")
 		.required("Dung tích/Khối lượng không được để trống"),
 	Price: yup
-		.string("Giá phải là số")
+		.number("Giá phải là số")
 		.min(0, "Giá phải lớn hơn 0")
 		.required("Giá không được để trống"),
 	Discount: yup.string("Giá phải là số").min(0, "Giá phải lớn hơn 0"),
@@ -120,7 +133,7 @@ const schema = yup.object({
 		: yup.mixed().required("Chọn ảnh cho danh mục"),
 });
 
-const { handleSubmit, setFieldValue } = useForm({
+const { handleSubmit, setFieldValue, setValues } = useForm({
 	validationSchema: schema,
 	initialValues: currentItem || {
 		ProductId: "",
@@ -136,40 +149,50 @@ const { handleSubmit, setFieldValue } = useForm({
 		Volume: 0,
 		Description: "",
 		Pictures: "",
+		MainQuantity: 0,
 	},
 });
 
 const handleSubmitForm = async (values, action) => {
 	console.log(values);
+	let res = false;
 	if (isAdd.value) {
-		await insert({ data: values, callback: action });
+		res = await insert({ data: values, callback: action });
 	} else {
-		await update({ data: values, callback: action });
+		res = await update({ data: values, callback: action });
 	}
+
+	return res;
 };
 
 const onStoreBtnClick = useSubmitForm(async (values, action) => {
 	console.log(values);
-	await handleSubmitForm(values, action);
-	clearCurrentItem();
-	emits("close");
+	const res = await handleSubmitForm(values, action);
+	if (res) {
+		clearCurrentItem();
+		state.content = "";
+		emits("close");
+	}
 });
 
 // const content = ref(currentItem?.Description || "");
 
 const onStoreAndAddBtnClick = useSubmitForm(async (values, action) => {
-	await handleSubmitForm(values, action);
+	const res = await handleSubmitForm(values, action);
+	if (res) {
+		action.setValues({
+			ProductId: "",
+			SupplierName: "",
+			Thumbnail: "",
+		});
 
-	action.setValues({
-		ProductId: "",
-		SupplierName: "",
-		Thumbnail: "",
-	});
+		action.resetForm();
 
-	action.resetForm();
+		clearCurrentItem();
 
-	clearCurrentItem();
-	emits("clear");
+		state.content = "";
+		emits("clear");
+	}
 });
 
 const handleCloseForm = () => {
@@ -181,6 +204,16 @@ const handleChangeText = () => {
 	setFieldValue("Description", state.content);
 
 	console.log(state.content);
+};
+
+const handleChangeImg = (e) => {
+	const files = e.target.files;
+
+	state.imgs = [...files].map((file) => {
+		return URL.createObjectURL(file);
+	});
+
+	setFieldValue("Pictures", files);
 };
 </script>
 
@@ -310,10 +343,16 @@ const handleChangeText = () => {
 							v-slot="{ handleChange, handleBlur }"
 						>
 							<div class="input-group mb-3">
+								<label
+									class="input-group-text"
+									for="inputGroupFile01"
+									>Chọn ảnh</label
+								>
 								<input
+									hidden
 									multiple
 									accept="image/*"
-									@change="handleChange"
+									@change="handleChangeImg"
 									@blur="handleBlur"
 									type="file"
 									class="form-control"
@@ -322,6 +361,14 @@ const handleChangeText = () => {
 								<div class="invalid-feedback">
 									{{ "Ảnh sản phẩm không đưuọc để trống" }}
 								</div>
+							</div>
+							<div class="img-preview">
+								<img
+									v-for="(item, index) in state.imgs"
+									:key="index"
+									:src="item"
+									alt=""
+								/>
 							</div>
 						</Field>
 						<img
@@ -388,14 +435,26 @@ const handleChangeText = () => {
 	max-width: 1200px;
 	background-color: white;
 	border-radius: 4px;
-	min-height: 800px;
+	min-height: 680px;
+	max-height: 680px;
 }
 
 .form__body {
 	padding: 24px;
-	max-height: calc(100vh - 100px);
-	min-height: 680px;
+	min-height: 550px !important;
 	overflow-y: auto;
 	overflow-x: hidden;
+}
+
+.img-preview {
+	display: flex;
+	align-items: center;
+	column-gap: 10px;
+}
+
+.img-preview img {
+	width: 60px;
+
+	border: 1px solid #ccc;
 }
 </style>

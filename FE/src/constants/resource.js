@@ -86,7 +86,16 @@ const RESOURCE = {
 			title: "mL",
 		},
 	],
-	ORDER_STATUS: [],
+	ORDER_STATUS: {
+		Waiting: 0,
+		Delivered: 1,
+		Done: 2,
+		Cancled: 3,
+	},
+	ROLE: {
+		ADMIN: 0,
+		CUSTOMER: 1,
+	},
 };
 
 export default RESOURCE;

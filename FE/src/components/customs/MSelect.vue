@@ -58,6 +58,7 @@ const props = defineProps({
 		default: false,
 	},
 	initialValue: [String, Number],
+	placeholder: String,
 });
 
 /**
@@ -206,6 +207,10 @@ const handleChangeItemSelected = (e) => {
 			break;
 	}
 };
+
+const handleFocus = () => {
+	state.isShow = !state.isShow;
+};
 </script>
 
 <template>
@@ -238,6 +243,7 @@ const handleChangeItemSelected = (e) => {
 				@keydown="handleChangeItemSelected"
 				@focus="handleFocus"
 				ref="inputRef"
+				:placeholder="placeholder"
 			/>
 			<ul class="c-select__list" v-show="state.isShow" :style="style">
 				<li
@@ -264,4 +270,12 @@ const handleChangeItemSelected = (e) => {
 	</div>
 </template>
 
-<style></style>
+<style scoped>
+.c-select__input {
+	font-size: 14px;
+}
+
+.c-select__item {
+	font-size: 13px;
+}
+</style>

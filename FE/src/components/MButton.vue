@@ -26,6 +26,10 @@ const props = defineProps({
 	},
 	tooltip: String,
 	style: Object,
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const btnRef = ref(null);
@@ -47,6 +51,7 @@ defineExpose({ setFocusBtn });
 			'c-btn--warning': type === 'warning',
 		}"
 		:style="style"
+		:disabled="disabled"
 	>
 		<span class="c-btn__text">{{ content }}</span>
 		<p v-if="tooltip" class="c-btn__tooltip">{{ tooltip }}</p>

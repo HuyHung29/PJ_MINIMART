@@ -11,6 +11,15 @@ import { useToast } from "vue-toastification";
 import MRadio from "@/components/customs/MRadio.vue";
 import RESOURCE from "@/constants/resource";
 import MDatePicker from "@/components/customs/MDatePicker.vue";
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+
+const store = useStore();
+
+const { useState, useActions } = createNamespacedHelpers(store, "user");
+
+const { user, isLogin } = useState(["user", "isLogin"]);
 
 const router = useRouter();
 const toast = useToast();
@@ -74,6 +83,16 @@ const onSubmit = handleSubmit(async (values, actions) => {
 		}
 	}
 });
+
+onMounted(() => {
+	if (isLogin.value) {
+		if (user.value.Role === RESOURCE.ROLE.ADMIN) {
+			router.replace("/admin");
+		} else {
+			router.replace("/");
+		}
+	}
+});
 </script>
 
 <template>
@@ -97,10 +116,10 @@ const onSubmit = handleSubmit(async (values, actions) => {
 			<Container>
 				<form
 					@submit="onSubmit"
-					className="authen__form authen__form--register"
+					class="authen__form authen__form--register"
 					onSubmit=""
 				>
-					<h2 className="authen__form__title">Đăng ký</h2>
+					<h2 class="authen__form__title">Đăng ký</h2>
 					<Row>
 						<Col md="6" class="has-border">
 							<div class="mb-4">
@@ -190,18 +209,18 @@ const onSubmit = handleSubmit(async (values, actions) => {
 								/>
 							</div>
 						</Col>
-						<Col md="12" className="d-flex justify-content-center">
+						<Col md="12" class="d-flex justify-content-center">
 							<button
 								type="submit"
-								className="authen__btn authen__btn--short shadow-none"
+								class="authen__btn authen__btn--short shadow-none"
 							>
 								đăng ký
 							</button>
 						</Col>
 					</Row>
-					<p className="authen__text">
+					<p class="authen__text">
 						Bạn đã có tài khoản?
-						<router-link to="/login" className="authen__link">
+						<router-link to="/login" class="authen__link">
 							Đăng nhập
 						</router-link>
 					</p>

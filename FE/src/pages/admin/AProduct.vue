@@ -29,7 +29,11 @@ const { useState, useActions, useGetters } = createNamespacedHelpers(
 
 const { product, pagination } = useState(["product", "pagination"]);
 
-const { fetchProduct, remove } = useActions(["fetchProduct", "remove"]);
+const { fetchProduct, remove, getProduct } = useActions([
+	"fetchProduct",
+	"remove",
+	"getProduct",
+]);
 
 const { listPro = product } = useGetters(["product"]);
 
@@ -46,6 +50,7 @@ const state = reactive({
 	checkList: [],
 	isShowForm: false,
 	ProductId: "",
+	active: false,
 });
 
 /**
@@ -78,8 +83,8 @@ onBeforeMount(() => {
 	initData();
 });
 
-const handleUpdate = (value) => {
-	console.log(value);
+const handleUpdate = async (value) => {
+	await getProduct(value.ProductId);
 	state.isShowForm = true;
 	state.ProductId = value.ProductId;
 };
@@ -159,9 +164,11 @@ const handleCheck = (value) => {
 const handleSearch = async (value) => {
 	try {
 		if (value) {
-			await fetchProduct({ Filter: value, PageNumber: 1 });
+			router.push("/admin/product?Filter=" + value);
+			// await fetchProduct({ Filter: value, PageNumber: 1 });
 		} else {
-			await fetchProduct({ Filter: "", PageNumber: 1 });
+			router.push("/admin/product");
+			// await fetchProduct({ Filter: "", PageNumber: 1 });
 		}
 	} catch (error) {
 		console.log(error);
@@ -175,6 +182,15 @@ const handleCloseForm = () => {
 
 const handleClearForm = () => {
 	state.ProductId = "";
+};
+
+const handleGetProductOFT = () => {
+	if (state.active) {
+		router.push("/admin/product");
+	} else {
+		router.push("/admin/product?Quantity=0");
+	}
+	state.active = !state.active;
 };
 </script>
 
@@ -215,6 +231,13 @@ const handleClearForm = () => {
 						Xóa
 					</button>
 				</div>
+				<button
+					class="c-table__function_multiple-task__delete get-product"
+					:class="{ active: state.active }"
+					@click="handleGetProductOFT"
+				>
+					Sản phẩm hết hàng
+				</button>
 				<div class="textfield textfield--sm">
 					<div class="textfield__input__wrap">
 						<p class="textfield__icon">
@@ -259,7 +282,7 @@ const handleClearForm = () => {
 							<th class="c-table__heading w-400">
 								<span>Ảnh minh họa</span>
 							</th>
-							<th class="c-table__heading c-w-100">
+							<th class="c-table__heading w-150">
 								<span>Giá</span>
 							</th>
 							<th class="c-table__heading c-w-100">
@@ -315,4 +338,12 @@ const handleClearForm = () => {
 	/>
 </template>
 
-<style></style>
+<style scoped>
+.c-table__function_multiple-task__delete.get-product {
+	margin-right: 10px;
+}
+
+.c-table__function_multiple-task__delete.active {
+	background-color: #ccc;
+}
+</style>

@@ -66,12 +66,14 @@ const actions = {
 
 			commit("insertSupp", Data);
 			commit("ui/hideLoading", null, { root: true });
+			return true;
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
 			console.log(ex);
 			const { Message, Error, UserMes, MoreInfo } = ex;
 			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
 			callback.setErrors(MoreInfo || Error.MoreInfo);
+			return false;
 		}
 	},
 	update: async ({ commit, state }, { data, callback }) => {
@@ -92,12 +94,14 @@ const actions = {
 
 			commit("replaceSupp", Data);
 			commit("ui/hideLoading", null, { root: true });
+			return true;
 		} catch (ex) {
 			commit("ui/hideLoading", null, { root: true });
 			console.log(ex);
 			const { Message, Error, UserMes, MoreInfo } = ex;
 			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
 			callback.setErrors(MoreInfo || Error.MoreInfo);
+			return false;
 		}
 	},
 	remove: async ({ commit, state }, data) => {

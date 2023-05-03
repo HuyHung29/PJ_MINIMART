@@ -74,3 +74,9 @@ const {
 		</p>
 	</div>
 </template>
+
+<style scoped>
+.textfield__input {
+	font-size: 14px;
+}
+</style>

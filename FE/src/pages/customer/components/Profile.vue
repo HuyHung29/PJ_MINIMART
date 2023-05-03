@@ -105,6 +105,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
 								:defaultValue="value"
 								@check="handleChange"
 								:error="errorMessage"
+								:readonly="isView"
 							/>
 						</Field>
 					</div>
@@ -150,7 +151,7 @@ const onSubmit = handleSubmit(async (values, actions) => {
 	</div>
 </template>
 
-<style>
+<style scoped>
 .profile__user__action {
 	color: white;
 }

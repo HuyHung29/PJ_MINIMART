@@ -10,6 +10,13 @@ const state = {
 		? JSON.parse(localStorage.getItem("user"))
 		: {},
 	isLogin: localStorage.getItem("token") ? true : false,
+	listUser: [],
+	pagination: {
+		PageSize: 20,
+		PageNumber: 1,
+		TotalPage: 1,
+		TotalRecord: 0,
+	},
 };
 
 const getters = {};
@@ -62,6 +69,40 @@ const actions = {
 			return false;
 		}
 	},
+	changePassword: async ({ commit }, data) => {
+		try {
+			console.log(data);
+			commit("ui/showLoading", null, { root: true });
+			const payload = await authApi.changePassword(data);
+			const { Message } = payload;
+			toast.success(Message);
+			commit("ui/hideLoading", null, { root: true });
+			return true;
+		} catch (ex) {
+			console.log(ex);
+			const { Message, UserMes } = ex;
+			toast.error(Message || UserMes || RESOURCE.HELPTEXT);
+			commit("ui/hideLoading", null, { root: true });
+			return false;
+		}
+	},
+	fetchUser: async ({ commit }, data) => {
+		try {
+			commit("ui/showLoading", null, { root: true });
+			let payload;
+			if (data) {
+				payload = await userApi.get(data);
+			} else {
+				payload = await userApi.get(state.pagination);
+			}
+			commit("loadUser", payload);
+			commit("ui/hideLoading", null, { root: true });
+		} catch (ex) {
+			console.log(ex);
+
+			commit("ui/hideLoading", null, { root: true });
+		}
+	},
 };
 
 const mutations = {
@@ -75,6 +116,12 @@ const mutations = {
 
 		localStorage.clear("token");
 		localStorage.clear("user");
+	},
+	loadUser: (state, users) => {
+		const { Data, ...rest } = users;
+
+		state.listUser = [...Data];
+		state.pagination = { ...rest };
 	},
 };
 

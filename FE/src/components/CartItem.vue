@@ -5,26 +5,53 @@ const props = defineProps({
 		required: true,
 	},
 });
+
+const emits = defineEmits(["delete"]);
+
+const handleDeleteItem = () => {
+	emits("delete", props.product.ProductId);
+};
 </script>
 
 <template>
-	<li className="cart__item">
-		<router-link to="/" className="cart__item__img">
-			<img src="{pictures[0]}" alt="anh" />
+	<li class="cart__item">
+		<router-link
+			:to="{ path: '/product/' + product.ProductId }"
+			class="cart__item__img"
+		>
+			<img :src="product.Pictures[0].Url" alt="anh" />
 		</router-link>
-		<div className="cart__item__info">
-			<div className="cart__item__info--wrap">
-				<h3 className="cart__item__name">
-					<router-link to="/"> Tên sản phẩm </router-link>
+		<div class="cart__item__info">
+			<div class="cart__item__info--wrap">
+				<h3 class="cart__item__name">
+					<router-link
+						:to="{ path: '/product/' + product.ProductId }"
+					>
+						{{ product.ProductName }}
+						<span
+							class="out-of-stock"
+							v-if="product.Quantity > product.MainQuantity"
+							>(Hết hàng)</span
+						>
+					</router-link>
 				</h3>
-				<p className="cart__item__price">100.000 <small>đ/kg</small></p>
-				<p className="cart__item__quantity">Số lượng: 10</p>
+				<p class="cart__item__price">
+					{{ product.CurrentPrice.toLocaleString() }}
+					<small>đ/{{ product.UnitName }}</small>
+				</p>
+				<p class="cart__item__quantity">
+					Số lượng: {{ product.Quantity }}
+				</p>
 			</div>
-			<div className="cart__item__action" @click="">
-				<i className="fas fa-trash-alt"></i>
+			<div class="cart__item__action" @click="handleDeleteItem">
+				<i class="fas fa-trash-alt"></i>
 			</div>
 		</div>
 	</li>
 </template>
 
-<style></style>
+<style scoped>
+.out-of-stock {
+	color: red;
+}
+</style>
