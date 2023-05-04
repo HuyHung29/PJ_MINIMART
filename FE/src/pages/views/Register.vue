@@ -47,7 +47,7 @@ const schema = yup
 			.email("Email không đúng định dạng")
 			.required("Email không được để trống"),
 		Gender: yup.number(),
-		DOB: yup.date(),
+		DOB: yup.string(),
 		Address: yup.string().required("Địa chỉ không được để trống"),
 	})
 	.required();

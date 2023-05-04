@@ -441,9 +441,10 @@ const handleChangeImg = (e) => {
 
 .form__body {
 	padding: 24px;
-	min-height: 550px !important;
+	min-height: 600px !important;
 	overflow-y: auto;
 	overflow-x: hidden;
+	max-height: 500px;
 }
 
 .img-preview {
